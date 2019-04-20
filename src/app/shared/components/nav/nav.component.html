@@ -1,0 +1,24 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
+    <mat-toolbar color="secondary">Bridge</mat-toolbar>
+    <app-nav-links></app-nav-links>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="secondary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon"><i class="fas fa-bars fa-lg"></i></mat-icon>
+      </button>
+      <span class="spacer"></span>
+      <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()"></mat-slide-toggle>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

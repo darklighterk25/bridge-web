@@ -1,0 +1,8 @@
+<mat-nav-list>
+  <div *ngFor="let enlace of enlaces">
+    <a *ngIf="(this.logged || !enlace.requiereSesion) && (this.admin || !enlace.restringido)"
+       mat-list-item [routerLink]="[enlace.ruta]">
+      <i [class]="enlace.icono"></i>&nbsp;{{ enlace.nombre }}
+    </a>
+  </div>
+</mat-nav-list>

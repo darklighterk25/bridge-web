@@ -1,0 +1,70 @@
+<main>
+  <mat-card class="container-fluid">
+    <mat-card-header class="row">
+      <h3>
+        {{ title }}
+      </h3>
+    </mat-card-header>
+    <mat-card-content class="row">
+      <form [formGroup]="form" (ngSubmit)="signUp()">
+        <mat-form-field class="col-lg-6 col-sm-12">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="form.get('email').errors?.required
+                          &&( form.get('email').dirty || form.get('email').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('email').errors?.email
+                          &&( form.get('email').dirty || form.get('email').touched )">
+            No parece ser un correo válido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-lg-6 col-sm-12 mb-1">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" type="password">
+          <mat-error *ngIf="form.get('password').errors?.required
+                          &&( form.get('password').dirty || form.get('password').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('password').errors?.minlength
+                          &&( form.get('password').dirty || form.get('password').touched )">
+            La contraseña es demasiado corta.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-lg-6 col-sm-12 mb-1">
+          <mat-label>Verificar contraseña</mat-label>
+          <input matInput formControlName="passwordVerification" type="password">
+          <mat-error *ngIf="form.get('passwordVerification').errors?.required
+                          &&( form.get('password').dirty || form.get('password').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.controls['passwordVerification'].errors?.notEqual
+                        &&( form.controls['password'].dirty || form.controls['password'].touched )"
+                     class="invalid-feedback d-block">
+            Los campos no coinciden.
+          </mat-error>
+        </mat-form-field>
+        <mat-checkbox class="col-lg-6 col-sm-12 mb-1" formControlName="agreement" color="primary">
+          Estoy de acuerdo con los
+          <a mat-button [routerLink]="['/terminos-y-condiciones']" color="primary">
+            términos y condiciones.
+          </a>
+        </mat-checkbox>
+        <div class="col-12 my-3">
+          <div class="row mx-1">
+            <button mat-raised-button [disabled]="disableBtn" color="primary" type="submit"
+                    class="col-12 col-sm-6 col-xl-3 mt-2">
+              Registrarse
+            </button>
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+              ¿Ya tienes cuenta?
+              <a mat-button [routerLink]="['/inicio-de-sesion']" color="primary">
+                Inicia sesión.
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</main>

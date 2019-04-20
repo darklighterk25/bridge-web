@@ -1,0 +1,6 @@
+<nav mat-tab-nav-bar class="mx-3">
+  <a mat-tab-link *ngFor="let enlace of enlaces"
+     [routerLink]="enlace.ruta"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive"> {{enlace.nombre}} </a>
+</nav>

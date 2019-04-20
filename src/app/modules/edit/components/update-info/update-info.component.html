@@ -1,0 +1,47 @@
+<h3 class="col-lg-6 col-sm-12">Actualizar Información</h3>
+<form [formGroup]="form" (ngSubmit)="update()">
+  <mat-form-field class="col-lg-6 col-sm-12">
+    <mat-label>Correo</mat-label>
+    <input matInput formControlName="email">
+    <mat-error *ngIf="form.get('email').errors?.required
+                          &&( form.get('email').dirty || form.get('email').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="form.get('email').errors?.email
+                          &&( form.get('email').dirty || form.get('email').touched )">
+      No parece ser un correo válido.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="col-lg-6 col-sm-12">
+    <mat-label>Teléfono</mat-label>
+    <input matInput formControlName="phone" type="text" [maxLength]="10">
+    <mat-error *ngIf="form.get('telefono').errors?.required
+                          &&( form.get('telefono').dirty || form.get('telefono').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="form.get('telefono').errors?.email
+                          &&( form.get('telefono').dirty || form.get('telefono').touched )">
+      No parece ser un teléfono válido.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="col-lg-6 col-sm-12 mb-1">
+    <mat-label>Contraseña</mat-label>
+    <input matInput formControlName="password" type="password">
+    <mat-error *ngIf="form.get('password').errors?.required
+                          &&( form.get('password').dirty || form.get('password').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="form.get('password').errors?.minlength
+                          &&( form.get('password').dirty || form.get('password').touched )">
+      La contraseña es demasiado corta.
+    </mat-error>
+  </mat-form-field>
+  <div class="col-lg-6 col-sm-12 mb-1">
+    <!-- Espacio vacío.-->
+  </div>
+  <div class="col-12 my-3">
+    <div class="row mx-1">
+      <button mat-raised-button [disabled]="disableBtn" color="primary">Actualizar</button>
+    </div>
+  </div>
+</form>

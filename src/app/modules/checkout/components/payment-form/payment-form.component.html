@@ -1,0 +1,185 @@
+<mat-vertical-stepper linear="true">
+  <mat-step [stepControl]="addressForm" [completed]="false" class="container-fluid">
+    <form [formGroup]="addressForm">
+      <ng-template matStepLabel>Dirección</ng-template>
+      <div class="row">
+        <mat-form-field class="col-12 col-sm-6" style="max-width: 500px">
+          <mat-label>Calle</mat-label>
+          <input matInput formControlName="street" maxlength="50" required>
+          <mat-error *ngIf="addressForm.get('street').errors?.required
+                                        &&( addressForm.get('street').dirty || addressForm.get('street').touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="addressForm.get('street').errors?.pattern
+                                        &&( addressForm.get('street').dirty || addressForm.get('street').touched )"
+                     class="invalid-feedback d-block">
+            Calle inválida.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6 col-sm-3" style="max-width: 90px">
+          <mat-label>Número</mat-label>
+          <input matInput formControlName="number" maxlength="7" required>
+          <mat-error *ngIf="addressForm.get('number').errors?.required
+                                        &&( addressForm.get('number').dirty || addressForm.get('number').touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="addressForm.get('number').errors?.pattern
+                                        &&( addressForm.get('number').dirty || addressForm.get('number').touched )"
+                     class="invalid-feedback d-block">
+            Eso no es un número.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6 col-sm-3" style="max-width: 130px">
+          <mat-label>Número interior</mat-label>
+          <input matInput formControlName="interiorNumber" maxlength="5">
+          <mat-error *ngIf="addressForm.get('interiorNumber').errors?.required
+                                        &&( addressForm.get('interiorNumber').dirty || addressForm.get('interiorNumber').touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="addressForm.get('interiorNumber').errors?.pattern
+                                        &&( addressForm.get('interiorNumber').dirty || addressForm.get('interiorNumber').touched )"
+                     class="invalid-feedback d-block">
+            Número interior inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-12 col-sm-4" style="max-width: 500px">
+          <mat-label>Colonia</mat-label>
+          <input matInput formControlName="neighborhood" maxlength="50" required>
+          <mat-error *ngIf="addressForm.get('neighborhood').errors?.required
+                                        &&( addressForm.get('neighborhood').dirty || addressForm.get('neighborhood').touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="addressForm.get('neighborhood').errors?.pattern
+                                        &&( addressForm.get('neighborhood').dirty || addressForm.get('neighborhood').touched )"
+                     class="invalid-feedback d-block">
+            Colonia inválida.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-4" style="max-width: 130px">
+          <mat-label>Código Postal</mat-label>
+          <input matInput formControlName="zipCode" maxlength="5" required>
+          <mat-error *ngIf="addressForm.get('zipCode').errors?.required
+                                        &&( addressForm.get('zipCode').dirty || addressForm.get('zipCode').touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(addressForm.get('zipCode').errors?.pattern || addressForm.get('zipCode').errors?.minlength)
+                                        &&( addressForm.get('zipCode').dirty || addressForm.get('zipCode').touched )"
+                     class="invalid-feedback d-block">
+            Código Postal inválido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-4" style="max-width: 130px">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="phone" maxlength="10" required>
+          <mat-error *ngIf="addressForm.get('phone').errors?.required
+                                        &&( addressForm.get('phone').dirty || addressForm.get('phone').touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(addressForm.get('phone').errors?.pattern || addressForm.get('phone').errors?.minlength)
+                                        &&( addressForm.get('phone').dirty || addressForm.get('phone').touched )"
+                     class="invalid-feedback d-block">
+            Número inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-3">
+        <button mat-raised-button matStepperNext [disabled]="disableAddressBtn" color="primary"
+                class="m-1">Continuar
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paymentForm" [completed]="false" class="container-fluid">
+    <form [formGroup]="paymentForm">
+      <ng-template matStepLabel>Forma de Pago</ng-template>
+      <div class="row">
+        <mat-form-field class="col-12" style="max-width: 275px">
+          <mat-label>Titular</mat-label>
+          <input matInput formControlName="name" maxlength="50" required>
+          <mat-error *ngIf="paymentForm.controls['name'].errors?.required
+                                        &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="paymentForm.controls['name'].errors?.pattern
+                                        &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched)"
+                     class="invalid-feedback d-block">
+            El nombre es inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-11" style="max-width: 160px">
+          <mat-label>Número de la tarjeta</mat-label>
+          <input matInput formControlName="number" maxlength="16" required>
+          <mat-error *ngIf="paymentForm.controls['number'].errors?.required
+                                        &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(paymentForm.controls['number'].errors?.pattern || paymentForm.controls['number'].errors?.minlength)
+                                        &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched)"
+                     class="invalid-feedback d-block">
+            Número inválido.
+          </mat-error>
+        </mat-form-field>
+        <app-credit-card-icon [cardType]="cardType" class="col-1"></app-credit-card-icon>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-12 col-sm-6" style="max-width: 180px">
+          <mat-label>Fecha de vencimiento</mat-label>
+          <input matInput formControlName="expiration" maxlength="5" required>
+          <mat-error *ngIf="paymentForm.controls['expiration'].errors?.required
+                                        &&( paymentForm.controls['expiration'].dirty || paymentForm.controls['expiration'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="paymentForm.controls['expiration'].errors?.pattern
+                                        &&( paymentForm.controls['expiration'].dirty || paymentForm.controls['expiration'].touched)"
+                     class="invalid-feedback d-block">
+            Fecha inválida.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-6" style="max-width: 70px">
+          <mat-label>CVV</mat-label>
+          <input matInput formControlName="cvv" maxlength="3" required>
+          <mat-error *ngIf="paymentForm.controls['cvv'].errors?.required
+                                        &&( paymentForm.controls['cvv'].dirty || paymentForm.controls['cvv'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(paymentForm.controls['cvv'].errors?.pattern || paymentForm.controls['cvv'].errors?.minlength)
+                                        &&( paymentForm.controls['cvv'].dirty || paymentForm.controls['cvv'].touched)"
+                     class="invalid-feedback d-block">
+            CVV inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-3">
+        <button mat-stroked-button matStepperPrevious color="primary" class="m-1">Regresar
+        </button>
+        <button mat-raised-button matStepperNext [disabled]="disablePaymentBtn" color="primary"
+                class="m-1">Continuar
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [completed]="false" class="container-fluid" class="container-fluid">
+    <ng-template matStepLabel>Finalizar Compra</ng-template>
+    <div class="row">
+
+    </div>
+    <div class="row mt-3">
+      <button mat-stroked-button matStepperPrevious color="primary" class="m-1">Regresar</button>
+      <button mat-raised-button [disabled]="disableBtn" color="accent" class="m-1">Pagar</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>

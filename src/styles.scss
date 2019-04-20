@@ -1,0 +1,65 @@
+/*
+*   Angular Material
+*/
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$app-warn: mat-palette($mat-red);
+
+// Tema predeterminado.
+$app-primary: mat-palette($mat-blue);
+$app-accent: mat-palette($mat-green, A700);
+$app-default: mat-light-theme($app-primary, $app-accent, $app-warn);
+.default-theme {
+  @include angular-material-theme($app-default);
+}
+
+// Tema nocturno.
+$app-primary: mat-palette($mat-cyan);
+$app-accent: mat-palette($mat-light-green, A700);
+$app-dark: mat-dark-theme($app-primary, $app-accent, $app-warn);
+.night-theme {
+  @include angular-material-theme($app-dark);
+}
+
+/*
+*   Bootstrap
+*/
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/bootstrap';
+
+/*
+*    CSS Regular
+*/
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  padding: 15px 10%;
+}
+
+button:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+// Imagen redonda.
+.avatar {
+  border-radius: 50%;
+  max-height: 150px;
+  max-width: 150px;
+}
+
+// Espaciado para elementos del navbar.
+.spacer {
+  flex: 1 1 auto;
+}
