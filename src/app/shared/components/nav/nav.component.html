@@ -1,5 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+               [ngClass]="{hidden: !(isHandset$ | async)}"
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="!(isHandset$ | async)">
@@ -16,8 +17,11 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon"><i class="fas fa-bars fa-lg"></i></mat-icon>
       </button>
+      <app-top-nav [ngClass]="{hidden: (isHandset$ | async)}"></app-top-nav>
       <span class="spacer"></span>
-      <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()"></mat-slide-toggle>
+      <app-user-menu [ngClass]="{hidden: !(isLoggedIn() | async)}" class="mx-1"></app-user-menu>
+      <app-unsigned-user-menu [ngClass]="{hidden: (isLoggedIn() | async)}" class="mx-1"></app-unsigned-user-menu>
+      <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()" class="mx-1"></mat-slide-toggle>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

@@ -13,6 +13,9 @@ export class WebNavComponent {
 
   @HostBinding('class') componentCssClass;
 
+  private loggedIn: boolean;
+  private admin: boolean;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
@@ -24,6 +27,8 @@ export class WebNavComponent {
               public overlayContainer: OverlayContainer) {
     this.componentCssClass = 'default-theme';
     this.lightsOn = true;
+    this.loggedIn = false;
+    this.admin = false;
   }
 
   onSetTheme(): void {
@@ -38,4 +43,11 @@ export class WebNavComponent {
     this.componentCssClass = theme;
   }
 
+  isAdmin(): boolean {
+    return this.admin;
+  }
+
+  isLoggedIn(): boolean {
+    return this.loggedIn;
+  }
 }

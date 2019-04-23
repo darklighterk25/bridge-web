@@ -1,0 +1,4 @@
+<span *ngIf="!_router.url.includes('inicio-de-sesion') && !_router.url.includes('registro')">
+  <button mat-button [routerLink]="['inicio-de-sesion']">Iniciar Sesión</button>
+  <button mat-raised-button color="primary" [routerLink]="['registro']">Registrarse</button>
+</span>

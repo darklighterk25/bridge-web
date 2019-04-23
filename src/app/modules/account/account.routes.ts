@@ -11,7 +11,7 @@ export const ACCOUNT_ROUTES: Routes = [
       {path: 'resumen', component: DashboardComponent},
       {path: 'publicaciones', component: ListingsComponent},
       {path: 'historial', component: HistoryComponent},
+      {path: '**', redirectTo: 'resumen', pathMatch: 'full'}
     ]
-  },
-  {path: '**', redirectTo: 'resumen', pathMatch: 'full'}
+  }
 ];
