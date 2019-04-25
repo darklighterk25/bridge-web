@@ -7,7 +7,12 @@ import {Router} from '@angular/router';
 })
 export class AuthenticationService {
 
+  private admin = new BehaviorSubject<boolean>(false);
   private loggedIn = new BehaviorSubject<boolean>(false);
+
+  get isAdmin() {
+    return this.admin.asObservable();
+  }
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -18,12 +23,14 @@ export class AuthenticationService {
 
   signIn(email: string, password: string): void {
     if (email !== '' && password !== '' ) {
+      this.admin.next(true);
       this.loggedIn.next(true);
-      this._router.navigate(['/']);
+      this._router.navigate(['/cuenta']);
     }
   }
 
   signOut() {
+    this.admin.next(false);
     this.loggedIn.next(false);
     this._router.navigate(['/']);
   }

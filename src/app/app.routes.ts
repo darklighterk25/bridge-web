@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 
+import {AdministrationGuard} from './core/authentication/administration.guard';
 import {AuthenticationGuard} from './core/authentication/authentication.guard';
 
 import {ABOUT_ROUTES} from './modules/about/about.routes';
@@ -19,7 +20,7 @@ import {WISHLIST_ROUTES} from './modules/wishlist/wishlist.routes';
 export const routes: Routes = [
   {path: 'acerca-de', children: ABOUT_ROUTES},
   {path: 'cuenta', children: ACCOUNT_ROUTES, canActivate: [AuthenticationGuard]},
-  {path: 'administracion', children: ADMIN_ROUTES},
+  {path: 'administracion', children: ADMIN_ROUTES, canActivate: [AdministrationGuard]},
   {path: 'chat', children: CHAT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'pago', children: CHECKOUT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'inicio', children: HOME_ROUTES},

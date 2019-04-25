@@ -19,9 +19,13 @@
       </button>
       <app-top-nav [ngClass]="{hidden: (isHandset$ | async)}"></app-top-nav>
       <span class="spacer"></span>
-    <app-user-menu [ngClass]="{hidden: !(isLoggedIn$ | async)}" class="mx-1"></app-user-menu>
+      <a mat-button [ngClass]="{hidden: !(isAdmin | async)}" [routerLink]="['/administracion']" routerLinkActive="mat-primary" class="mr-3">
+        <i class="far fa-lg fa-chart-bar"></i>
+      </a>
+      <app-user-menu [ngClass]="{hidden: !(isLoggedIn$ | async)}" class="mx-1"></app-user-menu>
       <app-unsigned-user-menu [ngClass]="{hidden: (isLoggedIn$ | async)}" class="mx-1"></app-unsigned-user-menu>
-      <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()" class="mx-1"></mat-slide-toggle>
+      <i class="far fa-lg" [ngClass]="{'fa-sun': lightsOn === true, 'fa-moon': lightsOn === false }"></i>
+      <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()" class="ml-3"></mat-slide-toggle>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

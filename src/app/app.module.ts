@@ -28,6 +28,7 @@ import {StorePageModule} from './modules/store-page/store-page.module';
 import {WishlistModule} from './modules/wishlist/wishlist.module';
 
 // Servicios
+import {AdministrationGuard} from './core/authentication/administration.guard';
 import {AuthenticationGuard} from './core/authentication/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
 import {PaymentService} from './core/services/payment.service';
@@ -64,6 +65,7 @@ import {UserService} from './core/services/user.service';
     NgbModule
   ],
   providers: [
+    AdministrationGuard,
     AuthenticationGuard,
     AuthenticationService,
     PaymentService,

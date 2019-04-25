@@ -15,6 +15,12 @@ export class WebNavComponent implements OnInit {
 
   @HostBinding('class') componentCssClass;
 
+  private admin$: Observable<boolean>;
+
+  get isAdmin() {
+    return this.admin$;
+  }
+
   isLoggedIn$: Observable<boolean>;
   admin: boolean;
 
@@ -33,6 +39,7 @@ export class WebNavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.admin$ = this._authService.isAdmin;
     this.isLoggedIn$ = this._authService.isLoggedIn;
   }
 
