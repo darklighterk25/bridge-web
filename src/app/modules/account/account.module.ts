@@ -9,6 +9,7 @@ import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {HistoryComponent} from './pages/history/history.component';
 import {ListingsComponent} from './pages/listings/listings.component';
 
+import {NombrePipe} from '../../shared/pipes/nombre.pipe';
 import {PhonePipe} from '../../shared/pipes/phone.pipe';
 
 @NgModule({
@@ -18,6 +19,7 @@ import {PhonePipe} from '../../shared/pipes/phone.pipe';
     DashboardComponent,
     HistoryComponent,
     ListingsComponent,
+    NombrePipe,
     PhonePipe
   ],
   imports: [

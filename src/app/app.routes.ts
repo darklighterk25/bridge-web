@@ -1,5 +1,7 @@
 import {Routes} from '@angular/router';
 
+import {AuthenticationGuard} from './core/authentication/authentication.guard';
+
 import {ABOUT_ROUTES} from './modules/about/about.routes';
 import {ACCOUNT_ROUTES} from './modules/account/account.routes';
 import {ADMIN_ROUTES} from './modules/admin/admin.routes';
@@ -16,17 +18,17 @@ import {WISHLIST_ROUTES} from './modules/wishlist/wishlist.routes';
 
 export const routes: Routes = [
   {path: 'acerca-de', children: ABOUT_ROUTES},
-  {path: 'cuenta', children: ACCOUNT_ROUTES},
+  {path: 'cuenta', children: ACCOUNT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'administracion', children: ADMIN_ROUTES},
-  {path: 'chat', children: CHAT_ROUTES},
-  {path: 'pago', children: CHECKOUT_ROUTES},
+  {path: 'chat', children: CHAT_ROUTES, canActivate: [AuthenticationGuard]},
+  {path: 'pago', children: CHECKOUT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'inicio', children: HOME_ROUTES},
-  {path: 'editar-informacion', children: EDIT_ROUTES},
+  {path: 'editar-informacion', children: EDIT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'preguntas-frecuentes', children: FAQ_ROUTES},
   {path: 'inicio-de-sesion', children: SIGN_IN_ROUTES},
   {path: 'registro', children: SIGN_UP_ROUTES},
   {path: 'catalogo', children: STORE_ROUTES},
   {path: 'articulo', children: STORE_PAGE_ROUTES},
-  {path: 'lista-de-deseos', children: WISHLIST_ROUTES},
+  {path: 'lista-de-deseos', children: WISHLIST_ROUTES, canActivate: [AuthenticationGuard]},
   {path: '**', redirectTo: 'inicio', pathMatch: 'full'}
 ];

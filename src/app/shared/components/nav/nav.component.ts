@@ -1,20 +1,22 @@
-import {Component, HostBinding} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {OverlayContainer} from '@angular/cdk/overlay';
+
+import {AuthenticationService} from '../../../core/authentication/authentication.service';
 
 @Component({
   selector: 'app-web-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['nav.component.scss']
 })
-export class WebNavComponent {
+export class WebNavComponent implements OnInit {
 
   @HostBinding('class') componentCssClass;
 
-  private loggedIn: boolean;
-  private admin: boolean;
+  isLoggedIn$: Observable<boolean>;
+  admin: boolean;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -23,12 +25,19 @@ export class WebNavComponent {
 
   private lightsOn: boolean;
 
-  constructor(private breakpointObserver: BreakpointObserver,
+  constructor(private _authService: AuthenticationService,
+              private breakpointObserver: BreakpointObserver,
               public overlayContainer: OverlayContainer) {
     this.componentCssClass = 'default-theme';
     this.lightsOn = true;
-    this.loggedIn = false;
-    this.admin = false;
+  }
+
+  ngOnInit(): void {
+    this.isLoggedIn$ = this._authService.isLoggedIn;
+  }
+
+  logout(): void {
+    this._authService.signOut();
   }
 
   onSetTheme(): void {
@@ -43,11 +52,4 @@ export class WebNavComponent {
     this.componentCssClass = theme;
   }
 
-  isAdmin(): boolean {
-    return this.admin;
-  }
-
-  isLoggedIn(): boolean {
-    return this.loggedIn;
-  }
 }
