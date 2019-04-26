@@ -23,6 +23,7 @@ export class WebNavComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean>;
   admin: boolean;
+  lightsOn: boolean;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -33,8 +34,6 @@ export class WebNavComponent implements OnInit {
     .pipe(
       map(result => result.matches)
     );
-
-  private lightsOn: boolean;
 
   constructor(private _authService: AuthenticationService,
               private breakpointObserver: BreakpointObserver,

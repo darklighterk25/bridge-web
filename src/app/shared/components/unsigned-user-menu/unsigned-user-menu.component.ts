@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 })
 export class UnsignedUserMenuComponent implements OnInit {
 
-  constructor(private _router: Router) {
+  constructor(public _router: Router) {
   }
 
   ngOnInit() {
