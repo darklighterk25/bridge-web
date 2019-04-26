@@ -1,8 +1,9 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="!(isHandset$ | async)">
+               [ngClass]="{hidden: !((isHandset$ | async) ||  (isSmall$ | async))}"
+               [attr.role]="(isHandset$ | async) ||  (isSmall$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ||  (isSmall$ | async) ? 'over' : 'side'"
+               [opened]="!((isHandset$ | async) ||  (isSmall$ | async))">
     <mat-toolbar color="secondary">Bridge</mat-toolbar>
     <app-nav-links></app-nav-links>
   </mat-sidenav>
@@ -13,10 +14,23 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="(isHandset$ | async) ||  (isSmall$ | async)">
         <mat-icon aria-label="Side nav toggle icon"><i class="fas fa-bars fa-lg"></i></mat-icon>
       </button>
+      <app-top-nav [ngClass]="{hidden: (isHandset$ | async) || (isSmall$ | async)}"></app-top-nav>
       <span class="spacer"></span>
+      <a mat-button [ngClass]="{hidden: !(isAdmin | async)}" [routerLink]="['/administracion']" routerLinkActive="mat-primary">
+        <i class="far fa-lg fa-chart-bar"></i>
+      </a>
+      <a mat-button [ngClass]="{hidden: !(isLoggedIn$ | async)}" [routerLink]="['/chat']" routerLinkActive="mat-primary">
+        <i class="far fa-lg fa-comment"></i>
+      </a>
+      <a mat-button [ngClass]="{hidden: !(isLoggedIn$ | async)}" [routerLink]="['/lista-de-deseos']" routerLinkActive="mat-primary">
+        <i class="far fa-lg fa-heart"></i>
+      </a>
+      <app-user-menu [ngClass]="{hidden: !(isLoggedIn$ | async)}" class="mx-1"></app-user-menu>
+      <app-unsigned-user-menu [ngClass]="{hidden: (isLoggedIn$ | async)}" class="mx-1"></app-unsigned-user-menu>
+      <i class="mx-1 d-none d-sm-block far" [ngClass]="{'fa-sun': lightsOn === true, 'fa-moon': lightsOn === false }"></i>
       <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()"></mat-slide-toggle>
     </mat-toolbar>
     <ng-content></ng-content>

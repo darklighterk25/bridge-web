@@ -6,6 +6,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {SideNavComponent} from './shared/components/side-nav/side-nav.component';
+import {TopNavComponent} from './shared/components/top-nav/top-nav.component';
+import {UnsignedUserMenuComponent} from './shared/components/unsigned-user-menu/unsigned-user-menu.component';
+import {UserMenuComponent} from './shared/components/user-menu/user-menu.component';
 import {WebNavComponent} from './shared/components/nav/nav.component';
 
 import {AboutModule} from './modules/about/about.module';
@@ -25,6 +28,9 @@ import {StorePageModule} from './modules/store-page/store-page.module';
 import {WishlistModule} from './modules/wishlist/wishlist.module';
 
 // Servicios
+import {AdministrationGuard} from './core/authentication/administration.guard';
+import {AuthenticationGuard} from './core/authentication/authentication.guard';
+import {AuthenticationService} from './core/authentication/authentication.service';
 import {PaymentService} from './core/services/payment.service';
 import {UserService} from './core/services/user.service';
 
@@ -32,7 +38,10 @@ import {UserService} from './core/services/user.service';
   declarations: [
     AppComponent,
     SideNavComponent,
-    WebNavComponent
+    TopNavComponent,
+    UnsignedUserMenuComponent,
+    UserMenuComponent,
+    WebNavComponent,
   ],
   imports: [
     AboutModule,
@@ -56,6 +65,9 @@ import {UserService} from './core/services/user.service';
     NgbModule
   ],
   providers: [
+    AdministrationGuard,
+    AuthenticationGuard,
+    AuthenticationService,
     PaymentService,
     UserService
   ],
