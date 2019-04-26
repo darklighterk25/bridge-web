@@ -29,6 +29,11 @@ export class WebNavComponent implements OnInit {
       map(result => result.matches)
     );
 
+  isSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Small)
+    .pipe(
+      map(result => result.matches)
+    );
+
   private lightsOn: boolean;
 
   constructor(private _authService: AuthenticationService,

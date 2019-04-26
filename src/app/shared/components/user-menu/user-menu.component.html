@@ -6,5 +6,6 @@
 </button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item *ngFor="let link of links" (click)="navigate(link.ruta)">{{ link.nombre }}</button>
+  <mat-divider></mat-divider>
   <button mat-menu-item (click)="signOut()">Cerrar Sesión</button>
 </mat-menu>
