@@ -5,6 +5,14 @@
 
 @include mat-core();
 
+// Tipografía.
+$custom-typography: mat-typography-config(
+  $font-family: Lato,
+  $headline: mat-typography-level(24px, 48px, 400),
+  $body-1: mat-typography-level(16px, 24px, 400)
+);
+@include angular-material-typography($custom-typography);
+
 $app-warn: mat-palette($mat-red);
 
 // Tema predeterminado.
@@ -22,6 +30,8 @@ $app-dark: mat-dark-theme($app-primary, $app-accent, $app-warn);
 .night-theme {
   @include angular-material-theme($app-dark);
 }
+
+@include angular-material-theme($app-dark);
 
 /*
 *   Bootstrap
@@ -62,4 +72,16 @@ button:focus {
 // Espaciado para elementos del navbar.
 .spacer {
   flex: 1 1 auto;
+}
+
+@media screen and (min-width: 576px) {
+  html {
+    font-size: .75rem;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  html {
+    font-size: 1rem;
+  }
 }

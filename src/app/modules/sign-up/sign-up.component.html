@@ -7,6 +7,50 @@
     </mat-card-header>
     <mat-card-content class="row">
       <form [formGroup]="form" (ngSubmit)="signUp()">
+        <mat-form-field class="col-lg-4 col-sm-12">
+          <mat-label>Nombre(s)</mat-label>
+          <input matInput formControlName="name">
+          <mat-error *ngIf="form.get('name').errors?.required
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('name').errors?.pattern
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            No parece ser un nombre válido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-lg-4 col-sm-12">
+          <mat-label>Primer Apellido</mat-label>
+          <input matInput formControlName="lastName1">
+          <mat-error *ngIf="form.get('lastName1').errors?.required
+                          &&( form.get('lastName1').dirty || form.get('lastName1').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('lastName1').errors?.pattern
+                          &&( form.get('lastName1').dirty || form.get('lastName1').touched )">
+            No parece ser un apellido válido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-lg-4 col-sm-12">
+          <mat-label>Segundo Apellido</mat-label>
+          <input matInput formControlName="lastName2">
+          <mat-error *ngIf="form.get('lastName2').errors?.pattern
+                          &&( form.get('lastName2').dirty || form.get('lastName2').touched )">
+            No parece ser un apellido válido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-lg-6 col-sm-12">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="phone" type="text" [maxLength]="10">
+          <mat-error *ngIf="form.get('phone').errors?.required
+                          &&( form.get('phone').dirty || form.get('phone').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('phone').errors?.pattern
+                          &&( form.get('phone').dirty || form.get('phone').touched )">
+            No parece ser un teléfono válido.
+          </mat-error>
+        </mat-form-field>
         <mat-form-field class="col-lg-6 col-sm-12">
           <mat-label>Correo</mat-label>
           <input matInput formControlName="email">

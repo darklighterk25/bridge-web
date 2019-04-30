@@ -13,6 +13,35 @@ export class SignUpComponent implements OnInit {
 
   constructor() {
     this.form = new FormGroup({
+      'name': new FormControl(
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
+            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
+        ]
+      ),
+      'lastName1': new FormControl(
+        '',
+        [
+          Validators.required,
+          Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
+            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
+        ]
+      ),
+      'lastName2': new FormControl(
+        '',
+        Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
+          '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
+      ),
+      'phone': new FormControl(
+        '',
+        [
+          Validators.pattern('[0-9]*'),
+          Validators.minLength(10),
+          Validators.required
+        ]
+      ),
       'email': new FormControl(
         '',
         [

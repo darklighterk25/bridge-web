@@ -19,7 +19,14 @@ export class UpdatePasswordComponent implements OnInit {
           Validators.minLength(8)
         ]
       ),
-      'passwordVerification': new FormControl()
+      'passwordVerification': new FormControl(),
+      'password': new FormControl(
+        '',
+        [
+          Validators.minLength(8),
+          Validators.required
+        ]
+      )
     });
     // Verificación de contraseña.
     this.form.controls['passwordVerification'].setValidators([
