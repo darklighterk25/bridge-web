@@ -1,6 +1,6 @@
 <h3 class="col-lg-6 col-sm-12">Actualizar Información</h3>
 <form [formGroup]="form" (ngSubmit)="update()">
-  <mat-form-field class="col-lg-6 col-sm-12">
+  <mat-form-field class="col-lg-4 col-sm-12">
     <mat-label>Nombre(s)</mat-label>
     <input matInput formControlName="name">
     <mat-error *ngIf="form.get('name').errors?.required
@@ -12,7 +12,7 @@
       No parece ser un nombre válido.
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="col-lg-6 col-sm-12">
+  <mat-form-field class="col-lg-4 col-sm-12">
     <mat-label>Primer Apellido</mat-label>
     <input matInput formControlName="lastName1">
     <mat-error *ngIf="form.get('lastName1').errors?.required
@@ -24,7 +24,7 @@
       No parece ser un apellido válido.
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="col-lg-6 col-sm-12">
+  <mat-form-field class="col-lg-4 col-sm-12">
     <mat-label>Segundo Apellido</mat-label>
     <input matInput formControlName="lastName2">
     <mat-error *ngIf="form.get('lastName2').errors?.pattern
