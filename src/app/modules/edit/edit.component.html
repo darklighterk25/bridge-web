@@ -1,8 +1,12 @@
 <main>
+  <a mat-button [routerLink]="['/cuenta']" color="primary">Mi Cuenta</a>
+  &nbsp;/&nbsp;
+  <a mat-button disabled="true" style="text-decoration: none;">Editar Información</a>
   <mat-card class="container-fluid">
     <mat-card-content class="row">
-      <app-update-info></app-update-info>
-      <app-update-password class="mt-2"></app-update-password>
+      <app-update-photo></app-update-photo>
+      <app-update-info class="my-2"></app-update-info>
+      <app-update-password></app-update-password>
     </mat-card-content>
   </mat-card>
 </main>
