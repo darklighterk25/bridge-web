@@ -11,6 +11,7 @@ import {CHECKOUT_ROUTES} from './modules/checkout/checkout.routes';
 import {EDIT_ROUTES} from './modules/edit/edit.routes';
 import {FAQ_ROUTES} from './modules/faq/faq.routes';
 import {HOME_ROUTES} from './modules/home/home.routes';
+import {PUBLISH_ROUTES} from './modules/publish/publish.routes';
 import {SIGN_IN_ROUTES} from './modules/sign-in/sign-in.routes';
 import {SIGN_UP_ROUTES} from './modules/sign-up/sign-up.routes';
 import {STORE_ROUTES} from './modules/store/store.routes';
@@ -24,6 +25,7 @@ export const routes: Routes = [
   {path: 'chat', children: CHAT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'pago', children: CHECKOUT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'inicio', children: HOME_ROUTES},
+  {path: 'nueva-publicacion', children: PUBLISH_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'editar-informacion', children: EDIT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'preguntas-frecuentes', children: FAQ_ROUTES},
   {path: 'inicio-de-sesion', children: SIGN_IN_ROUTES},

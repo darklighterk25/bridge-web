@@ -19,15 +19,6 @@
       </button>
       <app-top-nav [ngClass]="{hidden: (isHandset$ | async) || (isSmall$ | async)}"></app-top-nav>
       <span class="spacer"></span>
-      <a mat-button [ngClass]="{hidden: !(isAdmin | async)}" [routerLink]="['/administracion']" routerLinkActive="mat-primary">
-        <i class="far fa-lg fa-chart-bar"></i>
-      </a>
-      <a mat-button [ngClass]="{hidden: !(isLoggedIn$ | async)}" [routerLink]="['/chat']" routerLinkActive="mat-primary">
-        <i class="far fa-lg fa-comment"></i>
-      </a>
-      <a mat-button [ngClass]="{hidden: !(isLoggedIn$ | async)}" [routerLink]="['/lista-de-deseos']" routerLinkActive="mat-primary">
-        <i class="far fa-lg fa-heart"></i>
-      </a>
       <app-user-menu [ngClass]="{hidden: !(isLoggedIn$ | async)}" class="mx-1"></app-user-menu>
       <app-unsigned-user-menu [ngClass]="{hidden: (isLoggedIn$ | async)}" class="mx-1"></app-unsigned-user-menu>
       <i class="mx-1 d-none d-sm-block far" [ngClass]="{'fa-sun': lightsOn === true, 'fa-moon': lightsOn === false }"></i>

@@ -1,3 +1,12 @@
+<button mat-button [routerLink]="['/administracion']" routerLinkActive="mat-primary" matTooltip="Administración">
+  <i class="far fa-lg fa-chart-bar"></i>
+</button>
+<button mat-button [routerLink]="['/chat']" routerLinkActive="mat-primary" matTooltip="Mensajes">
+  <i class="far fa-lg fa-comment"></i>
+</button>
+<button mat-button [routerLink]="['/lista-de-deseos']" routerLinkActive="mat-primary" matTooltip="Lista de deseos">
+  <i class="far fa-lg fa-heart"></i>
+</button>
 <img [src]="user.avatar" class="avatar"/>
 <button mat-icon-button [matMenuTriggerFor]="menu">
   <mat-icon>

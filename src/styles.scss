@@ -63,3 +63,15 @@ button:focus {
 .spacer {
   flex: 1 1 auto;
 }
+
+@media screen and (min-width: 576px) {
+  html {
+    font-size: .75rem;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  html {
+    font-size: 1rem;
+  }
+}

@@ -1,5 +1,6 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
+import {LayoutModule} from '@angular/cdk/layout';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,7 +21,7 @@ import {CheckoutModule} from './modules/checkout/checkout.module';
 import {EditModule} from './modules/edit/edit.module';
 import {FAQModule} from './modules/faq/faq.module';
 import {HomeModule} from './modules/home/home.module';
-import {LayoutModule} from '@angular/cdk/layout';
+import {PublishModule} from './modules/publish/publish.module';
 import {SignInModule} from './modules/sign-in/sign-in.module';
 import {SignUpModule} from './modules/sign-up/sign-up.module';
 import {StoreModule} from './modules/store/store.module';
@@ -57,6 +58,7 @@ import {UserService} from './core/services/user.service';
     FAQModule,
     HomeModule,
     LayoutModule,
+    PublishModule,
     SignInModule,
     SignUpModule,
     StoreModule,
