@@ -20,5 +20,10 @@ export const NAV_LINKS: Enlace[] = [
     nombre: 'Preguntas Frecuentes',
     ruta: 'preguntas-frecuentes',
     icono: 'fas fa-question'
+  },
+  {
+    nombre: 'Contacto',
+    ruta: 'contacto',
+    icono: 'far fa-envelope'
   }
 ];
