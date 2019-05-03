@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material';
+import {TermsComponent} from '../terms/terms.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,8 +15,7 @@ export class SignUpComponent implements OnInit {
   address: FormGroup;
   basicInfo: FormGroup;
   title = 'Registro';
-
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.basicInfo = new FormGroup({
       'name': new FormControl(
         '',
@@ -132,5 +133,13 @@ export class SignUpComponent implements OnInit {
 
   signUp(): void {
     console.log(JSON.stringify(this.basicInfo.value));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(TermsComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.agreement = result;
+    });
   }
 }

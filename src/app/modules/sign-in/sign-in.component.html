@@ -1,8 +1,6 @@
 <main>
+  <h3 class="text-center">{{ title }}</h3>
   <mat-card class="container-fluid">
-    <mat-card-header class="row">
-      <h3>{{ title }}</h3>
-    </mat-card-header>
     <mat-card-content class="row">
       <form [formGroup]="form" (ngSubmit)="login()">
         <mat-form-field class="col-lg-6 col-sm-12 mb-1">

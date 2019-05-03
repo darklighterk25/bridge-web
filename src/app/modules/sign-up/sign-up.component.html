@@ -1,8 +1,8 @@
 <main>
+  <h3 class="text-center">
+    {{ title }}
+  </h3>
   <mat-card class="container-fluid">
-    <h3>
-      {{ title }}
-    </h3>
     <mat-vertical-stepper linear="true">
       <mat-step [stepControl]="basicInfo" [completed]="false" class="row">
         <ng-template matStepLabel>Información básica</ng-template>
@@ -181,12 +181,11 @@
       <ng-template matStepLabel>Términos y condiciones</ng-template>
       <mat-step [completed]="false" class="row">
         <!--Términos y condiciones-->
-        <mat-checkbox [(ngModel)]="agreement" class="col-lg-6 col-sm-12 mb-1" color="primary">
-          Estoy de acuerdo con los
-          <a mat-button [routerLink]="['/terminos-y-condiciones']" color="primary">
-            términos y condiciones.
-          </a>
-        </mat-checkbox>
+        <div class="d-inline-block align-middle p-1 mt-auto mb-auto">
+          <mat-checkbox [(ngModel)]="agreement" class="col-lg-6 col-sm-12 mb-1" color="primary">
+            <span>Estoy de acuerdo con los <a mat-button (click)="openDialog()" color="primary">términos y condiciones.</a></span>
+          </mat-checkbox>
+        </div>
         <div class="col-12 my-3">
           <div class="row mx-1">
             <button mat-raised-button [disabled]="!agreement" color="primary" type="submit"

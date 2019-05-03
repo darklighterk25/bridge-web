@@ -31,7 +31,7 @@ $app-dark: mat-dark-theme($app-primary, $app-accent, $app-warn);
   @include angular-material-theme($app-dark);
 }
 
-@include angular-material-theme($app-dark);
+@include angular-material-theme($app-default);
 
 /*
 *   Bootstrap
@@ -84,4 +84,44 @@ button:focus {
   html {
     font-size: 1rem;
   }
+}
+
+// ng-bootstrap carousel
+.carousel-control-prev-icon{
+  position: relative;
+  //background-image: url("assets/about/flecha-atras.png");
+  background-image: none;
+
+}
+.carousel-control-prev-icon::after {
+  position: absolute;
+  font-family: 'Font Awesome\ 5 Free';
+  content: "\f104";
+  font-weight: 900;
+  top: 0;
+  font-size: 40px;
+  color: black;
+}
+.carousel-control-prev-icon:hover{
+  cursor: pointer;
+}
+.carousel-control-next-icon{
+  position: relative;
+  //background-image: url("assets/about/flecha-adelante.png");
+  background-image: none;
+}
+.carousel-control-next-icon::after{
+  position: absolute;
+  font-family: 'Font Awesome\ 5 Free';
+  content: "\f105";
+  font-weight: 900;
+  top: 0;
+  font-size: 40px;
+  color: black;
+}
+.carousel-control-next-icon:hover{
+  cursor: pointer;
+}
+.carousel-indicators li {
+  background-color: black;
 }

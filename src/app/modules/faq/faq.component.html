@@ -1,5 +1,22 @@
 <main>
-  <mat-card class="container-fluid">
-    faq works!
-  </mat-card>
+  <!--<mat-card class="container-fluid">-->
+    <h3 class="text-center">{{title}}</h3>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let individualFaq of faq; let i = index" class="mb-2">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="col-9 p-0 text-justify">
+              {{individualFaq.pregunta}}
+            </div>
+            <div class="col-3 p-0 text-muted text-center">
+              Pregunta #{{i+1}}
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="text-justify">
+          {{individualFaq.respuesta}}
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  <!--</mat-card>-->
 </main>

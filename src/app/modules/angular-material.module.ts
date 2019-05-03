@@ -25,6 +25,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTabsModule,
     MatTreeModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatGridListModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -79,7 +81,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTabsModule,
     MatTreeModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatGridListModule
   ]
 })
 export class AngularMaterialModule {
