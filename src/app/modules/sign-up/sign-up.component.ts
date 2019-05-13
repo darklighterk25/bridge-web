@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
+import {Router} from '@angular/router';
 import {TermsComponent} from '../terms/terms.component';
+import {UserService} from '../../core/services/user.service';
+import {Usuario} from '../../shared/models/usario.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,12 +15,16 @@ export class SignUpComponent implements OnInit {
   agreement = false;
   disableBasicInfoBtn = true;
   disableAddressBtn = true;
+  state: number;
   address: FormGroup;
   basicInfo: FormGroup;
   title = 'Registro';
-  constructor(public dialog: MatDialog) {
+
+  constructor(public dialog: MatDialog,
+              private router: Router,
+              private _userService: UserService) {
     this.basicInfo = new FormGroup({
-      'name': new FormControl(
+      'nombres': new FormControl(
         '',
         [
           Validators.required,
@@ -25,7 +32,7 @@ export class SignUpComponent implements OnInit {
             '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
         ]
       ),
-      'lastName1': new FormControl(
+      'apellido1': new FormControl(
         '',
         [
           Validators.required,
@@ -33,12 +40,12 @@ export class SignUpComponent implements OnInit {
             '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
         ]
       ),
-      'lastName2': new FormControl(
+      'apellido2': new FormControl(
         '',
         Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
           '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
       ),
-      'phone': new FormControl(
+      'telefono': new FormControl(
         '',
         [
           Validators.pattern('[0-9]*'),
@@ -53,17 +60,17 @@ export class SignUpComponent implements OnInit {
           Validators.email
         ]
       ),
-      'password': new FormControl(
+      'contrasena': new FormControl(
         '',
         [
           Validators.required,
           Validators.minLength(8)
         ]
       ),
-      'passwordVerification': new FormControl()
+      'verificarContrasena': new FormControl()
     });
     this.address = new FormGroup({
-      'street': new FormControl(
+      'calle': new FormControl(
         '',
         [
           Validators.required,
@@ -71,18 +78,18 @@ export class SignUpComponent implements OnInit {
             '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
         ]
       ),
-      'number': new FormControl(
+      'numeroExterior': new FormControl(
         '',
         [
           Validators.required,
           Validators.pattern('[0-9]*')
         ]
       ),
-      'interiorNumber': new FormControl(
+      'numeroInterior': new FormControl(
         '',
         Validators.pattern('[a-zA-Z0-9]*')
       ),
-      'neighborhood': new FormControl(
+      'colonia': new FormControl(
         '',
         [
           Validators.required,
@@ -90,7 +97,7 @@ export class SignUpComponent implements OnInit {
             '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
         ]
       ),
-      'zipCode': new FormControl(
+      'codigoPostal': new FormControl(
         '',
         [
           Validators.required,
@@ -100,7 +107,7 @@ export class SignUpComponent implements OnInit {
       )
     });
     // Verificación de contraseña.
-    this.basicInfo.controls['passwordVerification'].setValidators([
+    this.basicInfo.controls['verificarContrasena'].setValidators([
       Validators.required,
       this.notEqual.bind(this.basicInfo)
     ]);
@@ -119,11 +126,12 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.state = State.initial;
   }
 
   notEqual(control: FormControl): { [str: string]: boolean } {
     const form: any = this; // Cambio de contexto.
-    if (control.value !== form.controls['password'].value) {
+    if (control.value !== form.controls['contrasena'].value) {
       return {
         notEqual: true
       };
@@ -132,7 +140,41 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp(): void {
-    console.log(JSON.stringify(this.basicInfo.value));
+    this.state = State.loading;
+    const usuario: Usuario = {
+      nombreCompleto: {
+        nombres: this.basicInfo.controls['nombres'].value,
+        apellido1: this.basicInfo.controls['apellido1'].value,
+        apellido2: this.basicInfo.controls['apellido2'].value
+      },
+      direccion: this.address.value,
+      email: this.basicInfo.controls['email'].value,
+      telefono: this.basicInfo.controls['telefono'].value,
+      contrasena: this.basicInfo.controls['contrasena'].value,
+      tema: null
+    };
+    this._userService.registerUser( usuario ).subscribe(
+      () => {
+        this.state =  State.success;
+        setTimeout(
+          () => {
+            this.state = State.success;
+            this.router.navigate(['/inicio-de-sesion']);
+          },
+          5000
+        );
+      },
+      error => {
+        this.state = State.error;
+        console.error(error);
+        setTimeout(
+          () => {
+            this.state = State.initial;
+          },
+          5000
+        );
+      }
+    );
   }
 
   openDialog(): void {
@@ -142,4 +184,11 @@ export class SignUpComponent implements OnInit {
       this.agreement = result;
     });
   }
+}
+
+enum State {
+  initial,
+  loading,
+  success,
+  error
 }

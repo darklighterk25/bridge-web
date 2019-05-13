@@ -4,7 +4,7 @@
       <img [src]="user.avatar" class="avatar"/>
     </div>
     <div class="col-12 col-sm-9">
-      <h3>{{ user.nombre | nombre }}</h3>
+      <h3>{{ user.nombreCompleto | nombre }}</h3>
       <h4 class="text-muted">{{ user.email }}</h4>
       <h5 class="text-muted">{{ user.telefono | phone }}</h5>
       <button mat-raised-button color="primary" (click)="edit()">Editar</button>

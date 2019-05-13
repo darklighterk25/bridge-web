@@ -6,13 +6,13 @@
         <mat-form-field class="col-12 col-sm-6" style="max-width: 500px">
           <mat-label>Calle</mat-label>
           <input matInput formControlName="street" maxlength="50" required>
-          <mat-error *ngIf="addressForm.get('street').errors?.required
-                                        &&( addressForm.get('street').dirty || addressForm.get('street').touched )"
+          <mat-error *ngIf="addressForm.get('calle').errors?.required
+                                        &&( addressForm.get('calle').dirty || addressForm.get('calle').touched )"
                      class="invalid-feedback d-block">
             Este campo es requerido.
           </mat-error>
-          <mat-error *ngIf="addressForm.get('street').errors?.pattern
-                                        &&( addressForm.get('street').dirty || addressForm.get('street').touched )"
+          <mat-error *ngIf="addressForm.get('calle').errors?.pattern
+                                        &&( addressForm.get('calle').dirty || addressForm.get('calle').touched )"
                      class="invalid-feedback d-block">
             Calle inválida.
           </mat-error>

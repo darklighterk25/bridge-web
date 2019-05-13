@@ -1,25 +1,33 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {Usuario} from '../../shared/models/usario.model';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  private apiEndpoint: string;
   private user: Usuario;
 
-  constructor() {
+  constructor(private _httpClient: HttpClient) {
+    this.apiEndpoint = 'https://bridge-back-end.herokuapp.com';
     this.user = TEST_DATA;
   }
 
   getUser(): Usuario {
     return this.user;
   }
+
+  registerUser(user: Usuario): Observable<Object> {
+    return this._httpClient.post( `${this.apiEndpoint}/usuario`, user );
+  }
 }
 
 const TEST_DATA: Usuario = {
-  nombre: {
+  nombreCompleto: {
     nombres: 'Nombres',
     apellido1: 'apellido1',
     apellido2: 'apellido2'
@@ -29,12 +37,10 @@ const TEST_DATA: Usuario = {
   telefono: '0123456789',
   direccion: {
     calle: 'calle',
-    numero: 123,
+    numeroExterior: 123,
     numeroInterior: 'A',
     colonia: 'Colonia',
     codigoPostal: 123456,
-    municipio: 'Municipio',
-    estado: 'Estado'
   },
   tema: 'default-theme'
 };

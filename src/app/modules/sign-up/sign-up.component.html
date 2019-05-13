@@ -2,7 +2,7 @@
   <h3 class="text-center">
     {{ title }}
   </h3>
-  <mat-card class="container-fluid">
+  <mat-card *ngIf="state === 0" class="container-fluid">
     <mat-vertical-stepper linear="true">
       <mat-step [stepControl]="basicInfo" [completed]="false" class="row">
         <ng-template matStepLabel>Información básica</ng-template>
@@ -10,48 +10,48 @@
           <!--Nombre-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Nombre(s)</mat-label>
-            <input matInput formControlName="name">
-            <mat-error *ngIf="basicInfo.get('name').errors?.required
-                          &&( basicInfo.get('name').dirty || basicInfo.get('name').touched )">
+            <input matInput formControlName="nombres">
+            <mat-error *ngIf="basicInfo.get('nombres').errors?.required
+                          &&( basicInfo.get('nombres').dirty || basicInfo.get('nombres').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="basicInfo.get('name').errors?.pattern
-                          &&( basicInfo.get('name').dirty || basicInfo.get('name').touched )">
+            <mat-error *ngIf="basicInfo.get('nombres').errors?.pattern
+                          &&( basicInfo.get('nombres').dirty || basicInfo.get('nombres').touched )">
               No parece ser un nombre válido.
             </mat-error>
           </mat-form-field>
           <!--Primer Apellido-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Primer Apellido</mat-label>
-            <input matInput formControlName="lastName1">
-            <mat-error *ngIf="basicInfo.get('lastName1').errors?.required
-                          &&( basicInfo.get('lastName1').dirty || basicInfo.get('lastName1').touched )">
+            <input matInput formControlName="apellido1">
+            <mat-error *ngIf="basicInfo.get('apellido1').errors?.required
+                          &&( basicInfo.get('apellido1').dirty || basicInfo.get('apellido1').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="basicInfo.get('lastName1').errors?.pattern
-                          &&( basicInfo.get('lastName1').dirty || basicInfo.get('lastName1').touched )">
+            <mat-error *ngIf="basicInfo.get('apellido1').errors?.pattern
+                          &&( basicInfo.get('apellido1').dirty || basicInfo.get('apellido1').touched )">
               No parece ser un apellido válido.
             </mat-error>
           </mat-form-field>
           <!--Segundo Apellido-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Segundo Apellido</mat-label>
-            <input matInput formControlName="lastName2">
-            <mat-error *ngIf="basicInfo.get('lastName2').errors?.pattern
-                          &&( basicInfo.get('lastName2').dirty || basicInfo.get('lastName2').touched )">
+            <input matInput formControlName="apellido2">
+            <mat-error *ngIf="basicInfo.get('apellido2').errors?.pattern
+                          &&( basicInfo.get('apellido2').dirty || basicInfo.get('apellido2').touched )">
               No parece ser un apellido válido.
             </mat-error>
           </mat-form-field>
           <!--Teléfono-->
           <mat-form-field class="col-lg-6 col-sm-12">
             <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="phone" type="text" [maxLength]="10">
-            <mat-error *ngIf="basicInfo.get('phone').errors?.required
-                          &&( basicInfo.get('phone').dirty || basicInfo.get('phone').touched )">
+            <input matInput formControlName="telefono" type="text" [maxLength]="10">
+            <mat-error *ngIf="basicInfo.get('telefono').errors?.required
+                          &&( basicInfo.get('telefono').dirty || basicInfo.get('telefono').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="basicInfo.get('phone').errors?.pattern
-                          &&( basicInfo.get('phone').dirty || basicInfo.get('phone').touched )">
+            <mat-error *ngIf="basicInfo.get('telefono').errors?.pattern
+                          &&( basicInfo.get('telefono').dirty || basicInfo.get('telefono').touched )">
               No parece ser un teléfono válido.
             </mat-error>
           </mat-form-field>
@@ -71,26 +71,26 @@
           <!--Contraseña-->
           <mat-form-field class="col-lg-6 col-sm-12 mb-1">
             <mat-label>Contraseña</mat-label>
-            <input matInput formControlName="password" type="password">
-            <mat-error *ngIf="basicInfo.get('password').errors?.required
-                          &&( basicInfo.get('password').dirty || basicInfo.get('password').touched )">
+            <input matInput formControlName="contrasena" type="password">
+            <mat-error *ngIf="basicInfo.get('contrasena').errors?.required
+                          &&( basicInfo.get('contrasena').dirty || basicInfo.get('contrasena').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="basicInfo.get('password').errors?.minlength
-                          &&( basicInfo.get('password').dirty || basicInfo.get('password').touched )">
+            <mat-error *ngIf="basicInfo.get('contrasena').errors?.minlength
+                          &&( basicInfo.get('contrasena').dirty || basicInfo.get('contrasena').touched )">
               La contraseña es demasiado corta.
             </mat-error>
           </mat-form-field>
           <!--Verificar contraseña-->
           <mat-form-field class="col-lg-6 col-sm-12 mb-1">
             <mat-label>Verificar contraseña</mat-label>
-            <input matInput formControlName="passwordVerification" type="password">
-            <mat-error *ngIf="basicInfo.get('passwordVerification').errors?.required
-                          &&( basicInfo.get('password').dirty || basicInfo.get('password').touched )">
+            <input matInput formControlName="verificarContrasena" type="password">
+            <mat-error *ngIf="basicInfo.get('verificarContrasena').errors?.required
+                          &&( basicInfo.get('contrasena').dirty || basicInfo.get('contrasena').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="basicInfo.controls['passwordVerification'].errors?.notEqual
-                        &&( basicInfo.controls['password'].dirty || basicInfo.controls['password'].touched )"
+            <mat-error *ngIf="basicInfo.controls['verificarContrasena'].errors?.notEqual
+                        &&( basicInfo.controls['contrasena'].dirty || basicInfo.controls['contrasena'].touched )"
                        class="invalid-feedback d-block">
               Los campos no coinciden.
             </mat-error>
@@ -106,65 +106,65 @@
           <!--Calle-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Calle</mat-label>
-            <input matInput formControlName="street">
-            <mat-error *ngIf="address.get('street').errors?.required
-                          &&( address.get('street').dirty || address.get('street').touched )">
+            <input matInput formControlName="calle">
+            <mat-error *ngIf="address.get('calle').errors?.required
+                          &&( address.get('calle').dirty || address.get('calle').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="address.get('street').errors?.pattern
-                          &&( address.get('street').dirty || address.get('street').touched )">
+            <mat-error *ngIf="address.get('calle').errors?.pattern
+                          &&( address.get('calle').dirty || address.get('calle').touched )">
               No parece ser una calle válida.
             </mat-error>
           </mat-form-field>
           <!--Número-->
           <mat-form-field class="col-lg-4 col-sm-12">
-            <mat-label>Número</mat-label>
-            <input matInput formControlName="number" maxLength="5">
-            <mat-error *ngIf="address.get('number').errors?.required
-                          &&( address.get('number').dirty || address.get('number').touched )">
+            <mat-label>Número exterior</mat-label>
+            <input matInput formControlName="numeroExterior" maxLength="5">
+            <mat-error *ngIf="address.get('numeroExterior').errors?.required
+                          &&( address.get('numeroExterior').dirty || address.get('numeroExterior').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="address.get('number').errors?.pattern
-                          &&( address.get('number').dirty || address.get('number').touched )">
+            <mat-error *ngIf="address.get('numeroExterior').errors?.pattern
+                          &&( address.get('numeroExterior').dirty || address.get('numeroExterior').touched )">
               No parece ser un número válido.
             </mat-error>
           </mat-form-field>
           <!--Número interior-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Número interior</mat-label>
-            <input matInput formControlName="interiorNumber">
-            <mat-error *ngIf="address.get('interiorNumber').errors?.required
-                          &&( address.get('interiorNumber').dirty || address.get('interiorNumber').touched )">
+            <input matInput formControlName="numeroInterior">
+            <mat-error *ngIf="address.get('numeroInterior').errors?.required
+                          &&( address.get('numeroInterior').dirty || address.get('numeroInterior').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="address.get('interiorNumber').errors?.pattern
-                          &&( address.get('interiorNumber').dirty || address.get('interiorNumber').touched )">
+            <mat-error *ngIf="address.get('numeroInterior').errors?.pattern
+                          &&( address.get('numeroInterior').dirty || address.get('numeroInterior').touched )">
               No parece ser un número interior válido.
             </mat-error>
           </mat-form-field>
           <!--Colonia-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Colonia</mat-label>
-            <input matInput formControlName="neighborhood">
-            <mat-error *ngIf="address.get('neighborhood').errors?.required
-                          &&( address.get('neighborhood').dirty || address.get('neighborhood').touched )">
+            <input matInput formControlName="colonia">
+            <mat-error *ngIf="address.get('colonia').errors?.required
+                          &&( address.get('colonia').dirty || address.get('colonia').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="address.get('neighborhood').errors?.pattern
-                          &&( address.get('neighborhood').dirty || address.get('neighborhood').touched )">
+            <mat-error *ngIf="address.get('colonia').errors?.pattern
+                          &&( address.get('colonia').dirty || address.get('colonia').touched )">
               No parece ser una colonia válida.
             </mat-error>
           </mat-form-field>
           <!--Código Postal-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Código Postal</mat-label>
-            <input matInput formControlName="zipCode" maxlength="5">
-            <mat-error *ngIf="address.get('zipCode').errors?.required
-                          &&( address.get('zipCode').dirty || address.get('zipCode').touched )">
+            <input matInput formControlName="codigoPostal" maxlength="5">
+            <mat-error *ngIf="address.get('codigoPostal').errors?.required
+                          &&( address.get('codigoPostal').dirty || address.get('codigoPostal').touched )">
               Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="address.get('zipCode').errors?.pattern
-                          &&( address.get('zipCode').dirty || address.get('zipCode').touched )">
+            <mat-error *ngIf="address.get('codigoPostal').errors?.pattern
+                          &&( address.get('codigoPostal').dirty || address.get('codigoPostal').touched )">
               No parece ser un código postal válido.
             </mat-error>
           </mat-form-field>
@@ -178,9 +178,8 @@
           </div>
         </form>
       </mat-step>
-      <ng-template matStepLabel>Términos y condiciones</ng-template>
       <mat-step [completed]="false" class="row">
-        <!--Términos y condiciones-->
+        <ng-template matStepLabel>Términos y condiciones</ng-template>
         <div class="d-inline-block align-middle p-1 mt-auto mb-auto">
           <mat-checkbox [(ngModel)]="agreement" class="col-lg-6 col-sm-12 mb-1" color="primary">
             <span>Estoy de acuerdo con los <a mat-button (click)="openDialog()" color="primary">términos y condiciones.</a></span>
@@ -188,7 +187,7 @@
         </div>
         <div class="col-12 my-3">
           <div class="row mx-1">
-            <button mat-raised-button [disabled]="!agreement" color="primary" type="submit"
+            <button mat-raised-button [disabled]="!agreement" color="primary" (click)="signUp()"
                     class="col-12 col-sm-6 col-xl-3 mt-2">
               Registrarse
             </button>
@@ -203,4 +202,7 @@
       </mat-step>
     </mat-vertical-stepper>
   </mat-card>
+  <app-loading *ngIf="state === 1"></app-loading>
+  <app-success *ngIf="state === 2"></app-success>
+  <app-error *ngIf="state === 3"></app-error>
 </main>

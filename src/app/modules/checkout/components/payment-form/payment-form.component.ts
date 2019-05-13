@@ -30,7 +30,7 @@ export class PaymentFormComponent implements OnInit {
     this.disableAddressBtn = true;
     this.disablePaymentBtn = true;
     this.addressForm = new FormGroup({
-      'street': new FormControl(
+      'calle': new FormControl(
         '',
         [
           Validators.required,

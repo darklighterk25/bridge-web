@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 
-import {AdministrationGuard} from './core/authentication/administration.guard';
-import {AuthenticationGuard} from './core/authentication/authentication.guard';
+import {AdministrationGuard} from './core/guards/administration.guard';
+import {AuthenticationGuard} from './core/guards/authentication.guard';
 
 import {ABOUT_ROUTES} from './modules/about/about.routes';
 import {ACCOUNT_ROUTES} from './modules/account/account.routes';

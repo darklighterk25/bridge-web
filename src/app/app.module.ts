@@ -1,5 +1,6 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {LayoutModule} from '@angular/cdk/layout';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -31,10 +32,11 @@ import {TermsModule} from './modules/terms/terms.module';
 import {WishlistModule} from './modules/wishlist/wishlist.module';
 
 // Servicios
-import {AdministrationGuard} from './core/authentication/administration.guard';
-import {AuthenticationGuard} from './core/authentication/authentication.guard';
+import {AdministrationGuard} from './core/guards/administration.guard';
+import {AuthenticationGuard} from './core/guards/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
 import {PaymentService} from './core/services/payment.service';
+import {TokenInterceptorService} from './core/services/token-interceptor.service';
 import {UserService} from './core/services/user.service';
 
 @NgModule({
@@ -75,7 +77,12 @@ import {UserService} from './core/services/user.service';
     AuthenticationGuard,
     AuthenticationService,
     PaymentService,
-    UserService
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
