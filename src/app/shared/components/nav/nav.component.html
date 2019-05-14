@@ -8,6 +8,11 @@
     <app-nav-links></app-nav-links>
   </mat-sidenav>
   <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <span class="spacer"></span>
+      <i class="mx-1 far" [ngClass]="{'fa-eye-slash': accessibility === true, 'fa-eye': accessibility === false }"></i>
+      <mat-slide-toggle [color]="'dark'" [checked]="accessibility" (change)="onSetTheme()"></mat-slide-toggle>
+    </mat-toolbar>
     <mat-toolbar color="secondary">
       <button
         type="button"
@@ -21,8 +26,6 @@
       <span class="spacer"></span>
       <app-user-menu [ngClass]="{hidden: !(isLoggedIn$ | async)}" class="mx-1"></app-user-menu>
       <app-unsigned-user-menu [ngClass]="{hidden: (isLoggedIn$ | async)}" class="mx-1"></app-unsigned-user-menu>
-      <i class="mx-1 d-none d-sm-block far" [ngClass]="{'fa-sun': lightsOn === true, 'fa-moon': lightsOn === false }"></i>
-      <mat-slide-toggle color="primary" [checked]="lightsOn" (change)="onSetTheme()"></mat-slide-toggle>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

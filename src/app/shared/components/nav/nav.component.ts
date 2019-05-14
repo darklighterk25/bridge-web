@@ -23,7 +23,7 @@ export class WebNavComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean>;
   admin: boolean;
-  lightsOn: boolean;
+  accessibility: boolean;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -39,7 +39,7 @@ export class WebNavComponent implements OnInit {
               private breakpointObserver: BreakpointObserver,
               public overlayContainer: OverlayContainer) {
     this.componentCssClass = 'default-theme';
-    this.lightsOn = true;
+    this.accessibility = false;
   }
 
   ngOnInit(): void {
@@ -52,12 +52,12 @@ export class WebNavComponent implements OnInit {
   }
 
   onSetTheme(): void {
-    this.lightsOn = !this.lightsOn;
+    this.accessibility = !this.accessibility;
     let theme: string;
-    if (this.lightsOn) {
-      theme = 'default-theme';
+    if (this.accessibility) {
+      theme = 'tritanerope-theme';
     } else {
-      theme = 'night-theme';
+      theme = 'default-theme';
     }
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.componentCssClass = theme;
