@@ -1,0 +1,22 @@
+.beatHeart {
+  animation: .9s infinite beatHeart;
+  transform-origin: center;
+}
+
+@keyframes beatHeart {
+  0% {
+    transform: scale(0.9);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(0.9);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}

@@ -42,6 +42,7 @@ export class TermsComponent {
       contenido: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores aspernatur eos error exercitationem fuga minus pariatur quasi ut vero! Asperiores corporis debitis maxime molestias porro quasi, quod saepe voluptatibus!, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores aspernatur eos error exercitationem fuga minus pariatur quasi ut vero! Asperiores corporis debitis maxime molestias porro quasi, quod saepe voluptatibus!, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores aspernatur eos error exercitationem fuga minus pariatur quasi ut vero! Asperiores corporis debitis maxime molestias porro quasi, quod saepe voluptatibus!'
     }
   ];
+
   constructor() {
   }
 }

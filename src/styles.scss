@@ -7,7 +7,7 @@
 
 // Tipografía.
 $custom-typography: mat-typography-config(
-  $font-family: Lato,
+  // $font-family: Lato,
   $headline: mat-typography-level(24px, 48px, 400),
   $body-1: mat-typography-level(16px, 24px, 400)
 );
@@ -86,42 +86,25 @@ button:focus {
   }
 }
 
-// ng-bootstrap carousel
-.carousel-control-prev-icon{
-  position: relative;
-  //background-image: url("assets/about/flecha-atras.png");
-  background-image: none;
-
+// Animaciones
+.animated{
+  -webkit-animation-duration:1s;
+  animation-duration:1s;
+  -webkit-animation-fill-mode:both;
+  animation-fill-mode:both
 }
-.carousel-control-prev-icon::after {
-  position: absolute;
-  font-family: 'Font Awesome\ 5 Free';
-  content: "\f104";
-  font-weight: 900;
-  top: 0;
-  font-size: 40px;
-  color: black;
+.fast {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
-.carousel-control-prev-icon:hover{
-  cursor: pointer;
+.animated-2x {
+  animation-duration: .5s;
 }
-.carousel-control-next-icon{
-  position: relative;
-  //background-image: url("assets/about/flecha-adelante.png");
-  background-image: none;
+.animated-3x {
+  animation-duration: .25s;
 }
-.carousel-control-next-icon::after{
-  position: absolute;
-  font-family: 'Font Awesome\ 5 Free';
-  content: "\f105";
-  font-weight: 900;
-  top: 0;
-  font-size: 40px;
-  color: black;
-}
-.carousel-control-next-icon:hover{
-  cursor: pointer;
-}
-.carousel-indicators li {
-  background-color: black;
+.animated-slow {
+  animation-duration: 4s;
 }

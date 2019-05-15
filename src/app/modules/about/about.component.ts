@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  styleUrls: ['./about.component.scss'],
+  providers: [NgbCarouselConfig]
 })
 export class AboutComponent implements OnInit {
 
@@ -14,7 +16,7 @@ export class AboutComponent implements OnInit {
       imagen: 'assets/about/sin-imagen.png'
     },
     {
-      nombre: 'Danie Fermín Romo López',
+      nombre: 'Daniel Fermín Romo López',
       imagen: 'assets/about/sin-imagen.png'
     },
     {
@@ -26,7 +28,12 @@ export class AboutComponent implements OnInit {
       imagen: 'assets/about/sin-imagen.png'
     }
   ];
-  constructor() {
+  constructor(config: NgbCarouselConfig) {
+    // customize default values of carousels used by this component tree
+    config.interval = 8000;
+    config.wrap = true;
+    config.keyboard = true;
+    config.pauseOnHover = true;
   }
 
   ngOnInit() {

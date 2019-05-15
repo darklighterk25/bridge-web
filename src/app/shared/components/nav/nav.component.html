@@ -8,12 +8,21 @@
     <app-nav-links></app-nav-links>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar class="h-auto pt-2 pb-2 col-12">
+      <div class="d-flex justify-content-start col-6 col-sm-4">
+        <div class="col-4">
+          <img src="../../../../assets/footer/Logo.png" alt="" style="width: 100%; height: auto;">
+        </div>
+        <mat-card-content class="col-8">
+          <mat-card-title class="mb-1">Bridge</mat-card-title>
+          <mat-card-subtitle class="mb-1"><i>"El carro perfecto a la puerta de tu casa"</i></mat-card-subtitle>
+        </mat-card-content>
+      </div>
       <span class="spacer"></span>
       <i class="mx-1 far" [ngClass]="{'fa-eye-slash': accessibility === true, 'fa-eye': accessibility === false }"></i>
       <mat-slide-toggle [color]="'dark'" [checked]="accessibility" (change)="onSetTheme()"></mat-slide-toggle>
     </mat-toolbar>
-    <mat-toolbar color="secondary">
+    <mat-toolbar class="fondoNegro"><!--color="secondary"-->
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -28,5 +37,7 @@
       <app-unsigned-user-menu [ngClass]="{hidden: (isLoggedIn$ | async)}" class="mx-1"></app-unsigned-user-menu>
     </mat-toolbar>
     <ng-content></ng-content>
+    <div class="mb-5"></div>
+    <app-footer class="mt-5"></app-footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

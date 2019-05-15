@@ -38,6 +38,7 @@ import {AuthenticationService} from './core/authentication/authentication.servic
 import {PaymentService} from './core/services/payment.service';
 import {TokenInterceptorService} from './core/services/token-interceptor.service';
 import {UserService} from './core/services/user.service';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {UserService} from './core/services/user.service';
     TopNavComponent,
     UnsignedUserMenuComponent,
     UserMenuComponent,
-    WebNavComponent
+    WebNavComponent,
+    FooterComponent
   ],
   imports: [
     AboutModule,

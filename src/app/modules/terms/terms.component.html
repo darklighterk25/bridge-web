@@ -28,6 +28,6 @@
   </mat-accordion>-->
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="false">Rechazar</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Aceptar</button>
+  <button mat-button mat-stroked-button [mat-dialog-close]="false" color="warn">Rechazar <i class="fas fa-times"></i></button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="accent">Aceptar <i class="fas fa-check"></i></button>
 </mat-dialog-actions>
