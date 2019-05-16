@@ -13,7 +13,7 @@ import {AuthenticationService} from '../../../core/authentication/authentication
 })
 export class WebNavComponent implements OnInit {
 
-  @HostBinding('class') componentCssClass;
+  @HostBinding('class') theme;
 
   private admin$: Observable<boolean>;
 
@@ -24,6 +24,7 @@ export class WebNavComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   admin: boolean;
   accessibility: boolean;
+  largeFont: boolean;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -38,8 +39,9 @@ export class WebNavComponent implements OnInit {
   constructor(private _authService: AuthenticationService,
               private breakpointObserver: BreakpointObserver,
               public overlayContainer: OverlayContainer) {
-    this.componentCssClass = 'default-theme';
+    this.theme = 'default-theme';
     this.accessibility = false;
+    this.largeFont = false;
   }
 
   ngOnInit(): void {
@@ -52,15 +54,27 @@ export class WebNavComponent implements OnInit {
   }
 
   onSetTheme(): void {
-    this.accessibility = !this.accessibility;
     let theme: string;
-    if (this.accessibility) {
-      theme = 'tritanerope-theme';
-    } else {
+    if (!this.accessibility && !this.largeFont) {
       theme = 'default-theme';
+    } else if (this.accessibility && !this.largeFont) {
+      theme = 'tritanerope-theme';
+    } else if (!this.accessibility && this.largeFont) {
+      theme = 'default-theme-big';
+    } else {
+      theme = 'tritanerope-theme-big';
     }
     this.overlayContainer.getContainerElement().classList.add(theme);
-    this.componentCssClass = theme;
+    this.theme = theme;
   }
 
+  setLargeFont(value: boolean): void {
+    this.largeFont = value;
+    this.onSetTheme();
+  }
+
+  setAccesibility(): void {
+    this.accessibility = !this.accessibility;
+    this.onSetTheme();
+  }
 }

@@ -1,5 +1,5 @@
 <main>
-  <h3 class="text-center">{{title}}</h3>
+  <h3 class="text-center mat-title">{{title}}</h3>
   <mat-card class="mb-4">
     <mat-card-content>
       <mat-card-title>Búsqueda</mat-card-title>
@@ -84,7 +84,7 @@
       <span *ngIf="estadoSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{estadoSolicitud}}</a></span>
       <span *ngIf="ordenSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{ordenSolicitud}} a {{precioSolicitud | currency:'':'symbol':'.2-2'}}</a></span>
     </span>
-    <span>
+    <span class="mat-body-1">
       Se han encontrado 4 resultados
     </span>
   </div>

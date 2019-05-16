@@ -1,5 +1,5 @@
 <main>
-  <h3 class="text-center">
+  <h3 class="text-center mat-title">
     {{ title }}
   </h3>
   <mat-card *ngFor="let vehiculo of vehiculos" class="container-fluid mb-2 p-0">
@@ -7,11 +7,8 @@
       <div class="col-sm-4 col-12 pl-0">
         <mat-card class="p-0 m-0">
           <mat-card-content class="position-relative">
-            <!--<div id="verMas{{vehiculo.id}}" class="position-absolute w-100 m-0 p-0 animated animated-2x" style="top: 10px; right: 10px; opacity: 0">
-              <a mat-button mat-raised-button color="primary" class="float-right" [routerLink]="'/articulo'">Ver más</a>
-            </div>-->
             <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
-              <h5 class="text-center">{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</h5>
+              <h5 class="text-center mat-body-1">{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</h5>
             </div>
             <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px" [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
           </mat-card-content>
@@ -22,17 +19,16 @@
           <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
           <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
           <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span *ngIf="vehiculo.calificacion != null"><app-qualification [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
-          <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
         </mat-card-header>
         <mat-divider></mat-divider>
         <div class="w-100 d-flex mt-2 mb-2">
-          <span class="text-justify">{{vehiculo.descripcion}}</span>
+          <span class="text-justify mat-body-1">{{vehiculo.descripcion}}</span>
         </div>
-        <div class="w-100 d-flex mb-2 mt-2">
+        <div class="w-100 d-flex mb-2 mt-2 mat-body-1">
           <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'':'symbol':'.2-2'}}</span>
           <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{vehiculo.color}}</span>
         </div>
-        <div class="w-100 d-flex mb-2">
+        <div class="w-100 d-flex mb-2 mat-body-1">
           <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
           <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
         </div>
@@ -48,39 +44,4 @@
     <h5 class="mt-5 text-center">¡Por el momento tu lista de deseos se encuentra vacía!</h5>
     <p class="mb-5 text-center">Para agregar vehículos a tu lista de deseos preciona en <a mat-button mat-mini-fab color="primary" class="beatHeart"><i class="far fa-heart"></i></a> en aquellos vehículos que te gusten.</p>
   </mat-card>
-  <!--<div *ngIf="vehiculos.length == 0">
-    <mat-divider></mat-divider>
-    <div class="mt-2">
-      <h5 class="text-center">¡Por el momento tu lista de deseos se encuentra vacía!</h5>
-      <p class="text-center">Para agregar vehículos a tu lista de deseos preciona en <a mat-button mat-mini-fab color="primary"><i class="far fa-heart"></i></a> en aquellos vehículos que te gusten.</p>
-    </div>
-    <div class="w-100 d-flex justify-content-center">
-      <div class="col-12 col-sm-4">
-        <mat-card class="p-0">
-          <mat-card-content class="position-relative">
-            <div class="position-absolute w-100 m-0 pt-0 pr-2 pl-2 animated animated-2x" style="top: 10px">
-              <a mat-button mat-mini-fab color="primary" class="float-left beatHeart"><i id="wishList" class="far fa-heart"></i></a>
-              <a mat-button mat-raised-button color="primary" class="float-right">Ver más</a>
-            </div>
-            <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF;">
-              <h5 class="text-center">{{vehiculoAyuda.modelo}} {{vehiculoAyuda.anio}}, {{vehiculoAyuda.marca}}</h5>
-            </div>
-            <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-top-right-radius: 5px" [src]="vehiculoAyuda.imagenVehiculo" alt="Foto del vehículo">
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="card-characteristics p-2"  style="border-top-left-radius: 0; border-top-right-radius: 0px;">
-          <mat-card-content class="">
-            <div class="w-100 d-flex mb-2">
-              <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{vehiculoAyuda.precio | currency:'':'symbol':'.2-2'}}</span>
-              <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{vehiculoAyuda.color}}</span>
-            </div>
-            <div class="w-100 d-flex">
-              <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculoAyuda.estado == 'Nuevo'" class="fas fa-user-check"></i><i *ngIf="vehiculoAyuda.estado == 'Usado'" class="fas fa-user"></i> {{vehiculoAyuda.estado}}</span>
-              <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculoAyuda.kilometraje | number}} Kms.</span>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </div>-->
 </main>

@@ -5,33 +5,81 @@
 
 @include mat-core();
 
-// Tipografía.
+// Tipografía normal.
 $custom-typography: mat-typography-config(
-  // $font-family: Lato,
+  $font-family: Lato,
+  $body-1: mat-typography-level(16px, 24px, 400),
+  $body-2: mat-typography-level(16px, 24px, 400),
+  $display-1: mat-typography-level(16px, 24px, 400),
+  $display-2: mat-typography-level(16px, 24px, 400),
+  $display-3: mat-typography-level(16px, 24px, 400),
+  $display-4: mat-typography-level(16px, 24px, 400),
   $headline: mat-typography-level(24px, 48px, 400),
-  $body-1: mat-typography-level(16px, 24px, 400)
+  $title: mat-typography-level(24px, 48px, 400),
+  $subheading-1: mat-typography-level(16px, 24px, 400),
+  $subheading-2: mat-typography-level(16px, 24px, 400),
+  $caption: mat-typography-level(16px, 24px, 400),
+  $button: mat-typography-level(16px, 24px, 400)
 );
-@include angular-material-typography($custom-typography);
 
+// Tipografía grande.
+$custom-typography-big: mat-typography-config(
+  $font-family: Lato,
+  $body-1: mat-typography-level(20px, 30px, 600),
+  $body-2: mat-typography-level(20px, 30px, 600),
+  $display-1: mat-typography-level(20px, 30px, 600),
+  $display-2: mat-typography-level(20px, 30px, 600),
+  $display-3: mat-typography-level(20px, 30px, 600),
+  $display-4: mat-typography-level(20px, 30px, 600),
+  $headline: mat-typography-level(30px, 60px, 600),
+  $title: mat-typography-level(30px, 60px, 600),
+  $subheading-1: mat-typography-level(20px, 30px, 600),
+  $subheading-2: mat-typography-level(20px, 30px, 600),
+  $caption: mat-typography-level(20px, 30px, 600),
+  $button: mat-typography-level(20px, 30px, 600)
+);
+
+// Color primario.
 $app-primary: mat-palette($mat-blue, 900);
 
 // Tema predeterminado.
 $app-accent: mat-palette($mat-green, 700);
 $app-warn: mat-palette($mat-red);
 $app-default: mat-light-theme($app-primary, $app-accent, $app-warn);
-.default-theme {
-  @include angular-material-theme($app-default);
-}
 
 // Tema de accesibilidad.
-$app-tritanerope-accent: mat-palette($mat-light-blue, 400);
+$app-tritanerope-accent: mat-palette($mat-yellow, A400);
 $app-tritanerope-warn: mat-palette($mat-pink, A400);
 $app-tritanerope: mat-light-theme($app-primary, $app-tritanerope-accent, $app-tritanerope-warn);
-.tritanerope-theme {
-  @include angular-material-theme($app-tritanerope);
+
+
+// Valores por defecto.
+@include angular-material-theme($app-default);
+@include angular-material-typography($custom-typography);
+
+/*
+  Temas
+ */
+
+.default-theme {
+  @include angular-material-theme($app-default);
+  @include angular-material-typography($custom-typography);
 }
 
-@include angular-material-theme($app-default);
+.tritanerope-theme {
+  @include angular-material-theme($app-tritanerope);
+  @include angular-material-typography($custom-typography);
+}
+
+.default-theme-big {
+  @include angular-material-theme($app-default);
+  @include angular-material-typography($custom-typography-big);
+}
+
+.tritanerope-theme-big {
+  @include angular-material-theme($app-tritanerope);
+  @include angular-material-typography($custom-typography-big);
+}
 
 /*
 *   Bootstrap

@@ -11,7 +11,7 @@
     <mat-toolbar class="h-auto pt-2 pb-2 col-12">
       <div class="d-flex justify-content-start col-6 col-sm-4">
         <div class="col-4">
-          <img src="../../../../assets/footer/Logo.png" alt="" style="width: 100%; height: auto;">
+          <img src="../../../../assets/shared/logo.png" alt="" style="width: 100%; height: auto;">
         </div>
         <mat-card-content class="col-8">
           <mat-card-title class="mb-1">Bridge</mat-card-title>
@@ -19,8 +19,13 @@
         </mat-card-content>
       </div>
       <span class="spacer"></span>
-      <i class="mx-1 far" [ngClass]="{'fa-eye-slash': accessibility === true, 'fa-eye': accessibility === false }"></i>
-      <mat-slide-toggle [color]="'dark'" [checked]="accessibility" (change)="onSetTheme()"></mat-slide-toggle>
+      <button mat-stroked-button (click)="setLargeFont(false)" [matTooltip]="'Fuente normal'"><i class="fas fa-font"></i>
+      </button>
+      <button mat-stroked-button (click)="setLargeFont(true)" [matTooltip]="'Fuente grande'" class="mx-2"><i
+        class="fas fa-font fa-2x"></i></button>
+      <i class="mx-1 far" [ngClass]="{'fa-eye-slash': accessibility === true, 'fa-eye': accessibility === false }"
+         [matTooltip]="'Tema de accesibilidad visual'"></i>
+      <mat-slide-toggle [color]="'dark'" [checked]="accessibility" (change)="setAccesibility()"></mat-slide-toggle>
     </mat-toolbar>
     <mat-toolbar class="fondoNegro"><!--color="secondary"-->
       <button
