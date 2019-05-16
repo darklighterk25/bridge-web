@@ -10,7 +10,7 @@
           <!--Nombre-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Nombre(s)</mat-label>
-            <input matInput formControlName="nombres">
+            <input matInput formControlName="nombres" required>
             <mat-error *ngIf="basicInfo.get('nombres').errors?.required
                           &&( basicInfo.get('nombres').dirty || basicInfo.get('nombres').touched )">
               Este campo es requerido.
@@ -23,7 +23,7 @@
           <!--Primer Apellido-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Primer Apellido</mat-label>
-            <input matInput formControlName="apellido1">
+            <input matInput formControlName="apellido1" required>
             <mat-error *ngIf="basicInfo.get('apellido1').errors?.required
                           &&( basicInfo.get('apellido1').dirty || basicInfo.get('apellido1').touched )">
               Este campo es requerido.
@@ -45,20 +45,20 @@
           <!--Teléfono-->
           <mat-form-field class="col-lg-6 col-sm-12">
             <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="telefono" type="text" [maxLength]="10">
+            <input matInput formControlName="telefono" type="text" [maxLength]="10" required>
             <mat-error *ngIf="basicInfo.get('telefono').errors?.required
                           &&( basicInfo.get('telefono').dirty || basicInfo.get('telefono').touched )">
               Este campo es requerido.
             </mat-error>
             <mat-error *ngIf="basicInfo.get('telefono').errors?.pattern
                           &&( basicInfo.get('telefono').dirty || basicInfo.get('telefono').touched )">
-              No parece ser un teléfono válido.
+              No parece ser un teléfono válido (Solo se aceptan números).
             </mat-error>
           </mat-form-field>
           <!--Correo-->
           <mat-form-field class="col-lg-6 col-sm-12">
             <mat-label>Correo</mat-label>
-            <input matInput formControlName="email">
+            <input matInput formControlName="email" required>
             <mat-error *ngIf="basicInfo.get('email').errors?.required
                           &&( basicInfo.get('email').dirty || basicInfo.get('email').touched )">
               Este campo es requerido.
@@ -71,7 +71,7 @@
           <!--Contraseña-->
           <mat-form-field class="col-lg-6 col-sm-12 mb-1">
             <mat-label>Contraseña</mat-label>
-            <input matInput formControlName="contrasena" type="password">
+            <input matInput formControlName="contrasena" type="password" required>
             <mat-error *ngIf="basicInfo.get('contrasena').errors?.required
                           &&( basicInfo.get('contrasena').dirty || basicInfo.get('contrasena').touched )">
               Este campo es requerido.
@@ -84,7 +84,7 @@
           <!--Verificar contraseña-->
           <mat-form-field class="col-lg-6 col-sm-12 mb-1">
             <mat-label>Verificar contraseña</mat-label>
-            <input matInput formControlName="verificarContrasena" type="password">
+            <input matInput formControlName="verificarContrasena" type="password" required>
             <mat-error *ngIf="basicInfo.get('verificarContrasena').errors?.required
                           &&( basicInfo.get('contrasena').dirty || basicInfo.get('contrasena').touched )">
               Este campo es requerido.
@@ -106,7 +106,7 @@
           <!--Calle-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Calle</mat-label>
-            <input matInput formControlName="calle">
+            <input matInput formControlName="calle" required>
             <mat-error *ngIf="address.get('calle').errors?.required
                           &&( address.get('calle').dirty || address.get('calle').touched )">
               Este campo es requerido.
@@ -119,7 +119,7 @@
           <!--Número-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Número exterior</mat-label>
-            <input matInput formControlName="numeroExterior" maxLength="5">
+            <input matInput formControlName="numeroExterior" maxLength="5" required>
             <mat-error *ngIf="address.get('numeroExterior').errors?.required
                           &&( address.get('numeroExterior').dirty || address.get('numeroExterior').touched )">
               Este campo es requerido.
@@ -133,10 +133,6 @@
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Número interior</mat-label>
             <input matInput formControlName="numeroInterior">
-            <mat-error *ngIf="address.get('numeroInterior').errors?.required
-                          &&( address.get('numeroInterior').dirty || address.get('numeroInterior').touched )">
-              Este campo es requerido.
-            </mat-error>
             <mat-error *ngIf="address.get('numeroInterior').errors?.pattern
                           &&( address.get('numeroInterior').dirty || address.get('numeroInterior').touched )">
               No parece ser un número interior válido.
@@ -145,7 +141,7 @@
           <!--Colonia-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Colonia</mat-label>
-            <input matInput formControlName="colonia">
+            <input matInput formControlName="colonia" required>
             <mat-error *ngIf="address.get('colonia').errors?.required
                           &&( address.get('colonia').dirty || address.get('colonia').touched )">
               Este campo es requerido.
@@ -158,7 +154,7 @@
           <!--Código Postal-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Código Postal</mat-label>
-            <input matInput formControlName="codigoPostal" maxlength="5">
+            <input matInput formControlName="codigoPostal" maxlength="5" required>
             <mat-error *ngIf="address.get('codigoPostal').errors?.required
                           &&( address.get('codigoPostal').dirty || address.get('codigoPostal').touched )">
               Este campo es requerido.

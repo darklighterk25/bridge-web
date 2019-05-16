@@ -26,7 +26,7 @@
               <!--Nombre-->
               <mat-form-field class="col-12">
                 <mat-label>Nombre</mat-label>
-                <input matInput formControlName="name">
+                <input matInput formControlName="name" required>
                 <mat-error *ngIf="basicInfo.get('name').errors?.required
                           &&( basicInfo.get('name').dirty || basicInfo.get('name').touched )">
                   Este campo es requerido.
@@ -39,7 +39,7 @@
               <!--Primer Apellido-->
               <mat-form-field class="col-12">
                 <mat-label>Primer Apellido</mat-label>
-                <input matInput formControlName="lastName1">
+                <input matInput formControlName="lastName1" required>
                 <mat-error *ngIf="basicInfo.get('lastName1').errors?.required
                           &&( basicInfo.get('lastName1').dirty || basicInfo.get('lastName1').touched )">
                   Este campo es requerido.
@@ -61,20 +61,20 @@
               <!--Teléfono-->
               <mat-form-field class="col-12">
                 <mat-label>Teléfono</mat-label>
-                <input matInput formControlName="phone" type="text" [maxLength]="10">
+                <input matInput formControlName="phone" type="text" [maxLength]="10" required>
                 <mat-error *ngIf="basicInfo.get('phone').errors?.required
                           &&( basicInfo.get('phone').dirty || basicInfo.get('phone').touched )">
                   Este campo es requerido.
                 </mat-error>
                 <mat-error *ngIf="basicInfo.get('phone').errors?.pattern
                           &&( basicInfo.get('phone').dirty || basicInfo.get('phone').touched )">
-                  No parece ser un teléfono válido.
+                  No parece ser un teléfono válido (Solo se aceptan números).
                 </mat-error>
               </mat-form-field>
               <!--Correo-->
               <mat-form-field class="col-12">
                 <mat-label>Correo</mat-label>
-                <input matInput formControlName="email">
+                <input matInput formControlName="email" required>
                 <mat-error *ngIf="basicInfo.get('email').errors?.required
                           &&( basicInfo.get('email').dirty || basicInfo.get('email').touched )">
                   Este campo es requerido.
@@ -86,7 +86,7 @@
               </mat-form-field>
               <mat-form-field class="col-12">
                 <mat-label>Mensaje</mat-label>
-                <textarea matInput placeholder="Escribe aquí tus dudas, comentarios o aclaraciones" style="resize: none;" rows="5" formControlName="mensaje"></textarea>
+                <textarea matInput placeholder="Escribe aquí tus dudas, comentarios o aclaraciones" style="resize: none;" rows="5" formControlName="mensaje" required></textarea>
                 <mat-error *ngIf="basicInfo.get('mensaje').errors?.required
                           &&( basicInfo.get('mensaje').dirty || basicInfo.get('mensaje').touched )">
                   Este campo es requerido.
