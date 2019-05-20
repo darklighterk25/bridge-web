@@ -24,6 +24,7 @@ import {ContactModule} from './modules/contact/contact.module';
 import {EditModule} from './modules/edit/edit.module';
 import {FAQModule} from './modules/faq/faq.module';
 import {HomeModule} from './modules/home/home.module';
+import {NotFoundModule} from './modules/not-found/not-found.module';
 import {PublishModule} from './modules/publish/publish.module';
 import {SignInModule} from './modules/sign-in/sign-in.module';
 import {SignUpModule} from './modules/sign-up/sign-up.module';
@@ -72,6 +73,7 @@ import {UserService} from './core/services/user.service';
     StorePageModule,
     TermsModule,
     WishlistModule,
+    NotFoundModule,
     NgbModule
   ],
   providers: [

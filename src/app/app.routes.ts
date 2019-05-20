@@ -19,6 +19,7 @@ import {STORE_ROUTES} from './modules/store/store.routes';
 import {STORE_PAGE_ROUTES} from './modules/store-page/store-page.routes';
 import {TERMS_ROUTES} from './modules/terms/terms.routes';
 import {WISHLIST_ROUTES} from './modules/wishlist/wishlist.routes';
+import {NOT_FOUND_ROUTES} from './modules/not-found/not-found.routes';
 
 export const routes: Routes = [
   {path: 'acerca-de', children: ABOUT_ROUTES},
@@ -35,7 +36,8 @@ export const routes: Routes = [
   {path: 'registro', children: SIGN_UP_ROUTES},
   {path: 'catalogo', children: STORE_ROUTES},
   {path: 'articulo', children: STORE_PAGE_ROUTES},
+  {path: 'no-encontrada', children: NOT_FOUND_ROUTES},
   // {path: 'terminos-y-condiciones', children: TERMS_ROUTES},
   {path: 'lista-de-deseos', children: WISHLIST_ROUTES, canActivate: [AuthenticationGuard]},
-  {path: '**', redirectTo: 'inicio', pathMatch: 'full'}
+  {path: '**', redirectTo: 'no-encontrada', pathMatch: 'full'}
 ];

@@ -198,7 +198,9 @@
       </mat-step>
     </mat-vertical-stepper>
   </mat-card>
-  <app-loading *ngIf="state === 1"></app-loading>
-  <app-success *ngIf="state === 2"></app-success>
-  <app-error *ngIf="state === 3"></app-error>
+  <mat-card *ngIf="state !== 0" class="container-fluid p-5 d-flex justify-content-center">
+    <app-loading *ngIf="state === 1"></app-loading>
+    <app-success *ngIf="state === 2"></app-success>
+    <app-error *ngIf="state === 3"></app-error>
+  </mat-card>
 </main>

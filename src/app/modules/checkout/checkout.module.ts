@@ -8,6 +8,7 @@ import {CheckoutComponent} from './checkout.component';
 import {CreditCardIconComponent} from './components/credit-card-icon/credit-card-icon.component';
 import {PaymentFormComponent} from './components/payment-form/payment-form.component';
 import {SummaryComponent} from './components/summary/summary.component';
+import {SharedModule} from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {SummaryComponent} from './components/summary/summary.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     RouterModule
   ],
   exports: [

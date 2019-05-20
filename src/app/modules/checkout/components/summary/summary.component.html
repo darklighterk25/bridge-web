@@ -1,3 +1,15 @@
-<p>
-  summary works!
-</p>
+<mat-card-header>
+  <mat-card-title><h1>{{vehiculo.modelo}} {{vehiculo.anio}}</h1></mat-card-title>
+  <mat-card-subtitle><h2>{{vehiculo.marca}}</h2></mat-card-subtitle>
+  <mat-card-title><h3>{{vehiculo.precio | currency:'':'symbol':'.2-2'}}</h3></mat-card-title>
+</mat-card-header>
+<mat-divider></mat-divider>
+<mat-card-header class="p-2">
+  <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
+  <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
+  <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span *ngIf="vehiculo.calificacion != null"><app-qualification [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
+  <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
+</mat-card-header>
+<mat-card-content>
+  <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px" [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
+</mat-card-content>
