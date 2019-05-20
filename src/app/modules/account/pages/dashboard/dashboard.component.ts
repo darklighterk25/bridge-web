@@ -15,10 +15,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(private _userService: UserService,
               private _router: Router) {
-    this.user = _userService.getUser();
   }
 
   ngOnInit(): void {
+    this._userService.getUser().subscribe(
+      data => this.user = data['usuario']
+    );
   }
 
   edit(): void {

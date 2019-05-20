@@ -35,6 +35,8 @@
                 ¡Regístrate! <i class="fas fa-user-plus"></i>
               </a>
             </div>
+            <mat-spinner *ngIf="state == 1" mode="indeterminate"></mat-spinner>
+            <mat-error *ngIf="state == 2" class="col-12 col-sm-6 col-xl-3 mt-3">Usuario o contraseña incorrectos.</mat-error>
           </div>
         </div>
       </form>

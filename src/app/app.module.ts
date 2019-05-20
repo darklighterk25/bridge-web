@@ -7,6 +7,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+import {FooterComponent} from './shared/components/footer/footer.component';
 import {SideNavComponent} from './shared/components/side-nav/side-nav.component';
 import {TopNavComponent} from './shared/components/top-nav/top-nav.component';
 import {UnsignedUserMenuComponent} from './shared/components/unsigned-user-menu/unsigned-user-menu.component';
@@ -36,9 +37,8 @@ import {AdministrationGuard} from './core/guards/administration.guard';
 import {AuthenticationGuard} from './core/guards/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
 import {PaymentService} from './core/services/payment.service';
-import {TokenInterceptorService} from './core/services/token-interceptor.service';
+import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {UserService} from './core/services/user.service';
-import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +82,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     UserService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
+      useClass: TokenInterceptor,
       multi: true
     }
   ],

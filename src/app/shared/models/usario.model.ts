@@ -3,7 +3,7 @@ import {Nombre} from './nombre.model';
 
 export interface Usuario {
   nombreCompleto: Nombre;
-  avatar?: string;
+  imagenPerfil?: string;
   email: string;
   telefono: string;
   direccion: Direccion;
