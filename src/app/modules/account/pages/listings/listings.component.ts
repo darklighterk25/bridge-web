@@ -56,6 +56,7 @@ export class ListingsComponent implements OnInit {
       kilometraje: '30000'
     }
   ];
+
   constructor() {
   }
 

@@ -124,6 +124,7 @@ export class HomeComponent implements OnInit {
       texto: 'Te proporcionamos vehículos de gran variedad de las marcas del mercado.'
     }
   ];
+
   constructor(config: NgbCarouselConfig) {
     // customize default values of carousels used by this component tree
     config.interval = 8000;
@@ -131,7 +132,7 @@ export class HomeComponent implements OnInit {
     config.keyboard = true;
     config.pauseOnHover = true;
     this.busqueda = new FormGroup({
-      'marca': new FormControl( ''
+      'marca': new FormControl(''
       ),
       'modelo': new FormControl({value: '', disabled: true}
       ),
@@ -148,6 +149,7 @@ export class HomeComponent implements OnInit {
   formatLabel(value: number | null) {
     return Math.round(value / 1000) + 'k';
   }
+
   obtenerValor(value: number | null) {
     return Math.round(value / 1000) * 1000;
   }

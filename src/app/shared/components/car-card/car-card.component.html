@@ -1,58 +1,31 @@
 <div (mouseover)="mostrarVerMas()" (mouseleave)="quitarVerMas()">
   <mat-card class="card-characteristics p-0">
     <mat-card-content class="position-relative">
-      <div id="verMas{{vehiculo.id}}" class="position-absolute w-100 m-0 pt-0 pr-2 pl-2 animated animated-2x" style="top: 10px; opacity: 0">
+      <div id="verMas{{vehiculo.id}}" class="position-absolute w-100 m-0 pt-0 pr-2 pl-2 animated animated-2x"
+           style="top: 10px; opacity: 0">
         <a mat-button mat-mini-fab color="primary" class="float-left"><i id="wishList" class="far fa-heart"></i></a>
-        <a mat-button mat-raised-button color="primary" class="float-right" [routerLink]="'/articulo'">Ver más <i class="far fa-eye"></i></a>
+        <a mat-button mat-raised-button color="primary" class="float-right" [routerLink]="'/articulo'">Ver más <i
+          class="far fa-eye"></i></a>
       </div>
       <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF;">
         <h5 class="text-center">{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</h5>
       </div>
-      <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-top-right-radius: 5px" [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
+      <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-top-right-radius: 5px"
+           [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
     </mat-card-content>
   </mat-card>
-  <mat-card class="card-characteristics p-2"  style="border-top-left-radius: 0; border-top-right-radius: 0px;">
+  <mat-card class="card-characteristics p-2" style="border-top-left-radius: 0; border-top-right-radius: 0px;">
     <mat-card-content class="">
       <div class="w-100 d-flex mb-2">
-        <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'':'symbol':'.2-2'}}</span>
+        <span class="col-6 d-block pl-0 pr-1"><i
+          class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'':'symbol':'.2-2'}}</span>
         <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{vehiculo.color}}</span>
       </div>
       <div class="w-100 d-flex">
-        <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
+        <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i
+          *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
         <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
       </div>
     </mat-card-content>
   </mat-card>
 </div>
-<!--<div>
-  <mat-card class="card-characteristics pb-0 rounded w-100 pr-0 pl-0" style="z-index: 101">
-    <mat-card-header class="pr-2 pl-2">
-      <img mat-card-imagenPerfil [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
-      <mat-card-title>{{vehiculo.vendedor}}</mat-card-title>
-      <mat-card-subtitle>{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content class="position-relative">
-      <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.5; color: #FFF;">
-        <a mat-button mat-raised-button (click)="isCollapsed = !isCollapsed; desplegado = true" class="float-left">
-          <i class="fas fa-chevron-down animated animated-3x" [ngClass]="isCollapsed ? 'reverse-rotate' : 'rotate'"></i>
-        </a>
-        <a mat-button mat-raised-button color="primary" class="float-right" [routerLink]="'/articulo'">Ver más</a>
-      </div>
-      <img class="mb-0 w-100" [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="card-characteristics pb-2 animated animated-2x" [ngClass]="!desplegado ? 'd-none' : isCollapsed ? 'fadeInUp' : 'fadeInDown d-block'" style="border-top-left-radius: 0; border-top-right-radius: 0px; z-index: 100">
-    <mat-card-content>-->
-      <!--<p class="w-100 text-justify m-0">{{vehiculo.descripcion}}</p>-->
-      <!--<p class="w-100 d-inline-block">
-        <span class="col-6"><i class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'MXN':'symbol':'.2-2'}}</span>
-        <span class="col-6"><i class="fas fa-tint"></i> {{vehiculo.color}}</span>
-      </p>
-      <p class="w-100 d-flex justify-content-between m-0">
-        <span *ngIf="vehiculo.estado == 'Nuevo'" class="col-6"><i class="fas fa-user-check"></i> {{vehiculo.estado}}</span>
-        <span *ngIf="vehiculo.estado == 'Usado'" class="col-6"><i class="fas fa-user-friends"></i> {{vehiculo.estado}}</span>
-        <span class="col-6"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} km</span>
-      </p>
-    </mat-card-content>
-  </mat-card>
-</div>-->

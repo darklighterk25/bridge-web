@@ -81,6 +81,7 @@ export class StorePageComponent implements OnInit {
   };
   deshabilitarBotonComentario = true;
   formularioComentario: FormGroup;
+
   constructor() {
     this.formularioComentario = new FormGroup({
       'comentario': new FormControl(

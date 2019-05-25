@@ -31,7 +31,7 @@ export class AuthenticationService {
   }
 
   signIn(email: string, password: string): void {
-    this._httpClient.post( `${this.apiEndpoint}/login`, {email: email, contrasena: password} ).subscribe(
+    this._httpClient.post(`${this.apiEndpoint}/login`, {email: email, contrasena: password}).subscribe(
       response => {
         console.log(response);
         this.admin.next(response['usuario'].isAdmin);
@@ -39,7 +39,7 @@ export class AuthenticationService {
         localStorage.setItem('token', response['token']);
         this._router.navigate(['/cuenta']);
       },
-    error => console.error(error)
+      error => console.error(error)
     );
   }
 

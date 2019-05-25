@@ -7,7 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class QualificationComponent implements OnInit {
   @Input() califiacion: number = null;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

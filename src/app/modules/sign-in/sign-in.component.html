@@ -27,7 +27,7 @@
           <div class="row mx-1">
             <button mat-raised-button [disabled]="disableBtn" color="primary" type="submit"
                     class="col-12 col-sm-6 col-xl-3 mt-2">
-              Iniciar Sesión  <i class="fas fa-sign-in-alt"></i>
+              Iniciar Sesión <i class="fas fa-sign-in-alt"></i>
             </button>
             <div class="col-12 col-sm-6 col-xl-3 mt-3">
               ¿No tienes cuenta?
@@ -36,7 +36,8 @@
               </a>
             </div>
             <mat-spinner *ngIf="state == 1" mode="indeterminate"></mat-spinner>
-            <mat-error *ngIf="state == 2" class="col-12 col-sm-6 col-xl-3 mt-3">Usuario o contraseña incorrectos.</mat-error>
+            <mat-error *ngIf="state == 2" class="col-12 col-sm-6 col-xl-3 mt-3">Usuario o contraseña incorrectos.
+            </mat-error>
           </div>
         </div>
       </form>

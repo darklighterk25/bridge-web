@@ -28,6 +28,7 @@ export class ContactComponent implements OnInit {
       contenido: 'Si existe otra razón por la que desees comunicarte con nosotros también lo puedes hacer, intentaremos ayudarte con lo que necesites.'
     }
   ];
+
   constructor() {
     this.basicInfo = new FormGroup({
       'name': new FormControl(

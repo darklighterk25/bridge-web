@@ -9,7 +9,8 @@
 </ngb-carousel>
 <main>
   <mat-expansion-panel class="mb-5" hideToggle>
-    <mat-expansion-panel-header style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; background: #0D47A1;">
+    <mat-expansion-panel-header
+      style="border-bottom-left-radius: 0; border-bottom-right-radius: 0; background: #0D47A1;">
       <mat-panel-title class="justify-content-center">
         <mat-card-title class="text-center text-white">Buscar <i class="fas fa-search"></i></mat-card-title>
       </mat-panel-title>
@@ -25,7 +26,8 @@
           <mat-option value="Nissan">Nissan</mat-option>
           <mat-option value="Toyota">Toyota</mat-option>
         </mat-select>
-        <mat-error *ngIf="busqueda.get('marca').errors?.required &&( busqueda.get('marca').dirty || busqueda.get('marca').touched )">
+        <mat-error
+          *ngIf="busqueda.get('marca').errors?.required &&( busqueda.get('marca').dirty || busqueda.get('marca').touched )">
           Este campo es requerido.
         </mat-error>
       </mat-form-field>
@@ -79,7 +81,9 @@
       </div>
     </form>
     <mat-action-row>
-      <button mat-raised-button [disabled]="busqueda.get('marca').value == '' && busqueda.get('estado').value == '' && busqueda.get('precio').value == ''" color="primary" class="m-1">
+      <button mat-raised-button
+              [disabled]="busqueda.get('marca').value == '' && busqueda.get('estado').value == '' && busqueda.get('precio').value == ''"
+              color="primary" class="m-1">
         Buscar
       </button>
     </mat-action-row>
@@ -94,7 +98,8 @@
           <h5 class="text-center mat-subheading-1">¡Excelentes precios!</h5>
         </div>
         <div>
-          <p class="text-justify mat-body-1">Contámos con precios accesibles que compiten con los precios del mercado, dichos precios corresponden adecuadamente al vehículo que se esta ofreciendo.</p>
+          <p class="text-justify mat-body-1">Contámos con precios accesibles que compiten con los precios del mercado,
+            dichos precios corresponden adecuadamente al vehículo que se esta ofreciendo.</p>
         </div>
       </div>
       <div class="col-12 col-sm-4 border-right border-left">
@@ -103,7 +108,8 @@
           <h5 class="text-center mat-subheading-1">¡La mejor calidad!</h5>
         </div>
         <div>
-          <p class="text-justify mat-body-1">Estamos seguro de que no quedaras decepcionado. Los vehículos que se ofrecen en el sitio son de excelente calidad y se encuentran en buenas condiciones.</p>
+          <p class="text-justify mat-body-1">Estamos seguro de que no quedaras decepcionado. Los vehículos que se
+            ofrecen en el sitio son de excelente calidad y se encuentran en buenas condiciones.</p>
         </div>
       </div>
       <div class="col-12 col-sm-4">
@@ -112,7 +118,8 @@
           <h5 class="text-center mat-subheading-1">¡Seguridad!</h5>
         </div>
         <div>
-          <p class="text-justify mat-body-1">Siempre buscamos que tengas seguridad a la hora de la adquisición de un vehículo por lo que monitoreamos las ventas para asegurar la entrega de la compra.</p>
+          <p class="text-justify mat-body-1">Siempre buscamos que tengas seguridad a la hora de la adquisición de un
+            vehículo por lo que monitoreamos las ventas para asegurar la entrega de la compra.</p>
         </div>
       </div>
     </div>
@@ -132,7 +139,10 @@
           <div class="col-5">
             <h4>Entre el vendedor y tu determinan la entrega</h4>
             <p class="text-justify mat-body-1">
-              Cuando se realice una compra se da la posibilidad para que elijas ponerte de acuerdo directamente con el vendedor del vehículo que has adquirido el lugar y la fecha para llevar a cabo la entrega de este, ya que te proporcionaremos un chat en el sitio para que te puedas poner en contacto con el vendedor y lleguen a un acuerdo de manera sencilla y rápida.
+              Cuando se realice una compra se da la posibilidad para que elijas ponerte de acuerdo directamente con el
+              vendedor del vehículo que has adquirido el lugar y la fecha para llevar a cabo la entrega de este, ya que
+              te proporcionaremos un chat en el sitio para que te puedas poner en contacto con el vendedor y lleguen a
+              un acuerdo de manera sencilla y rápida.
             </p>
           </div>
         </div>
@@ -148,7 +158,10 @@
           <div class="col-5">
             <h4>Nuestros proveedores te lo entregan</h4>
             <p class="text-justify mat-body-1">
-              Cuando se realice una compra se da la posibilidad para que elijas que el vehículo que has adquirido se te sea entregado por medio de alguno de los proveedores de entrega con los que el sitio esta asociado, lo cual tiene un costo extra, pero existe una garantía de que el vehículo sea entregado en cierta cantidad de días hábiles, dependiendo del proveedor elegido.
+              Cuando se realice una compra se da la posibilidad para que elijas que el vehículo que has adquirido se te
+              sea entregado por medio de alguno de los proveedores de entrega con los que el sitio esta asociado, lo
+              cual tiene un costo extra, pero existe una garantía de que el vehículo sea entregado en cierta cantidad de
+              días hábiles, dependiendo del proveedor elegido.
             </p>
           </div>
         </div>

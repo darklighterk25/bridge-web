@@ -18,11 +18,11 @@ export class UserService {
   }
 
   getUser(): Observable<Object> {
-    return this._httpClient.get( `${this.apiEndpoint}/usuario` );
+    return this._httpClient.get(`${this.apiEndpoint}/usuario`);
   }
 
   registerUser(user: Usuario): Observable<Object> {
-    return this._httpClient.post( `${this.apiEndpoint}/usuario`, user );
+    return this._httpClient.post(`${this.apiEndpoint}/usuario`, user);
   }
 
 }

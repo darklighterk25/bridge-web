@@ -17,7 +17,8 @@
             <mat-option value="Nissan">Nissan</mat-option>
             <mat-option value="Toyota">Toyota</mat-option>
           </mat-select>
-          <mat-error *ngIf="busqueda.get('marca').errors?.required &&( busqueda.get('marca').dirty || busqueda.get('marca').touched )">
+          <mat-error
+            *ngIf="busqueda.get('marca').errors?.required &&( busqueda.get('marca').dirty || busqueda.get('marca').touched )">
             Este campo es requerido.
           </mat-error>
         </mat-form-field>
@@ -70,7 +71,9 @@
           </mat-hint>
         </div>
         <div class="col-12">
-          <button mat-raised-button (click)="realizarBusqueda()" [disabled]="busqueda.get('marca').value == '' && busqueda.get('estado').value == '' && busqueda.get('precio').value == ''" color="primary" class="m-1">
+          <button mat-raised-button (click)="realizarBusqueda()"
+                  [disabled]="busqueda.get('marca').value == '' && busqueda.get('estado').value == '' && busqueda.get('precio').value == ''"
+                  color="primary" class="m-1">
             Buscar
           </button>
         </div>
@@ -82,7 +85,8 @@
       <span><a mat-button color="primary">{{marcaSolicitud}}</a></span>
       <span *ngIf="modeloSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{modeloSolicitud}}</a></span>
       <span *ngIf="estadoSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{estadoSolicitud}}</a></span>
-      <span *ngIf="ordenSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{ordenSolicitud}} a {{obtenerValor(precioSolicitud) | currency:'':'symbol':'.2-2'}}</a></span>
+      <span *ngIf="ordenSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{ordenSolicitud}}
+        a {{obtenerValor(precioSolicitud) | currency:'':'symbol':'.2-2'}}</a></span>
     </span>
     <span class="mat-body-1">
       Se han encontrado 4 resultados

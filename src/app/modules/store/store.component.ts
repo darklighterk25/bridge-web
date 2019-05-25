@@ -79,7 +79,7 @@ export class StoreComponent implements OnInit {
 
   constructor() {
     this.busqueda = new FormGroup({
-      'marca': new FormControl( ''
+      'marca': new FormControl(''
       ),
       'modelo': new FormControl({value: '', disabled: true}
       ),
@@ -96,6 +96,7 @@ export class StoreComponent implements OnInit {
   formatLabel(value: number | null) {
     return Math.round(value / 1000) + 'k';
   }
+
   obtenerValor(value: number | null) {
     return Math.round(value / 1000) * 1000;
   }

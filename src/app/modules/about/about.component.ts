@@ -28,6 +28,7 @@ export class AboutComponent implements OnInit {
       imagen: 'assets/about/sin-imagen.png'
     }
   ];
+
   constructor(config: NgbCarouselConfig) {
     // customize default values of carousels used by this component tree
     config.interval = 8000;

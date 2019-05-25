@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, OnChanges} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AuthenticationService} from '../../../core/authentication/authentication.service';
@@ -13,7 +13,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss']
 })
-export class UserMenuComponent implements OnInit, OnDestroy {
+export class UserMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   user: Usuario;
   links: Enlace[];
@@ -26,9 +26,17 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.links = USER_LINKS;
-    this.subscription = this._userService.getUser().subscribe(
-      data => this.user = data['usuario']
-    );
+  }
+
+  ngOnChanges(): void {
+    if (this.user) {
+      this.subscription = this._userService.getUser().subscribe(
+        data => this.user = data['usuario']
+      );
+    } else {
+      this.user = null;
+      this.subscription.unsubscribe();
+    }
   }
 
   ngOnDestroy(): void {

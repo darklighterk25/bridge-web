@@ -85,6 +85,7 @@ export class WishlistComponent implements OnInit {
       kilometraje: '30000'
     }
   ];
+
   constructor() {
   }
 

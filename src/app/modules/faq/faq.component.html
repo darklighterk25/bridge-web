@@ -1,14 +1,15 @@
 <main>
   <h3 class="text-center mat-title">{{title}}</h3>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let individualFaq of faq; let i = index" class="mb-2" [expanded]="step === i" (opened)="setStep(i)">
+    <mat-expansion-panel *ngFor="let individualFaq of faq; let i = index" class="mb-2" [expanded]="step === i"
+                         (opened)="setStep(i)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div class=" col-12 col-sm-9 p-0 text-justify">
             {{individualFaq.pregunta}}
           </div>
           <div class="d-none d-sm-inline col-3 p-0 text-muted text-center">
-            Pregunta #{{i+1}}
+            Pregunta #{{i + 1}}
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>

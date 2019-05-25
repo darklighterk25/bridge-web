@@ -6,17 +6,23 @@
           <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF;">
             <div class="pt-2 pb-2 d-flex justify-content-between">
               <div class="col-2 text-center align-self-center">
-                <a *ngIf="carrouselImagen > 0" mat-icon-button (click)="carrouselImagen = carrouselImagen - 1"><i class="fas fa-chevron-left fa-2x"></i></a>
+                <a *ngIf="carrouselImagen > 0" mat-icon-button (click)="carrouselImagen = carrouselImagen - 1"><i
+                  class="fas fa-chevron-left fa-2x"></i></a>
               </div>
-              <div class="col-2" *ngFor="let imagen of vehiculo.imagenesVehiculo; let i = index" [ngClass]="vehiculo.imagenesVehiculo.length > 4 ? ((i-carrouselImagen >= 0 && i-carrouselImagen <= 3) ? '' : 'd-none') : ''">
-                <img [src]="imagen" alt="Foto del vehículo" style="width: 100%; height: auto" class="imagenHover animated animated-slow" (click)="posicionImagen = i">
+              <div class="col-2" *ngFor="let imagen of vehiculo.imagenesVehiculo; let i = index"
+                   [ngClass]="vehiculo.imagenesVehiculo.length > 4 ? ((i-carrouselImagen >= 0 && i-carrouselImagen <= 3) ? '' : 'd-none') : ''">
+                <img [src]="imagen" alt="Foto del vehículo" style="width: 100%; height: auto"
+                     class="imagenHover animated animated-slow" (click)="posicionImagen = i">
               </div>
               <div class="col-2 text-center align-self-center">
-                <a *ngIf="(vehiculo.imagenesVehiculo.length - (carrouselImagen + 1)) >= 4" (click)="carrouselImagen = carrouselImagen + 1" mat-icon-button><i class="fas fa-chevron-right fa-2x"></i></a>
+                <a *ngIf="(vehiculo.imagenesVehiculo.length - (carrouselImagen + 1)) >= 4"
+                   (click)="carrouselImagen = carrouselImagen + 1" mat-icon-button><i
+                  class="fas fa-chevron-right fa-2x"></i></a>
               </div>
             </div>
           </div>
-          <img class="w-100" style="border-radius: 5px 5px" [src]="vehiculo.imagenesVehiculo[posicionImagen]" alt="Foto del vehículo">
+          <img class="w-100" style="border-radius: 5px 5px" [src]="vehiculo.imagenesVehiculo[posicionImagen]"
+               alt="Foto del vehículo">
         </mat-card-content>
       </mat-card>
       <div class="mt-4">
@@ -169,7 +175,9 @@
         <mat-card-header class="p-2">
           <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
           <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
-          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span *ngIf="vehiculo.calificacion != null"><app-qualification [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
+          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span
+            *ngIf="vehiculo.calificacion != null"><app-qualification
+            [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
           <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
         </mat-card-header>
         <mat-card-content>
@@ -177,27 +185,37 @@
             {{vehiculo.descripcion}}
           </p>
           <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
-            <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i><span *ngIf="vehiculo.extranjero"> Extranjero</span><span *ngIf="!vehiculo.extranjero"> Nacional</span></span>
+            <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i
+              *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
+            <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i><span *ngIf="vehiculo.extranjero"> Extranjero</span><span
+              *ngIf="!vehiculo.extranjero"> Nacional</span></span>
           </div>
           <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
-            <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> Color exterior: {{vehiculo.color_exterior}}</span>
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}}
+              Kms.</span>
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-tint"></i> Color exterior: {{vehiculo.color_exterior}}</span>
           </div>
           <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-tint"></i> Color interior: {{vehiculo.color_interior}}</span>
-            <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-couch"></i> Interiores: {{vehiculo.interiores}}</span>
+            <span class="col-6 d-block pl-0 pr-1"><i
+              class="fas fa-tint"></i> Color interior: {{vehiculo.color_interior}}</span>
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-couch"></i> Interiores: {{vehiculo.interiores}}</span>
           </div>
           <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-users"></i> Total de dueños: {{vehiculo.total_duenios}}</span>
-            <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-car-crash"></i> Total de accidentes: {{vehiculo.total_accidentes}}</span>
+            <span class="col-6 d-block pl-0 pr-1"><i
+              class="fas fa-users"></i> Total de dueños: {{vehiculo.total_duenios}}</span>
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-car-crash"></i> Total de accidentes: {{vehiculo.total_accidentes}}</span>
           </div>
         </mat-card-content>
         <mat-divider></mat-divider>
         <mat-card-content class="pt-2 pb-2">
           <div class="d-flex justify-content-between">
-            <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" id="verMas{{vehiculo.id}}" mat-button mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
-            <a mat-button mat-raised-button color="accent" class="float-left" [routerLink]="'/pago'">Comprar  <i class="fas fa-money-bill-wave"></i></a>
+            <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" id="verMas{{vehiculo.id}}" mat-button
+               mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
+            <a mat-button mat-raised-button color="accent" class="float-left" [routerLink]="'/pago'">Comprar <i
+              class="fas fa-money-bill-wave"></i></a>
           </div>
         </mat-card-content>
       </mat-card>
@@ -236,7 +254,8 @@
           <form [formGroup]="formularioComentario">
             <mat-form-field class="col-12">
               <mat-label>Comentario</mat-label>
-              <textarea matInput placeholder="Deja tu comentario" style="resize: none;" rows="5" formControlName="comentario"></textarea>
+              <textarea matInput placeholder="Deja tu comentario" style="resize: none;" rows="5"
+                        formControlName="comentario"></textarea>
               <mat-error *ngIf="formularioComentario.get('comentario').errors?.required
                           &&( formularioComentario.get('comentario').dirty || formularioComentario.get('comentario').touched)">
                 Este campo es requerido.

@@ -153,9 +153,9 @@ export class SignUpComponent implements OnInit {
       contrasena: this.basicInfo.controls['contrasena'].value,
       tema: null
     };
-    this._userService.registerUser( usuario ).subscribe(
+    this._userService.registerUser(usuario).subscribe(
       () => {
-        this.state =  State.success;
+        this.state = State.success;
         setTimeout(
           () => {
             this.state = State.success;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Enlace} from '../../models/enlace.model';
 import {NAV_LINKS} from '../../constants/nav-links';
 
@@ -10,6 +10,7 @@ import {NAV_LINKS} from '../../constants/nav-links';
 export class FooterComponent implements OnInit {
 
   navLinks: Enlace[];
+
   constructor() {
     this.navLinks = NAV_LINKS;
   }

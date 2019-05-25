@@ -21,6 +21,7 @@ export class SummaryComponent implements OnInit {
     estado: 'Usado',
     kilometraje: '30000'
   };
+
   constructor() {
   }
 
