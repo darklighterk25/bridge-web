@@ -1,5 +1,120 @@
 <main>
-  <mat-card class="container-fluid">
-    about works!
+  <h3 class="text-center mat-title">{{title}}</h3>
+  <mat-card class="container-fluid p-0">
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab label="¿Cómo nació Brige?">
+        <div class="pt-1 pb-1 pr-3 pl-3">
+          <h4 class="mt-2 mat-headline">Idea inicial</h4>
+          <p class="text-justify mat-body-1">
+            Este plataforma surgio como la iniciativa de un grupo de personas que vieron una
+            oportunidad en el mercado para el comercio de vehículos usados, al ver que era posible generar una
+            plataforma web distinta a las existentes.
+          <p>
+          <p class="text-justify mat-body-1">
+            La idea inicial consistia en que las personas pudieran ofrecer de manera segura sus
+            vehículos por medio de un sitio web, para que de esta forma otras personas tuvieran la capacidad de
+            adquirirlos de manera sencilla y que la entrega de dicho vehículo fuera flexible, es decir, que el vendedor
+            y comprador del vehículo tuvieran la oportunidad de acordar la entrega del vehículo o que la entrega del
+            vehículo se hiciera por medio de los proveedores que se cuentan en el sitio web, proporcionando así
+            facilidad para las personas de promocionar sus vehículos en venta y, a su vez, facilitando la compra de un
+            vehículo para aquellas personas que buscan adquirir uno.
+          </p>
+          <h4 class="mt-2 mat-headline">Creadores</h4>
+          <p class="mat-body-1">Los creadores de esta iniciativa fueron las siguientes personas: </p>
+          <mat-tab-group mat-align-tabs="center">
+            <mat-tab *ngFor="let integrante of creadores" label="{{integrante.nombre}}">
+              <div class="text-center">
+                <img class="rounded-circle d-inline" [src]="integrante.imagen" style="width: 200px; height: auto;"
+                     alt="Foto de {{integrante.nombre}}">
+              </div>
+              <h5 class="text-center">{{integrante.nombre}}</h5>
+              <div class="mb-3 d-flex justify-content-around">
+                <a mat-mini-fab matTooltip="Facebook" color="primary" class="p-0"><i class="fab fa-facebook-f"></i></a>
+                <a mat-mini-fab matTooltip="Twitter" color="primary" class="p-0"><i class="fab fa-twitter"></i></a>
+                <a mat-mini-fab matTooltip="Instagram" color="primary" class="p-0"><i class="fab fa-instagram"></i></a>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+      <mat-tab label="¿Qué te ofrecemos?">
+        <div class="pt-1 pb-1 pr-3 pl-3">
+          <h4 class="mt-2 mat-subheading-1">Esto es lo que tenemos para ti</h4>
+          <p class="text-justify mat-body-1 mat-body-1">
+            El objetivo del sitio web es la creación de una plataforma para la compra y venta de
+            vehículos amigable e intuitiva que les permita realizar pedidos, tanto desde una página web como una
+            aplicación móvil, logrando esto mediante herramientas de accesibilidad que facilitará su uso para
+            personas con dificultades visuales.
+          </p>
+          <p class="text-justify mat-body-1 mat-body-1">
+            La plataforma espera captar la atención del público adulto que busca comprar o
+            vender vehículos usados, mediante una interfaz que les brinde confianza y que sea de su agrado, además se
+            busca que el sitio web tenga una interfaz que ayude a personas con problemas de la vista a que puedan
+            interactuar con el, por ejemplo, poder hacer el cambio de colores, tamaño de fuente, tipo de letra, entre
+            otros aspectos, para que sea mas fácil visualizar la información y elementos del sitio web.
+          </p>
+          <p class="text-justify mat-body-1 mat-body-1">
+            Cabe mencionar que, al tratarse de vehículos usados, el sitio web dará la opción de
+            acordar un punto de encuentro con el vendedor para hacer la entrega del vehículo, así como se proporcionara
+            el envío a domicilio por medio de un proveedor del sitio con un costo extra, lo cual proporcionará
+            flexibilidad para la compra de los autos al momento de su entrega, tanto para el vendedor como para el
+            comprador.
+          </p>
+          <p class="text-justify mat-body-1 mat-body-1">
+            Además, el sitio web generará códigos QR de los autos listados en la plataforma. La
+            idea detrás de esto es que estos puedan ser desplegados en los vehículos y ser escaneados por la
+            aplicación móvil para acceder directamente a la página de venta de dicho auto, lo cuál ahorrará tiempo
+            de navegación y servirá como una forma de verificar que el auto que el usuario va a comprar sea realmente
+            el que se muestra en la plataforma, lo cual beneficiará tanto a la confiabilidad en el uso de la página
+            como la de sus vendedores.
+          </p>
+          <div class="d-flex justify-content-between">
+            <div class="col-4 text-center">
+              <i class="fas fa-qrcode fa-5x text-muted"></i>
+            </div>
+            <div class="col-4 d-inline-block align-middle m-auto p-0">
+              <i class="fas fa-arrow-right fa-3x left-to-right text-muted"></i>
+            </div>
+            <div class="col-4 text-center">
+              <i class="fas fa-car-side fa-5x text-muted"></i>
+            </div>
+          </div>
+          <p class="text-justify mat-body-1 mt-2">Es importante resaltar que proveemos confianza para los usuarios del
+            sitio, pues
+            constantemente estamos revisando la actividad de las ventas para asegurar que las compras que se realicen
+            obtengan su vehículo de manera satisfactoria y no existan fraudes.
+          </p>
+        </div>
+      </mat-tab>
+      <mat-tab label="Nuestra visión">
+        <div class="pt-1 pb-1 pr-3 pl-3">
+          <h4 class="mt-2">Visión</h4>
+          <p class="text-justify mat-body-1">Para los creadores de este sitio web no solamente es importante que las
+            personas
+            lleven a cabo sus ventas y compras de vehículos, si no que tambíen es importante la comodidad del usuario,
+            es decir, les parece de gran relevancia la necesidad de que la experiencia de cada una de las personas sea
+            agradable y amigable, con la intención de que tengan el deseo de volver a hacer uso del sitio y queden
+            satisfechos cuando lo hagan, tratando de que el esta herramineta sea del agrado de la mayoría de las
+            personas.
+          </p>
+          <p class="text-justify mat-body-1">La plataforma esta pensada con opciones que permiten dar flexibilidad y
+            comodidad,
+            como lo son la selección de temas (colores del sitio web) para personas con algún tipo de discapacidad
+            visual, así como permitir la navegación del sitio y realización de pedidos por comandos de voz, de esta
+            manera innovando e incorporando herramientas nuevas que permiten una interacción más cómoda e intuitiva con
+            el sitio web.
+          </p>
+          <p class="text-justify mat-body-1">Es importante resaltar que proveemos confianza para los usuarios del sitio,
+            pues
+            constantemente estamos revisando la actividad de las ventas para asegurar que las compras que se realicen
+            obtengan su vehículo de manera satisfactoria y no existan fraudes.
+          </p>
+          <p class="text-justify mat-body-1">A grandes rasgos, esta en la visión que se tiene del sitio web, lo cual es
+            buscar la
+            comodidad, confianza y felicidad del usuario, porque para nosotros tu eres lo más importante.
+          </p>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card>
 </main>

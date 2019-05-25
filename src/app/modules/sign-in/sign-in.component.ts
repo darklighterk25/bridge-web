@@ -10,11 +10,13 @@ import {AuthenticationService} from '../../core/authentication/authentication.se
 export class SignInComponent implements OnInit {
 
   disableBtn: boolean;
+  state: number;
   form: FormGroup;
   title = 'Inicio de Sesión';
 
   constructor(private _authService: AuthenticationService) {
     this.disableBtn = true;
+    this.state = State.initial;
     this.form = new FormGroup(
       {
         'email': new FormControl(
@@ -42,6 +44,20 @@ export class SignInComponent implements OnInit {
 
   login(): void {
     this._authService.signIn(this.form.controls['email'].value, this.form.controls['password'].value);
+    this.disableBtn = true;
+    this.state = State.loading;
+    setTimeout(
+      () => {
+        this.state = State.error;
+      },
+      2000
+    );
   }
 
+}
+
+enum State {
+  initial,
+  loading,
+  error
 }

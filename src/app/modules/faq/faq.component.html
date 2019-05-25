@@ -1,5 +1,27 @@
 <main>
-  <mat-card class="container-fluid">
-    faq works!
-  </mat-card>
+  <h3 class="text-center mat-title">{{title}}</h3>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let individualFaq of faq; let i = index" class="mb-2" [expanded]="step === i"
+                         (opened)="setStep(i)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class=" col-12 col-sm-9 p-0 text-justify">
+            {{individualFaq.pregunta}}
+          </div>
+          <div class="d-none d-sm-inline col-3 p-0 text-muted text-center">
+            Pregunta #{{i + 1}}
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p class="text-justify">
+        {{individualFaq.respuesta}}
+      </p>
+      <mat-action-row>
+        <button *ngIf="i != 0" mat-button mat-stroked-button color="primary" (click)="prevStep()">Anterior</button>
+        <button mat-button mat-raised-button color="primary" (click)="nextStep()">
+          <span *ngIf="i != (faq.length-1)">Siguiente</span><span *ngIf="i == (faq.length-1)">Finalizar</span>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
 </main>

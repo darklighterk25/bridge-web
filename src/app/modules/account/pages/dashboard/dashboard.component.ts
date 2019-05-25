@@ -10,14 +10,17 @@ import {UserService} from '../../../../core/services/user.service';
 })
 export class DashboardComponent implements OnInit {
 
+  title = 'Mi Cuenta';
   user: Usuario;
 
   constructor(private _userService: UserService,
               private _router: Router) {
-    this.user = _userService.getUser();
   }
 
   ngOnInit(): void {
+    this._userService.getUser().subscribe(
+      data => this.user = data['usuario']
+    );
   }
 
   edit(): void {

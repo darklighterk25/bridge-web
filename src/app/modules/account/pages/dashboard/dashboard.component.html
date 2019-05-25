@@ -1,13 +1,17 @@
-<mat-card class="container-fluid">
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-spinner *ngIf="!user" mode="indeterminate"></mat-spinner>
+<mat-card *ngIf="user" class="container-fluid">
   <div class="row">
     <div class="col-12 col-sm-3 text-center">
-      <img [src]="user.avatar" class="avatar"/>
+      <img [src]="user.imagenPerfil" class="avatar"/>
     </div>
     <div class="col-12 col-sm-9">
-      <h3>{{ user.nombre | nombre }}</h3>
-      <h4 class="text-muted">{{ user.email }}</h4>
-      <h5 class="text-muted">{{ user.telefono | phone }}</h5>
-      <button mat-raised-button color="primary" (click)="edit()">Editar</button>
+      <h3 class="mat-subheading-1">{{ user.nombreCompleto | nombre }}</h3>
+      <h4 class="text-muted mat-body-1">{{ user.email }}</h4>
+      <h5 class="text-muted mat-body-1">{{ user.telefono | phone }}</h5>
+      <button mat-stroked-button color="primary" (click)="edit()">Editar <i class="fas fa-edit"></i></button>
     </div>
   </div>
 </mat-card>

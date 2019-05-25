@@ -1,5 +1,14 @@
 a {
   font-size: 20px;
+  color: gray !important;
+}
+
+a:active {
+  color: white !important;
+}
+
+.mat-primary {
+  color: white !important;
 }
 
 .mat-primary {

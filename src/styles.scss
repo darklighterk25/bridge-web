@@ -5,33 +5,81 @@
 
 @include mat-core();
 
-// Tipografía.
+// Tipografía normal.
 $custom-typography: mat-typography-config(
   $font-family: Lato,
+  $body-1: mat-typography-level(16px, 24px, 400),
+  $body-2: mat-typography-level(16px, 24px, 400),
+  $display-1: mat-typography-level(16px, 24px, 400),
+  $display-2: mat-typography-level(16px, 24px, 400),
+  $display-3: mat-typography-level(16px, 24px, 400),
+  $display-4: mat-typography-level(16px, 24px, 400),
   $headline: mat-typography-level(24px, 48px, 400),
-  $body-1: mat-typography-level(16px, 24px, 400)
+  $title: mat-typography-level(24px, 48px, 400),
+  $subheading-1: mat-typography-level(16px, 24px, 400),
+  $subheading-2: mat-typography-level(16px, 24px, 400),
+  $caption: mat-typography-level(16px, 24px, 400),
+  $button: mat-typography-level(16px, 24px, 400)
 );
-@include angular-material-typography($custom-typography);
 
-$app-warn: mat-palette($mat-red);
+// Tipografía grande.
+$custom-typography-big: mat-typography-config(
+  $font-family: Lato,
+  $body-1: mat-typography-level(20px, 30px, 600),
+  $body-2: mat-typography-level(20px, 30px, 600),
+  $display-1: mat-typography-level(20px, 30px, 600),
+  $display-2: mat-typography-level(20px, 30px, 600),
+  $display-3: mat-typography-level(20px, 30px, 600),
+  $display-4: mat-typography-level(20px, 30px, 600),
+  $headline: mat-typography-level(30px, 60px, 600),
+  $title: mat-typography-level(30px, 60px, 600),
+  $subheading-1: mat-typography-level(20px, 30px, 600),
+  $subheading-2: mat-typography-level(20px, 30px, 600),
+  $caption: mat-typography-level(20px, 30px, 600),
+  $button: mat-typography-level(20px, 30px, 600)
+);
+
+// Color primario.
+$app-primary: mat-palette($mat-blue, 900);
 
 // Tema predeterminado.
-$app-primary: mat-palette($mat-blue);
-$app-accent: mat-palette($mat-green, A700);
+$app-accent: mat-palette($mat-green, 700);
+$app-warn: mat-palette($mat-red);
 $app-default: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+// Tema de accesibilidad.
+$app-tritanerope-accent: mat-palette($mat-yellow, A400);
+$app-tritanerope-warn: mat-palette($mat-pink, A400);
+$app-tritanerope: mat-light-theme($app-primary, $app-tritanerope-accent, $app-tritanerope-warn);
+
+
+// Valores por defecto.
+@include angular-material-theme($app-default);
+@include angular-material-typography($custom-typography);
+
+/*
+  Temas
+ */
+
 .default-theme {
   @include angular-material-theme($app-default);
+  @include angular-material-typography($custom-typography);
 }
 
-// Tema nocturno.
-$app-primary: mat-palette($mat-cyan);
-$app-accent: mat-palette($mat-light-green, A700);
-$app-dark: mat-dark-theme($app-primary, $app-accent, $app-warn);
-.night-theme {
-  @include angular-material-theme($app-dark);
+.tritanerope-theme {
+  @include angular-material-theme($app-tritanerope);
+  @include angular-material-typography($custom-typography);
 }
 
-@include angular-material-theme($app-dark);
+.default-theme-big {
+  @include angular-material-theme($app-default);
+  @include angular-material-typography($custom-typography-big);
+}
+
+.tritanerope-theme-big {
+  @include angular-material-theme($app-tritanerope);
+  @include angular-material-typography($custom-typography-big);
+}
 
 /*
 *   Bootstrap
@@ -84,4 +132,31 @@ button:focus {
   html {
     font-size: 1rem;
   }
+}
+
+// Animaciones
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both
+}
+
+.fast {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animated-2x {
+  animation-duration: .5s;
+}
+
+.animated-3x {
+  animation-duration: .25s;
+}
+
+.animated-slow {
+  animation-duration: 4s;
 }

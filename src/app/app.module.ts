@@ -1,11 +1,13 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {LayoutModule} from '@angular/cdk/layout';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+import {FooterComponent} from './shared/components/footer/footer.component';
 import {SideNavComponent} from './shared/components/side-nav/side-nav.component';
 import {TopNavComponent} from './shared/components/top-nav/top-nav.component';
 import {UnsignedUserMenuComponent} from './shared/components/unsigned-user-menu/unsigned-user-menu.component';
@@ -18,21 +20,25 @@ import {AdminModule} from './modules/admin/admin.module';
 import {AngularMaterialModule} from './modules/angular-material.module';
 import {ChatModule} from './modules/chat/chat.module';
 import {CheckoutModule} from './modules/checkout/checkout.module';
+import {ContactModule} from './modules/contact/contact.module';
 import {EditModule} from './modules/edit/edit.module';
 import {FAQModule} from './modules/faq/faq.module';
 import {HomeModule} from './modules/home/home.module';
+import {NotFoundModule} from './modules/not-found/not-found.module';
 import {PublishModule} from './modules/publish/publish.module';
 import {SignInModule} from './modules/sign-in/sign-in.module';
 import {SignUpModule} from './modules/sign-up/sign-up.module';
 import {StoreModule} from './modules/store/store.module';
 import {StorePageModule} from './modules/store-page/store-page.module';
+import {TermsModule} from './modules/terms/terms.module';
 import {WishlistModule} from './modules/wishlist/wishlist.module';
 
 // Servicios
-import {AdministrationGuard} from './core/authentication/administration.guard';
-import {AuthenticationGuard} from './core/authentication/authentication.guard';
+import {AdministrationGuard} from './core/guards/administration.guard';
+import {AuthenticationGuard} from './core/guards/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
 import {PaymentService} from './core/services/payment.service';
+import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {UserService} from './core/services/user.service';
 
 @NgModule({
@@ -43,6 +49,7 @@ import {UserService} from './core/services/user.service';
     UnsignedUserMenuComponent,
     UserMenuComponent,
     WebNavComponent,
+    FooterComponent
   ],
   imports: [
     AboutModule,
@@ -54,6 +61,7 @@ import {UserService} from './core/services/user.service';
     BrowserModule,
     ChatModule,
     CheckoutModule,
+    ContactModule,
     EditModule,
     FAQModule,
     HomeModule,
@@ -63,7 +71,9 @@ import {UserService} from './core/services/user.service';
     SignUpModule,
     StoreModule,
     StorePageModule,
+    TermsModule,
     WishlistModule,
+    NotFoundModule,
     NgbModule
   ],
   providers: [
@@ -71,7 +81,12 @@ import {UserService} from './core/services/user.service';
     AuthenticationGuard,
     AuthenticationService,
     PaymentService,
-    UserService
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

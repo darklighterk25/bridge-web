@@ -1,8 +1,6 @@
 <main>
+  <h3 class="text-center mat-title">{{ title }}</h3>
   <mat-card class="container-fluid">
-    <mat-card-header class="row">
-      <h3>{{ title }}</h3>
-    </mat-card-header>
     <mat-card-content class="row">
       <form [formGroup]="form" (ngSubmit)="login()">
         <mat-form-field class="col-lg-6 col-sm-12 mb-1">
@@ -29,14 +27,17 @@
           <div class="row mx-1">
             <button mat-raised-button [disabled]="disableBtn" color="primary" type="submit"
                     class="col-12 col-sm-6 col-xl-3 mt-2">
-              Iniciar Sesión
+              Iniciar Sesión <i class="fas fa-sign-in-alt"></i>
             </button>
             <div class="col-12 col-sm-6 col-xl-3 mt-3">
               ¿No tienes cuenta?
               <a mat-button [routerLink]="['/registro']" color="primary">
-                ¡Regístrate!
+                ¡Regístrate! <i class="fas fa-user-plus"></i>
               </a>
             </div>
+            <mat-spinner *ngIf="state == 1" mode="indeterminate"></mat-spinner>
+            <mat-error *ngIf="state == 2" class="col-12 col-sm-6 col-xl-3 mt-3">Usuario o contraseña incorrectos.
+            </mat-error>
           </div>
         </div>
       </form>

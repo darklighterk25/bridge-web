@@ -7,7 +7,7 @@
 <button mat-button [routerLink]="['/lista-de-deseos']" routerLinkActive="mat-primary" matTooltip="Lista de deseos">
   <i class="far fa-lg fa-heart"></i>
 </button>
-<img [src]="user.avatar" class="avatar"/>
+<img *ngIf="user" [src]="user.imagenPerfil" class="avatar"/>
 <button mat-icon-button [matMenuTriggerFor]="menu">
   <mat-icon>
     <i class="fas fa-sort-down"></i>

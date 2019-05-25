@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AngularMaterialModule} from '../angular-material.module';
 import {AboutComponent} from './about.component';
 
@@ -8,7 +8,8 @@ import {AboutComponent} from './about.component';
     AboutComponent
   ],
   imports: [
-    AngularMaterialModule
+    AngularMaterialModule,
+    NgbModule
   ],
   exports: [
     AboutComponent

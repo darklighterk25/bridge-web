@@ -3,7 +3,7 @@
     <form [formGroup]="addressForm">
       <ng-template matStepLabel>Dirección</ng-template>
       <div class="row">
-        <mat-form-field class="col-12 col-sm-6" style="max-width: 500px">
+        <mat-form-field class="col-12 col-sm-6" style="max-width: 550px">
           <mat-label>Calle</mat-label>
           <input matInput formControlName="street" maxlength="50" required>
           <mat-error *ngIf="addressForm.get('street').errors?.required
@@ -17,7 +17,7 @@
             Calle inválida.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-6 col-sm-3" style="max-width: 90px">
+        <mat-form-field class="col-6 col-sm-3" style="max-width: 140px">
           <mat-label>Número</mat-label>
           <input matInput formControlName="number" maxlength="7" required>
           <mat-error *ngIf="addressForm.get('number').errors?.required
@@ -31,7 +31,7 @@
             Eso no es un número.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-6 col-sm-3" style="max-width: 130px">
+        <mat-form-field class="col-6 col-sm-3" style="max-width: 180px">
           <mat-label>Número interior</mat-label>
           <input matInput formControlName="interiorNumber" maxlength="5">
           <mat-error *ngIf="addressForm.get('interiorNumber').errors?.required
@@ -47,7 +47,7 @@
         </mat-form-field>
       </div>
       <div class="row">
-        <mat-form-field class="col-12 col-sm-4" style="max-width: 500px">
+        <mat-form-field class="col-12 col-sm-4" style="max-width: 550px">
           <mat-label>Colonia</mat-label>
           <input matInput formControlName="neighborhood" maxlength="50" required>
           <mat-error *ngIf="addressForm.get('neighborhood').errors?.required
@@ -61,7 +61,7 @@
             Colonia inválida.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-12 col-sm-4" style="max-width: 130px">
+        <mat-form-field class="col-12 col-sm-4" style="max-width: 180px">
           <mat-label>Código Postal</mat-label>
           <input matInput formControlName="zipCode" maxlength="5" required>
           <mat-error *ngIf="addressForm.get('zipCode').errors?.required
@@ -75,7 +75,7 @@
             Código Postal inválido.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-12 col-sm-4" style="max-width: 130px">
+        <mat-form-field class="col-12 col-sm-4" style="max-width: 180px">
           <mat-label>Teléfono</mat-label>
           <input matInput formControlName="phone" maxlength="10" required>
           <mat-error *ngIf="addressForm.get('phone').errors?.required
@@ -86,7 +86,7 @@
           <mat-error *ngIf="(addressForm.get('phone').errors?.pattern || addressForm.get('phone').errors?.minlength)
                                         &&( addressForm.get('phone').dirty || addressForm.get('phone').touched )"
                      class="invalid-feedback d-block">
-            Número inválido.
+            Número inválido (Sólo se aceptan números).
           </mat-error>
         </mat-form-field>
       </div>
@@ -101,7 +101,7 @@
     <form [formGroup]="paymentForm">
       <ng-template matStepLabel>Forma de Pago</ng-template>
       <div class="row">
-        <mat-form-field class="col-12" style="max-width: 275px">
+        <mat-form-field class="col-12" style="max-width: 325px">
           <mat-label>Titular</mat-label>
           <input matInput formControlName="name" maxlength="50" required>
           <mat-error *ngIf="paymentForm.controls['name'].errors?.required
@@ -117,7 +117,7 @@
         </mat-form-field>
       </div>
       <div class="row">
-        <mat-form-field class="col-11" style="max-width: 160px">
+        <mat-form-field class="col-11" style="max-width: 210px">
           <mat-label>Número de la tarjeta</mat-label>
           <input matInput formControlName="number" maxlength="16" required>
           <mat-error *ngIf="paymentForm.controls['number'].errors?.required
@@ -134,7 +134,7 @@
         <app-credit-card-icon [cardType]="cardType" class="col-1"></app-credit-card-icon>
       </div>
       <div class="row">
-        <mat-form-field class="col-12 col-sm-6" style="max-width: 180px">
+        <mat-form-field class="col-12 col-sm-6" style="max-width: 230px">
           <mat-label>Fecha de vencimiento</mat-label>
           <input matInput formControlName="expiration" maxlength="5" required>
           <mat-error *ngIf="paymentForm.controls['expiration'].errors?.required
@@ -148,7 +148,7 @@
             Fecha inválida.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-12 col-sm-6" style="max-width: 70px">
+        <mat-form-field class="col-12 col-sm-6" style="max-width: 120px">
           <mat-label>CVV</mat-label>
           <input matInput formControlName="cvv" maxlength="3" required>
           <mat-error *ngIf="paymentForm.controls['cvv'].errors?.required
@@ -172,7 +172,7 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [completed]="false" class="container-fluid" class="container-fluid">
+  <mat-step [completed]="false" class="container-fluid">
     <ng-template matStepLabel>Finalizar Compra</ng-template>
     <div class="row">
 
