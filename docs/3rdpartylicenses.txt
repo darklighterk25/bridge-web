@@ -352,27 +352,14 @@ MIT
 
 @angular/material/dialog
 
-@angular/material/tooltip
-
-@angular/router
-MIT
-
-@angular/material/card
-
-@angular/material/tabs
-
-@angular/material/button
-
-@angular/material/icon
-
-@angular/material/stepper
-
 @angular/forms
 MIT
 
-@angular/material/form-field
+@angular/material/button
 
-@angular/material/checkbox
+@angular/material/datepicker
+
+@angular/material/tooltip
 
 @ng-bootstrap/ng-bootstrap
 MIT
@@ -399,19 +386,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+@angular/router
+MIT
+
+@angular/material/tabs
+
+@angular/material/card
+
+@angular/material/progress-spinner
+
+@angular/material/icon
+
+@angular/material/stepper
+
+@angular/material/form-field
+
+@angular/material/divider
+
+@angular/material/slider
+
+@angular/material/expansion
+
+@angular/material/select
+
+@angular/material/core
+
+@angular/material/checkbox
+
+@angular/material/list
+
 @angular/material/sidenav
 
 @angular/material/toolbar
 
-@angular/material/core
-
-@angular/material/list
+@angular/material/slide-toggle
 
 @angular/material/menu
-
-@angular/material/divider
-
-@angular/material/slide-toggle
 
 zone.js
 MIT
