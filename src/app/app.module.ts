@@ -13,6 +13,7 @@ import {TopNavComponent} from './shared/components/top-nav/top-nav.component';
 import {UnsignedUserMenuComponent} from './shared/components/unsigned-user-menu/unsigned-user-menu.component';
 import {UserMenuComponent} from './shared/components/user-menu/user-menu.component';
 import {WebNavComponent} from './shared/components/nav/nav.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 import {AboutModule} from './modules/about/about.module';
 import {AccountModule} from './modules/account/account.module';
@@ -40,6 +41,7 @@ import {AuthenticationService} from './core/authentication/authentication.servic
 import {PaymentService} from './core/services/payment.service';
 import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {UserService} from './core/services/user.service';
+import {CarService} from './core/services/car.service';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,7 @@ import {UserService} from './core/services/user.service';
     AuthenticationService,
     PaymentService,
     UserService,
+    CarService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
