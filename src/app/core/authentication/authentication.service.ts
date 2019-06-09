@@ -3,12 +3,12 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
+import {APP_SETTINGS} from '../../configs/app-settings.config';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  private apiEndpoint: string;
 
   private admin = new BehaviorSubject<boolean>(false);
   private loggedIn = new BehaviorSubject<boolean>(false);
@@ -23,7 +23,6 @@ export class AuthenticationService {
 
   constructor(private _router: Router,
               private _httpClient: HttpClient) {
-    this.apiEndpoint = 'https://bridge-back-end.herokuapp.com';
   }
 
   getToken(): string {
@@ -31,7 +30,7 @@ export class AuthenticationService {
   }
 
   signIn(email: string, password: string): void {
-    this._httpClient.post(`${this.apiEndpoint}/login`, {email: email, contrasena: password}).subscribe(
+    this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/login`, {email: email, contrasena: password}, APP_SETTINGS.OPTIONS).subscribe(
       response => {
         console.log(response);
         this.admin.next(response['usuario'].isAdmin);

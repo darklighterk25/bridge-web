@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
+import {APP_SETTINGS} from '../../configs/app-settings.config';
 import {Usuario} from '../../shared/models/usario.model';
 import {Observable} from 'rxjs';
 
@@ -9,20 +10,18 @@ import {Observable} from 'rxjs';
 })
 export class UserService {
 
-  private apiEndpoint: string;
   private user: Usuario;
 
   constructor(private _httpClient: HttpClient) {
-    this.apiEndpoint = 'https://bridge-back-end.herokuapp.com';
     this.user = TEST_DATA;
   }
 
   getUser(): Observable<Object> {
-    return this._httpClient.get(`${this.apiEndpoint}/usuario`);
+    return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/usuario`, APP_SETTINGS.OPTIONS);
   }
 
   registerUser(user: Usuario): Observable<Object> {
-    return this._httpClient.post(`${this.apiEndpoint}/usuario`, user);
+    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario`, user, APP_SETTINGS.OPTIONS);
   }
 
 }
