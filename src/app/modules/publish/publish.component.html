@@ -1,5 +1,120 @@
 <main>
-  <mat-card class="container-fluid">
-    publish works!
+  <h3 class="text-center mat-title">
+    {{ title }}
+  </h3>
+  <mat-card class="container-fluid" *ngIf="modelos">
+    <div class="row">
+      <form [formGroup]="auto" (ngSubmit)="submit()">
+        <mat-form-field class="col-4">
+          <mat-label>Modelo</mat-label>
+          <mat-option *ngFor="let modelo of modelos" [value]="modelo.nombre">
+            {{modelo.nombre}}
+          </mat-option>
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>Precio (MXN)</mat-label>
+          <input type="number" matInput formControlName="precio">
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>Kilometraje</mat-label>
+          <input type="number" matInput formControlName="kilometraje">
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>Total de Duenos</mat-label>
+          <input type="number" matInput formControlName="totalDuenos">
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>Total de Accidentes</mat-label>
+          <input type="number" matInput formControlName="totalAccidentes">
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>Tipo de Motor</mat-label>
+          <select matNativeControl formControlName="tipoMotor">
+            <option value="Gasolina">Gasolina</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Hibrido">Híbrido</option>
+            <option value="Electrico">Eléctrico</option>
+          </select>
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>Transmision</mat-label>
+          <select matNativeControl formControlName="transmision">
+            <option value="0">Automático</option>
+            <option value="1">Estándar</option>
+          </select>
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>colorInterior</mat-label>
+          <input type="color" matInput formControlName="colorInterior">
+        </mat-form-field>
+        <mat-form-field class="col-4">
+          <mat-label>colorExterior</mat-label>
+          <input type="color" matInput formControlName="colorExterior">
+        </mat-form-field>
+        <!--Checkboxes-->
+        <mat-checkbox [(ngModel)]="extranjero" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Extranjero
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="alarma" [ngModelOptions]="{standalone: true}" labelPosition="after" color="primary"
+                      class="col-4">
+          Alarma
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="aireAcondicionado" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Aire Acondicionado
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="vidriosElectricos" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Vidrios Eléctricos
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="puertasElectricas" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Puertas Eléctricas
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="bolsasDeAirePiloto" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Bolsas de Aire (Piloto)
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="bolsasDeAirePasajero" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Bolsas de Aire (Pasajero)
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="bolsasDeAireLaterales" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Bolsas de Aire (Laterales)
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="seguroDeNinos" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Seguro de Niños
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="controlDeEstabilidad" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Control de Estabilidad
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="bluetooth" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Bluetooth
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="sensorFrontal" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Sensor Frontal
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="sensorTrasero" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Sensor Trasero
+        </mat-checkbox>
+        <mat-checkbox [(ngModel)]="camaraTrasera" [ngModelOptions]="{standalone: true}" labelPosition="after"
+                      color="primary" class="col-4">
+          Cámara Trasera
+        </mat-checkbox>
+        <div class="col text-right">
+          <button mat-raised-button [disabled]="disableBtn" type="submit" color="primary">
+            Publicar
+          </button>
+        </div>
+      </form>
+    </div>
   </mat-card>
+  <mat-progress-spinner *ngIf="!modelos" mode="indeterminate"></mat-progress-spinner>
 </main>
