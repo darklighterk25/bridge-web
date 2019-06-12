@@ -26,7 +26,7 @@ export class AuthenticationService {
   }
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return localStorage.getItem('token') ? localStorage.getItem('token') : '';
   }
 
   signIn(email: string, password: string): void {
@@ -38,7 +38,9 @@ export class AuthenticationService {
         localStorage.setItem('token', response['token']);
         this._router.navigate(['/cuenta']);
       },
-      error => console.error(error)
+      error => {
+        console.error(error);
+      }
     );
   }
 
