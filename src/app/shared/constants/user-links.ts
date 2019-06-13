@@ -10,6 +10,10 @@ export const USER_LINKS: Enlace[] = [
     ruta: 'cuenta/publicaciones'
   },
   {
+    nombre: 'Tarjetas',
+    ruta: 'cuenta/tarjetas'
+  },
+  {
     nombre: 'Historial',
     ruta: 'cuenta/historial'
   }

@@ -1,0 +1,86 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4">
+  <mat-card-content>
+    <form [formGroup]="paymentForm">
+      <div class="row">
+        <mat-form-field class="col-12 col-md-6">
+          <mat-label>Titular</mat-label>
+          <input matInput formControlName="name" maxlength="50" required>
+          <mat-error *ngIf="paymentForm.controls['name'].errors?.required
+                                        &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="paymentForm.controls['name'].errors?.pattern
+                                        &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched)"
+                     class="invalid-feedback d-block">
+            El nombre es inválido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-md-6">
+          <mat-label>Número de la tarjeta</mat-label>
+          <input matInput formControlName="number" maxlength="16" required>
+          <mat-error *ngIf="paymentForm.controls['number'].errors?.required
+                                        &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(paymentForm.controls['number'].errors?.pattern || paymentForm.controls['number'].errors?.minlength)
+                                        &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched)"
+                     class="invalid-feedback d-block">
+            Número inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type" required>
+            <mat-option value="" disabled>Ninguno</mat-option>
+            <mat-option value="Credito">Crédito</mat-option>
+            <mat-option value="Debito">Débito</mat-option>
+          </mat-select>
+          <mat-error *ngIf="paymentForm.get('type').errors?.required
+                          &&( paymentForm.get('type').dirty || paymentForm.get('type').touched )">
+            Este campo es requerido.
+          </mat-error>
+        </mat-form-field>
+        <!-- <app-credit-card-icon [cardType]="cardType" class="col-1"></app-credit-card-icon> -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Fecha de vencimiento</mat-label>
+          <input matInput formControlName="expiration" maxlength="5" required>
+          <mat-error *ngIf="paymentForm.controls['expiration'].errors?.required
+                                        &&( paymentForm.controls['expiration'].dirty || paymentForm.controls['expiration'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="paymentForm.controls['expiration'].errors?.pattern
+                                        &&( paymentForm.controls['expiration'].dirty || paymentForm.controls['expiration'].touched)"
+                     class="invalid-feedback d-block">
+            Fecha inválida.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-4">
+          <mat-label>CVV</mat-label>
+          <input matInput formControlName="cvv" maxlength="3" required>
+          <mat-error *ngIf="paymentForm.controls['cvv'].errors?.required
+                                        &&( paymentForm.controls['cvv'].dirty || paymentForm.controls['cvv'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(paymentForm.controls['cvv'].errors?.pattern || paymentForm.controls['cvv'].errors?.minlength)
+                                        &&( paymentForm.controls['cvv'].dirty || paymentForm.controls['cvv'].touched)"
+                     class="invalid-feedback d-block">
+            CVV inválido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="example-button-row d-flex justify-content-center mt-3">
+        <button mat-raised-button color="primary" class="mr-2" (click)="returnToCards()">Cancelar <i class="fas fa-times"></i></button>
+        <button mat-raised-button [disabled]="disablePaymentBtn" color="primary" class="m-1">Aceptar  <i class="fas fa-check"></i></button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
