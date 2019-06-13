@@ -9,13 +9,15 @@ import {AngularMaterialModule} from '../angular-material.module';
 import {UpdateInfoComponent} from './components/update-info/update-info.component';
 import {UpdatePasswordComponent} from './components/update-password/update-password.component';
 import {UpdatePhotoComponent} from './components/update-photo/update-photo.component';
+import { UpdateAddressComponent } from './components/update-address/update-address.component';
 
 @NgModule({
   declarations: [
     EditComponent,
     UpdateInfoComponent,
     UpdatePasswordComponent,
-    UpdatePhotoComponent
+    UpdatePhotoComponent,
+    UpdateAddressComponent
   ],
   imports: [
     AngularMaterialModule,

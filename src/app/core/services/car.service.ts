@@ -11,14 +11,6 @@ export class CarService {
   constructor(private _httpClient: HttpClient) {
   }
 
-  getBrands(): Observable<any> {
-    return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/marcas`);
-  }
-
-  getModels(brand: string): Observable<any> {
-    return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/modelos/${brand}`);
-  }
-
   getCars(brand: string, model: string, price: number): Observable<any> {
     let request = '/autos';
     let params = false;

@@ -1,7 +1,9 @@
 <h3 class="text-center mat-title">
   {{ title }}
 </h3>
-<mat-spinner *ngIf="!user" mode="indeterminate"></mat-spinner>
+<mat-card *ngIf="!user" class="d-flex justify-content-center">
+  <mat-spinner mode="indeterminate"></mat-spinner>
+</mat-card>
 <mat-card *ngIf="user" class="container-fluid">
   <div class="row">
     <div class="col-12 col-sm-3 text-center">
@@ -11,7 +13,10 @@
       <h3 class="mat-subheading-1">{{ user.nombreCompleto | nombre }}</h3>
       <h4 class="text-muted mat-body-1">{{ user.email }}</h4>
       <h5 class="text-muted mat-body-1">{{ user.telefono | phone }}</h5>
-      <button mat-stroked-button color="primary" (click)="edit()">Editar <i class="fas fa-edit"></i></button>
+      <div class="example-button-row">
+        <button mat-stroked-button color="primary" (click)="edit()" class="mr-2">Editar <i class="fas fa-edit"></i></button>
+        <button mat-stroked-button color="warn" (click)="delete()">Eliminar mi cuenta <i class="fas fa-trash-alt"></i></button>
+      </div>
     </div>
   </div>
 </mat-card>

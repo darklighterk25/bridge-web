@@ -1,0 +1,59 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4" *ngIf="newState != 2">
+  <mat-card-content>
+    <form [formGroup]="form">
+      <div class="row">
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="form.get('name').errors?.required
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('name').errors?.pattern
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            No parece ser un nombre válido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>País</mat-label>
+          <input matInput formControlName="country" required>
+          <mat-error *ngIf="form.get('country').errors?.required
+                          &&( form.get('country').dirty || form.get('country').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('country').errors?.pattern
+                          &&( form.get('country').dirty || form.get('country').touched )">
+            No parece ser un nombre de país válido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12">
+          <mat-label>Página web</mat-label>
+          <input matInput formControlName="webPage">
+          <mat-error *ngIf="form.get('webPage').errors?.pattern
+                          &&( form.get('webPage').dirty || form.get('webPage').touched )">
+            No parece ser una página web válida.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 0 || newState == 3">
+    <button mat-raised-button color="warn" (click)="returnToConfiguration()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+    <button mat-raised-button color="primary" (click)="new()" [disabled]="form.invalid">Aceptar <i class="fas fa-check"></i></button>
+  </div>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 1 || newState == 3">
+    <mat-spinner *ngIf="newState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+    <mat-error *ngIf="newState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </div>
+</mat-card>
+<mat-card *ngIf="newState == 2" class="container-fluid p-5 mb-4">
+  <div class="example-button-row d-flex justify-content-center mb-2">
+    <mat-hint>Marca guardada satisfactoriamente.</mat-hint>
+  </div>
+  <div class="example-button-row d-flex justify-content-center">
+    <button mat-stroked-button color="warn" (click)="returnToConfiguration()" class="mr-2">Regresar a la configuración</button>
+  </div>
+</mat-card>

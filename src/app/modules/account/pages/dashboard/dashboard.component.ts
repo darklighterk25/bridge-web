@@ -27,4 +27,8 @@ export class DashboardComponent implements OnInit {
     this._router.navigate(['editar-informacion']);
   }
 
+  delete(): void {
+    this._router.navigate(['eliminar-cuenta']);
+  }
+
 }

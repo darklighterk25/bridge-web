@@ -21,6 +21,7 @@ import {AngularMaterialModule} from './modules/angular-material.module';
 import {ChatModule} from './modules/chat/chat.module';
 import {CheckoutModule} from './modules/checkout/checkout.module';
 import {ContactModule} from './modules/contact/contact.module';
+import {DeleteModule} from './modules/delete/delete.module';
 import {EditModule} from './modules/edit/edit.module';
 import {FAQModule} from './modules/faq/faq.module';
 import {HomeModule} from './modules/home/home.module';
@@ -41,6 +42,9 @@ import {PaymentService} from './core/services/payment.service';
 import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {UserService} from './core/services/user.service';
 import {CarService} from './core/services/car.service';
+import {ModelService} from './core/services/model.service';
+import {BrandService} from './core/services/brand.service';
+import {CardService} from './core/services/card.service';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,7 @@ import {CarService} from './core/services/car.service';
     ChatModule,
     CheckoutModule,
     ContactModule,
+    DeleteModule,
     EditModule,
     FAQModule,
     HomeModule,
@@ -84,6 +89,9 @@ import {CarService} from './core/services/car.service';
     PaymentService,
     UserService,
     CarService,
+    ModelService,
+    BrandService,
+    CardService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

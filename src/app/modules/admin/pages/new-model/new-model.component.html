@@ -1,0 +1,54 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4 d-flex justify-content-center" *ngIf="brandsState != 2">
+  <mat-spinner *ngIf="brandsState == 1" mode="indeterminate"></mat-spinner>
+  <mat-error *ngIf="brandsState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+</mat-card>
+<mat-card class="mb-4" *ngIf="brandsState == 2 && newState != 2">
+  <mat-card-content>
+    <form [formGroup]="form">
+      <div class="row">
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>Marca</mat-label>
+          <mat-select formControlName="brandIndex">
+            <mat-option value="" disabled>Ninguno</mat-option>
+            <mat-option *ngFor="let brand of brands; let i = index" value="{{i}}">{{brand.nombre}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('brandIndex').errors?.required
+                          &&( form.get('brandIndex').dirty || form.get('brandIndex').touched )">
+            Este campo es requerido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="form.get('name').errors?.required
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('name').errors?.pattern
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            No parece ser un nombre de país válido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 0 || newState == 3">
+    <button mat-raised-button color="warn" (click)="returnToConfiguration()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+    <button mat-raised-button color="primary" (click)="new()" [disabled]="form.invalid">Aceptar <i class="fas fa-check"></i></button>
+  </div>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 1 || newState == 3">
+    <mat-spinner *ngIf="newState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+    <mat-error *ngIf="newState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </div>
+</mat-card>
+<mat-card *ngIf="newState == 2" class="container-fluid p-5 mb-4">
+  <div class="example-button-row d-flex justify-content-center mb-2">
+    <mat-hint>Modelo guardado satisfactoriamente.</mat-hint>
+  </div>
+  <div class="example-button-row d-flex justify-content-center">
+    <button mat-stroked-button color="warn" (click)="returnToConfiguration()" class="mr-2">Regresar a la configuración</button>
+  </div>
+</mat-card>

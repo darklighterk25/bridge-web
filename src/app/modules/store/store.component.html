@@ -2,8 +2,7 @@
   <h3 class="text-center mat-title">{{title}}</h3>
   <mat-card class="mb-4 d-flex justify-content-center" *ngIf="brandsState != 2">
     <mat-spinner *ngIf="brandsState == 1" mode="indeterminate"></mat-spinner>
-    <mat-error *ngIf="brandsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">No han podido encontrarse las marcas disponibles.</mat-error>
-    <mat-error *ngIf="brandsState == 4" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+    <mat-error *ngIf="brandsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
   </mat-card>
   <mat-card class="mb-4" *ngIf="brandsState == 2">
     <mat-card-content>
@@ -15,21 +14,20 @@
         <div class="row">
           <mat-form-field class="col-12 col-sm-6">
             <mat-label>Marca</mat-label>
-            <mat-select formControlName="brand" (selectionChange)="getModels()">
+            <mat-select formControlName="brandIndex" (selectionChange)="getModels()">
               <mat-option value="">Ninguno</mat-option>
-              <mat-option *ngFor="let brand of brands" value="{{brand._id}}">{{brand.nombre}}</mat-option>
+              <mat-option *ngFor="let brand of brands; let i = index" value="{{i}}">{{brand.nombre}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-card-content class="col-12 col-sm-6 d-flex justify-content-center" *ngIf="modelsState != 0 && modelsState != 2">
             <mat-spinner *ngIf="modelsState == 1" mode="indeterminate" diameter="50"></mat-spinner>
-            <mat-hint *ngIf="modelsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">No se encontraron modelos para la marca solicitada, favor de probar otra marca.</mat-hint>
-            <mat-error *ngIf="modelsState == 4" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+            <mat-error *ngIf="modelsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
           </mat-card-content>
           <mat-form-field class="col-12 col-sm-6" *ngIf="modelsState == 0 || modelsState == 2">
             <mat-label>Modelo</mat-label>
-            <mat-select formControlName="model">
+            <mat-select formControlName="modelIndex">
               <mat-option value="">Ninguno</mat-option>
-              <mat-option *ngFor="let model of models" value="{{model._id}}">{{model.nombre}}</mat-option>
+              <mat-option *ngFor="let model of models; let i = index" value="{{i}}">{{model.nombre}}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="col-12 col-sm-6">
@@ -62,7 +60,7 @@
           </div>
         </div>
         <div class="col-12">
-          <button mat-raised-button (click)="getCars()" color="primary" class="m-1" [disabled]="carsState == 1">
+          <button mat-raised-button (click)="getCars()" color="primary" class="m-1" [disabled]="carsState == 1 || modelsState == 1">
             Buscar
           </button>
         </div>
@@ -72,13 +70,12 @@
   <div *ngIf="carsState != 2" class="w-100 d-flex justify-content-center">
     <mat-spinner *ngIf="carsState == 1" mode="indeterminate"></mat-spinner>
     <mat-hint *ngIf="carsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">No se encontraron autos con las especificaciones solicitadas, favor de realizar otra búsqueda.</mat-hint>
-    <mat-error *ngIf="carsState == 4" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
   </div>
   <div *ngIf="carsState == 2" class="w-100 d-flex justify-content-between">
     <span>
-      <span><a mat-button color="primary">{{brandRequired}}</a></span>
-      <span *ngIf="modelRequired!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{modelRequired}}</a></span>
-      <span *ngIf="conditionRequired!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{conditionRequired}}
+      <span *ngIf="searchForm.get('brandIndex').value != ''">&nbsp;/&nbsp;<a mat-button color="primary">{{brands[searchForm.get('brandIndex').value].nombre}}</a></span>
+      <span *ngIf="searchForm.get('modelIndex').value != ''">&nbsp;/&nbsp;<a mat-button color="primary">{{brands[searchForm.get('modelIndex').value].nombre}}</a></span>
+      <span *ngIf="searchForm.get('price').value != ''">&nbsp;/&nbsp;<a mat-button color="primary">{{searchForm.get('price').value}}
         a {{priceRequired | currency:'':'symbol':'.2-2'}}</a></span>
     </span>
     <span class="mat-body-1">

@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CarService} from '../../core/services/car.service';
+import {ModelService} from '../../core/services/model.service';
+import {BrandService} from '../../core/services/brand.service';
+import {RequestState} from '../../shared/enums/request-state.enum';
 
 @Component({
   selector: 'app-store',
@@ -77,38 +80,38 @@ export class StoreComponent implements OnInit {
     }
   ];*/
 
-  brandsState: State;
-  modelsState: State;
-  carsState: State;
+  brandsState: RequestState;
+  modelsState: RequestState;
+  carsState: RequestState;
   brands = [];
   models = [];
-  constructor(private _carService: CarService) {
+  constructor(private _carService: CarService, private _modelService: ModelService, private _brandService: BrandService) {
     this.searchForm = new FormGroup({
-      'brand': new FormControl(''
+      'brandIndex': new FormControl(''
       ),
-      'model': new FormControl({value: '', disabled: true}
+      'modelIndex': new FormControl({value: '', disabled: true}
       ),
       'price': new FormControl(''
       ),
     });
-    this.brandsState = State.initial;
-    this.modelsState = State.initial;
-    this.carsState = State.initial;
+    this.brandsState = RequestState.initial;
+    this.modelsState = RequestState.initial;
+    this.carsState = RequestState.initial;
   }
 
   ngOnInit() {
-    this.brandsState = State.loading;
-    this._carService.getBrands().subscribe(
+    this.brandsState = RequestState.loading;
+    this._brandService.getBrands().subscribe(
       response => {
         setTimeout(
           () => {
             console.log(response);
             if (response.ok) {
               this.brands = response.marcas;
-              this.brandsState = State.success;
+              this.brandsState = RequestState.success;
             } else {
               console.log('error');
-              this.brandsState = State.error;
+              this.brandsState = RequestState.error;
             }
           },
           2000
@@ -117,7 +120,7 @@ export class StoreComponent implements OnInit {
       error => {
         setTimeout(
           () => {
-            this.brandsState = State.falla;
+            this.brandsState = RequestState.error;
           },
           2000
         );
@@ -133,22 +136,22 @@ export class StoreComponent implements OnInit {
   }
 
   getModels() {
-    this.searchForm.get('model').setValue('');
-    if (this.searchForm.get('brand').value !== '') {
-      this.searchForm.get('brand').disable();
-      this.searchForm.get('model').enable();
-      this.modelsState = State.loading;
-      this._carService.getModels(this.searchForm.get('brand').value).subscribe(
+    this.searchForm.get('modelIndex').setValue('');
+    if (this.searchForm.get('brandIndex').value !== '') {
+      this.searchForm.get('brandIndex').disable();
+      this.searchForm.get('modelIndex').enable();
+      this.modelsState = RequestState.loading;
+      this._modelService.getModels(this.brands[parseInt(this.searchForm.get('brandIndex').value)]._id).subscribe(
         response => {
           setTimeout(
             () => {
               console.log(response);
-              this.searchForm.get('brand').enable();
+              this.searchForm.get('brandIndex').enable();
               if (response.ok) {
                 this.models = response.modelos;
-                this.modelsState = State.success;
+                this.modelsState = RequestState.success;
               } else {
-                this.modelsState = State.error;
+                this.modelsState = RequestState.error;
               }
             },
             2000
@@ -158,29 +161,29 @@ export class StoreComponent implements OnInit {
           setTimeout(
             () => {
               console.error(error);
-              this.searchForm.get('model').disable();
-              this.searchForm.get('brand').enable();
-              this.modelsState = State.falla;
+              this.searchForm.get('modelIndex').disable();
+              this.searchForm.get('brandIndex').enable();
+              this.modelsState = RequestState.error;
             },
             2000
           );
         });
     } else {
-      this.searchForm.get('model').disable();
-      this.modelsState = State.initial;
+      this.searchForm.get('modelIndex').disable();
+      this.modelsState = RequestState.initial;
       this.models = [];
     }
   }
 
   getCars() {
-    this.brandRequired = this.searchForm.get('brand').value;
-    this.modelRequired = this.searchForm.get('model').value;
+    this.brandRequired = this.brands[parseInt(this.searchForm.get('brandIndex').value)]._id;
+    this.modelRequired = this.models[parseInt(this.searchForm.get('modelIndex').value)]._id;
     this.priceRequired = this.getRoundedValue(this.price);
     this.conditionRequired = this.searchForm.get('price').value;
-    this.searchForm.get('brand').disable();
-    this.searchForm.get('model').disable();
+    this.searchForm.get('brandIndex').disable();
+    this.searchForm.get('modelIndex').disable();
     this.searchForm.get('price').disable();
-    this.carsState = State.loading;
+    this.carsState = RequestState.loading;
     this._carService.getCars(
       this.brandRequired !== '' ? this.brandRequired : null,
       this.modelRequired !== '' ? this.modelRequired : null,
@@ -189,14 +192,14 @@ export class StoreComponent implements OnInit {
         setTimeout(
           () => {
             console.log(response);
-            this.searchForm.get('brand').enable();
-            this.searchForm.get('model').enable();
+            this.searchForm.get('brandIndex').enable();
+            this.searchForm.get('modelIndex').enable();
             this.searchForm.get('price').enable();
             if (response.ok) {
               this.cars = response.autos;
-              this.carsState = State.success;
+              this.carsState = RequestState.success;
             } else {
-              this.carsState = State.error;
+              this.carsState = RequestState.error;
             }
           },
           2000
@@ -206,21 +209,13 @@ export class StoreComponent implements OnInit {
         setTimeout(
           () => {
             // console.error(error);
-            this.searchForm.get('brand').enable();
-            this.searchForm.get('model').enable();
+            this.searchForm.get('brandIndex').enable();
+            this.searchForm.get('modelIndex').enable();
             this.searchForm.get('price').enable();
-            this.carsState = State.falla;
+            this.carsState = RequestState.error;
           },
           2000
         );
       });
   }
-}
-
-enum State {
-  initial,
-  loading,
-  success,
-  error,
-  falla
 }
