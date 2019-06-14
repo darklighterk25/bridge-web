@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 })
 export class BrandConfigurationComponent implements OnInit {
 
-  title = 'Configuración de marcas$';
+  title = 'Configuración de marcas';
   brandsState: RequestState;
   brands = [];
   form: FormGroup;
@@ -62,7 +62,7 @@ export class BrandConfigurationComponent implements OnInit {
           () => {
             console.log(response);
             if (response.ok) {
-              this.brands = response.marcas$;
+              this.brands = response.marcas;
               this.brandsState = RequestState.success;
             } else {
               console.log('error');

@@ -13,6 +13,7 @@ import { NewModelComponent } from './pages/new-model/new-model.component';
 import { BrandReportComponent } from './pages/brand-report/brand-report.component';
 import { ModelReportComponent } from './pages/model-report/model-report.component';
 import { DateReportComponent } from './pages/date-report/date-report.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DateReportComponent } from './pages/date-report/date-report.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    ChartsModule
   ],
   exports: [
     AdminComponent

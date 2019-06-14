@@ -24,11 +24,11 @@ export class DashboardComponent implements OnInit {
   }
 
   edit(): void {
-    this._router.navigate(['editar-informacion']);
+    this._router.navigate(['/editar-informacion']);
   }
 
   delete(): void {
-    this._router.navigate(['eliminar-cuenta']);
+    this._router.navigate(['/eliminar-cuenta']);
   }
 
 }

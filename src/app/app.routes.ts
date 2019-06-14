@@ -32,6 +32,7 @@ export const routes: Routes = [
   {path: 'inicio', children: HOME_ROUTES},
   {path: 'nueva-publicacion', children: PUBLISH_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'eliminar-cuenta', children: DELETE_ROUTES, canActivate: [AuthenticationGuard]},
+  {path: 'editar-informacion', children: EDIT_ROUTES, canActivate: [AuthenticationGuard]},
   // {path: 'editar-publicacion/:_id', children: EDIT_PUBLICATION_ROUTES},
   {path: 'preguntas-frecuentes', children: FAQ_ROUTES},
   {path: 'inicio-de-sesion', children: SIGN_IN_ROUTES},

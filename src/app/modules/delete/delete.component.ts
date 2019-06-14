@@ -26,17 +26,18 @@ export class DeleteComponent implements OnInit {
   delete(): void {
     console.log('Cuenta eliminada');
     this.deleteState = RequestState.loading;
-    setTimeout(
+    /*setTimeout(
       () => {
-        if (false) {
+        if () {
+          localStorage.removeItem('token');
           this.deleteState = RequestState.success;
         } else {
           this.deleteState = RequestState.error;
         }
       },
       4000
-    );
-    /*this._userService.deleteUser().subscribe(
+    );*/
+    this._userService.deleteUser().subscribe(
       response => {
         setTimeout(
           () => {
@@ -57,7 +58,7 @@ export class DeleteComponent implements OnInit {
           },
           2000
         );
-      });*/
+      });
     // this._router.navigate(['eliminar-cuenta']);
   }
 }

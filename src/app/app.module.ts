@@ -47,6 +47,7 @@ import {ModelService} from './core/services/model.service';
 import {BrandService} from './core/services/brand.service';
 import {CardService} from './core/services/card.service';
 import {ReportService} from './core/services/report.service';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,11 @@ import {ReportService} from './core/services/report.service';
     TermsModule,
     WishlistModule,
     NotFoundModule,
-    NgbModule
+    NgbModule,
+    ChartsModule
+  ],
+  exports: [
+    ChartsModule
   ],
   providers: [
     AdministrationGuard,

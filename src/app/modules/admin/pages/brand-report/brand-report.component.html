@@ -1,3 +1,21 @@
 <h3 class="text-center mat-title">
   {{ title }}
 </h3>
+<mat-card class="mb-4">
+  <mat-card-content>
+    <div>
+      <div>
+        <div class="chart">
+          <canvas baseChart
+                  [data]="pieChartData"
+                  [labels]="pieChartLabels"
+                  [chartType]="pieChartType"
+                  [options]="pieChartOptions"
+                  [colors]="pieChartColors"
+                  [legend]="pieChartLegend">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -107,7 +107,7 @@ export class StoreComponent implements OnInit {
           () => {
             console.log(response);
             if (response.ok) {
-              this.brands = response.marcas$;
+              this.brands = response.marcas;
               this.brandsState = RequestState.success;
             } else {
               console.log('error');
@@ -148,7 +148,7 @@ export class StoreComponent implements OnInit {
               console.log(response);
               this.searchForm.get('brandIndex').enable();
               if (response.ok) {
-                this.models = response.modelos$;
+                this.models = response.modelos;
                 this.modelsState = RequestState.success;
               } else {
                 this.modelsState = RequestState.error;

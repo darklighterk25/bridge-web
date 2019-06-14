@@ -12,7 +12,7 @@ import {ModelService} from '../../../../core/services/model.service';
 })
 export class ModelConfigurationComponent implements OnInit {
 
-  title = 'Configuración de modelos$';
+  title = 'Configuración de modelos';
   brandsState: RequestState;
   brands = [];
   modelsState: RequestState;
@@ -63,7 +63,7 @@ export class ModelConfigurationComponent implements OnInit {
           () => {
             console.log(response);
             if (response.ok) {
-              this.brands = response.marcas$;
+              this.brands = response.marcas;
               this.brandsState = RequestState.success;
             } else {
               this.brandsState = RequestState.error;
@@ -94,7 +94,7 @@ export class ModelConfigurationComponent implements OnInit {
               console.log(response);
               this.form.get('brandIndex').enable();
               if (response.ok) {
-                this.models = response.modelos$;
+                this.models = response.modelos;
                 this.modelsState = RequestState.success;
               } else {
                 this.modelsState = RequestState.error;
