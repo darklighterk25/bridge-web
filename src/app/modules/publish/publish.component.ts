@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
-import {Modelo} from '../../shared/models/modelo.model';
+import {BrandService} from '../../core/services/brand.service';
+import {CarService} from '../../core/services/car.service';
+import {ModelService} from '../../core/services/model.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,11 @@ export class PublishComponent implements OnInit {
 
   title = 'Nueva Publicación';
 
-  modelos: Modelo[];
+  marcas$: any[];
+  modelos$: any[];
+
+  currentBrand: string;
+  currentModel: string;
 
   disableBtn: boolean;
   auto: FormGroup;
@@ -31,7 +37,10 @@ export class PublishComponent implements OnInit {
   sensorTrasero: boolean;
   camaraTrasera: boolean;
 
-  constructor(router: Router) {
+  constructor(private router: Router,
+              private _brandService: BrandService,
+              private _carService: CarService,
+              private _modelService: ModelService) {
     this.disableBtn = true;
     this.extranjero = false;
     this.alarma = false;
@@ -48,7 +57,7 @@ export class PublishComponent implements OnInit {
     this.sensorTrasero = false;
     this.camaraTrasera = false;
     this.auto = new FormGroup({
-      'modelo':  new FormControl('', [Validators.required]),
+      'modelo':  new FormControl(''),
       'precio': new FormControl(0, [Validators.required]),
       'extranjero': new FormControl(this.extranjero),
       'kilometraje':  new FormControl(0, [Validators.required]),
@@ -72,18 +81,36 @@ export class PublishComponent implements OnInit {
       'sensorTrasero': new FormControl(this.sensorTrasero),
       'camaraTrasera': new FormControl(this.camaraTrasera),
     });
+  }
+
+  ngOnInit(): void {
     this.auto.valueChanges.subscribe(
       () => {
         this.disableBtn = !this.auto.valid;
       }
     );
+    this._brandService.getBrands().subscribe(
+      response => {
+        this.marcas$ = response['marcas'];
+        console.log(this.marcas$);
+      }
+    );
   }
 
-  ngOnInit(): void {
+  setCurrentBrand(): void {
+    console.log(this.currentBrand);
+    this._modelService.getModels(this.currentBrand).subscribe(
+      response => {
+        this.modelos$ = response['modelos'];
+        console.log(this.modelos$);
+      }
+    );
   }
 
   submit(): void {
+    this.disableBtn = true;
     this.auto.patchValue({
+      modelo: this.currentModel,
       extranjero: this.extranjero,
       alarma: this.alarma,
       aireAcondicionado: this.aireAcondicionado,
@@ -99,6 +126,12 @@ export class PublishComponent implements OnInit {
       sensorTrasero: this.sensorTrasero,
       camaraTrasera: this.camaraTrasera
     });
-    console.log(this.auto);
+    this._carService.newCar(this.auto.value).subscribe(
+      () => {
+        this.router.navigate(['/inicio']);
+      },
+      error => console.error(error)
+    );
+    console.log(this.auto.value);
   }
 }

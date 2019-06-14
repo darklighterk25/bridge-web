@@ -36,7 +36,7 @@ export const routes: Routes = [
   {path: 'inicio-de-sesion', children: SIGN_IN_ROUTES},
   {path: 'registro', children: SIGN_UP_ROUTES},
   {path: 'catalogo', children: STORE_ROUTES},
-  {path: 'articulo', children: STORE_PAGE_ROUTES},
+  {path: 'articulo/:_id', children: STORE_PAGE_ROUTES},
   {path: 'no-encontrada', children: NOT_FOUND_ROUTES},
   {path: 'lista-de-deseos', children: WISHLIST_ROUTES, canActivate: [AuthenticationGuard]},
   {path: '**', redirectTo: 'no-encontrada', pathMatch: 'full'}

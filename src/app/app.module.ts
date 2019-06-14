@@ -38,10 +38,10 @@ import {WishlistModule} from './modules/wishlist/wishlist.module';
 import {AdministrationGuard} from './core/guards/administration.guard';
 import {AuthenticationGuard} from './core/guards/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
+import {CarService} from './core/services/car.service';
 import {PaymentService} from './core/services/payment.service';
 import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {UserService} from './core/services/user.service';
-import {CarService} from './core/services/car.service';
 import {ModelService} from './core/services/model.service';
 import {BrandService} from './core/services/brand.service';
 import {CardService} from './core/services/card.service';
@@ -86,9 +86,9 @@ import {CardService} from './core/services/card.service';
     AdministrationGuard,
     AuthenticationGuard,
     AuthenticationService,
+    CarService,
     PaymentService,
     UserService,
-    CarService,
     ModelService,
     BrandService,
     CardService,

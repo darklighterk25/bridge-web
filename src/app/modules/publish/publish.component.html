@@ -2,14 +2,24 @@
   <h3 class="text-center mat-title">
     {{ title }}
   </h3>
-  <mat-card class="container-fluid" *ngIf="modelos">
+  <mat-card class="container-fluid">
     <div class="row">
       <form [formGroup]="auto" (ngSubmit)="submit()">
-        <mat-form-field class="col-4">
+        <mat-form-field *ngIf="marcas$" class="col-4">
+          <mat-label>Marca</mat-label>
+          <mat-select [(ngModel)]="currentBrand" [ngModelOptions]="{standalone: true}" (selectionChange)="setCurrentBrand()">
+            <mat-option *ngFor="let marca of marcas$" [value]="marca._id">
+              {{marca.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="modelos$" class="col-4">
           <mat-label>Modelo</mat-label>
-          <mat-option *ngFor="let modelo of modelos" [value]="modelo.nombre">
-            {{modelo.nombre}}
-          </mat-option>
+          <mat-select [(ngModel)]="currentModel" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let modelo of modelos$" [value]="modelo._id">
+              {{modelo.nombre}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field class="col-4">
           <mat-label>Precio (MXN)</mat-label>
@@ -116,5 +126,4 @@
       </form>
     </div>
   </mat-card>
-  <mat-progress-spinner *ngIf="!modelos" mode="indeterminate"></mat-progress-spinner>
 </main>

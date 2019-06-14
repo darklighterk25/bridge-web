@@ -4,6 +4,4 @@ export interface Modelo {
   fabricante?: Fabricante;
   marca: string;
   nombre: string;
-  ano?: string;
-  serie?: string;
 }

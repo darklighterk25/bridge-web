@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {APP_SETTINGS} from '../../configs/app-settings.config';
+import {Fabricante} from '../../shared/models/fabricante.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class CarService {
       }
     }
     return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}${request}`);
+  }
+
+  newCar(data: any): Observable<any> {
+    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/auto`, data, APP_SETTINGS.OPTIONS);
   }
 }
