@@ -10,6 +10,7 @@ import {CHAT_ROUTES} from './modules/chat/chat.routes';
 import {CHECKOUT_ROUTES} from './modules/checkout/checkout.routes';
 import {CONTACT_ROUTES} from './modules/contact/contact.routes';
 import {EDIT_ROUTES} from './modules/edit/edit.routes';
+import {EDIT_PUBLICATION_ROUTES} from './modules/edit-publication/edit-publication.routes';
 import {FAQ_ROUTES} from './modules/faq/faq.routes';
 import {HOME_ROUTES} from './modules/home/home.routes';
 import {PUBLISH_ROUTES} from './modules/publish/publish.routes';
@@ -31,7 +32,7 @@ export const routes: Routes = [
   {path: 'inicio', children: HOME_ROUTES},
   {path: 'nueva-publicacion', children: PUBLISH_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'eliminar-cuenta', children: DELETE_ROUTES, canActivate: [AuthenticationGuard]},
-  {path: 'editar-informacion', children: EDIT_ROUTES, canActivate: [AuthenticationGuard]},
+  // {path: 'editar-publicacion/:_id', children: EDIT_PUBLICATION_ROUTES},
   {path: 'preguntas-frecuentes', children: FAQ_ROUTES},
   {path: 'inicio-de-sesion', children: SIGN_IN_ROUTES},
   {path: 'registro', children: SIGN_UP_ROUTES},

@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
     {
       link: 'assets/home/carrusel4.jpg',
       titulo: '¡Contamos con variedad!',
-      texto: 'Te proporcionamos vehículos de gran variedad de las marcas del mercado.'
+      texto: 'Te proporcionamos vehículos de gran variedad de las marcas$ del mercado.'
     }
   ];
 

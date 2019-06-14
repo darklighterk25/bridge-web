@@ -17,10 +17,10 @@ export class DashboardComponent implements OnInit {
   }
 
   brandConfiguration() {
-    this._router.navigate(['/administracion/marcas']);
+    this._router.navigate(['/administracion/marcas$']);
   }
 
   modelConfiguration() {
-    this._router.navigate(['/administracion/modelos']);
+    this._router.navigate(['/administracion/modelos$']);
   }
 }

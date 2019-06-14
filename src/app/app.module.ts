@@ -23,6 +23,7 @@ import {CheckoutModule} from './modules/checkout/checkout.module';
 import {ContactModule} from './modules/contact/contact.module';
 import {DeleteModule} from './modules/delete/delete.module';
 import {EditModule} from './modules/edit/edit.module';
+import {EditPublicationModule} from './modules/edit-publication/edit-publication.module';
 import {FAQModule} from './modules/faq/faq.module';
 import {HomeModule} from './modules/home/home.module';
 import {NotFoundModule} from './modules/not-found/not-found.module';
@@ -69,6 +70,7 @@ import {CardService} from './core/services/card.service';
     ContactModule,
     DeleteModule,
     EditModule,
+    // EditPublicationModule,
     FAQModule,
     HomeModule,
     LayoutModule,

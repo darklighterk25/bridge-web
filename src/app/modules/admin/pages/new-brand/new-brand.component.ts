@@ -76,6 +76,6 @@ export class NewBrandComponent implements OnInit {
   }
 
   returnToConfiguration() {
-    this._router.navigate(['/administracion/marcas']);
+    this._router.navigate(['/administracion/marcas$']);
   }
 }

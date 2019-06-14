@@ -11,9 +11,9 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: '', component: AdminComponent, children: [
       {path: 'resumen', component: DashboardComponent},
-      {path: 'marcas', component: BrandConfigurationComponent},
+      {path: 'marcas$', component: BrandConfigurationComponent},
       {path: 'nueva-marca', component: NewBrandComponent},
-      {path: 'modelos', component: ModelConfigurationComponent},
+      {path: 'modelos$', component: ModelConfigurationComponent},
       {path: 'nuevo-modelo', component: NewModelComponent},
       {path: '**', redirectTo: 'resumen', pathMatch: 'full'}
     ]
