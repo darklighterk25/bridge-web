@@ -176,8 +176,8 @@ export class StoreComponent implements OnInit {
   }
 
   getCars() {
-    this.brandRequired = this.brands[parseInt(this.searchForm.get('brandIndex').value)]._id;
-    this.modelRequired = this.models[parseInt(this.searchForm.get('modelIndex').value)]._id;
+    this.brandRequired = this.searchForm.get('brandIndex').value !== '' ? this.brands[parseInt(this.searchForm.get('brandIndex').value)]._id : '';
+    this.modelRequired = this.searchForm.get('modelIndex').value !== '' ? this.models[parseInt(this.searchForm.get('modelIndex').value)]._id : '';
     this.priceRequired = this.getRoundedValue(this.price);
     this.conditionRequired = this.searchForm.get('price').value;
     this.searchForm.get('brandIndex').disable();

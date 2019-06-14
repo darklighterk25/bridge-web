@@ -10,6 +10,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NewBrandComponent } from './pages/new-brand/new-brand.component';
 import { NewModelComponent } from './pages/new-model/new-model.component';
+import { BrandReportComponent } from './pages/brand-report/brand-report.component';
+import { ModelReportComponent } from './pages/model-report/model-report.component';
+import { DateReportComponent } from './pages/date-report/date-report.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { NewModelComponent } from './pages/new-model/new-model.component';
     ModelConfigurationComponent,
     DashboardComponent,
     NewBrandComponent,
-    NewModelComponent
+    NewModelComponent,
+    BrandReportComponent,
+    ModelReportComponent,
+    DateReportComponent
   ],
   imports: [
     AngularMaterialModule,

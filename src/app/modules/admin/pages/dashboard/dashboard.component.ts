@@ -23,4 +23,16 @@ export class DashboardComponent implements OnInit {
   modelConfiguration() {
     this._router.navigate(['/administracion/modelos$']);
   }
+
+  brandReport() {
+    this._router.navigate(['/administracion/reporte-marcas']);
+  }
+
+  modelReport() {
+    this._router.navigate(['/administracion/reporte-modelos']);
+  }
+
+  dateReport() {
+    this._router.navigate(['/administracion/reporte-fecha']);
+  }
 }

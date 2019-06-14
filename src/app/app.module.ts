@@ -46,6 +46,7 @@ import {UserService} from './core/services/user.service';
 import {ModelService} from './core/services/model.service';
 import {BrandService} from './core/services/brand.service';
 import {CardService} from './core/services/card.service';
+import {ReportService} from './core/services/report.service';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import {CardService} from './core/services/card.service';
     ModelService,
     BrandService,
     CardService,
+    ReportService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
