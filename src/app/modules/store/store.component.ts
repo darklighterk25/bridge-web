@@ -52,13 +52,24 @@ export class StoreComponent implements OnInit {
             if (response.ok) {
               this.brands = response.marcas;
               if (this.route.snapshot.paramMap.get('marca') !== null) {
-                this.searchForm.get('price').setValue(this.route.snapshot.paramMap.get('condicion'));
-                if (this.route.snapshot.paramMap.get('condicion') !== '') {
+                if (this.route.snapshot.paramMap.get('condicion') === 'Menor o igual'
+                    && !isNaN(parseInt(this.route.snapshot.paramMap.get('precio')))
+                    && parseInt(this.route.snapshot.paramMap.get('precio')) >= this.minimum
+                    && parseInt(this.route.snapshot.paramMap.get('precio')) < this.maximum) {
+                  this.searchForm.get('price').setValue(this.route.snapshot.paramMap.get('condicion'));
                   this.price = parseInt(this.route.snapshot.paramMap.get('precio'));
                 }
-                this.searchForm.get('brandIndex').setValue(this.route.snapshot.paramMap.get('marca'));
-                this.getModels(true);
+                if (!isNaN(parseInt(this.route.snapshot.paramMap.get('marca')))
+                    && parseInt(this.route.snapshot.paramMap.get('marca')) >= 0
+                    && parseInt(this.route.snapshot.paramMap.get('marca')) < this.brands.length) {
+                  this.searchForm.get('brandIndex').setValue(this.route.snapshot.paramMap.get('marca'));
+                  this.getModels(true);
+                } else {
+                  this.getCars();
+                  this.brandsState = RequestState.success;
+                }
               } else {
+                this.getCars();
                 this.brandsState = RequestState.success;
               }
             } else {
@@ -102,7 +113,11 @@ export class StoreComponent implements OnInit {
                 this.models = response.modelos;
                 this.modelsState = RequestState.success;
                 if (homeRequest) {
-                  this.searchForm.get('modelIndex').setValue(this.route.snapshot.paramMap.get('modelo'));
+                  if (!isNaN(parseInt(this.route.snapshot.paramMap.get('modelo')))
+                      && parseInt(this.route.snapshot.paramMap.get('modelo')) >= 0
+                      && parseInt(this.route.snapshot.paramMap.get('modelo')) < this.brands.length) {
+                    this.searchForm.get('modelIndex').setValue(this.route.snapshot.paramMap.get('modelo'));
+                  }
                   this.brandsState = RequestState.success;
                   this.getCars();
                 }
