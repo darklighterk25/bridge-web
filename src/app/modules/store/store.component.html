@@ -14,7 +14,7 @@
         <div class="row">
           <mat-form-field class="col-12 col-sm-6">
             <mat-label>Marca</mat-label>
-            <mat-select formControlName="brandIndex" (selectionChange)="getModels(2000)">
+            <mat-select formControlName="brandIndex" (selectionChange)="getModels(false)">
               <mat-option value="">Ninguno</mat-option>
               <mat-option *ngFor="let brand of brands; let i = index" value="{{i}}">{{brand.nombre}}</mat-option>
             </mat-select>

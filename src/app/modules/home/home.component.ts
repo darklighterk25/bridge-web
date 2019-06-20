@@ -171,15 +171,6 @@ export class HomeComponent implements OnInit {
     return Math.round(value / 1000) * 1000;
   }
 
-  /*inicializar() {
-    if (this.searchForm.get('brand').value !== '') {
-      this.searchForm.get('model').disable();
-    } else {
-      this.searchForm.get('model').enable();
-    }
-    this.searchForm.get('model').setValue('');
-  }*/
-
   getCars() {
     this._router.navigate(
       ['/catalogo',

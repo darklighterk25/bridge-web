@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {CarService} from '../../core/services/car.service';
 import {ModelService} from '../../core/services/model.service';
 import {BrandService} from '../../core/services/brand.service';
@@ -43,10 +43,6 @@ export class StoreComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('marca'));
-    console.log(this.route.snapshot.paramMap.get('modelo'));
-    console.log(this.route.snapshot.paramMap.get('condicion'));
-    console.log(this.route.snapshot.paramMap.get('precio'));
     this.brandsState = RequestState.loading;
     this._brandService.getBrands().subscribe(
       response => {
@@ -56,14 +52,12 @@ export class StoreComponent implements OnInit {
             if (response.ok) {
               this.brands = response.marcas;
               if (this.route.snapshot.paramMap.get('marca') !== null) {
-                this.searchForm.get('brandIndex').setValue(this.route.snapshot.paramMap.get('marca'));
-                this.getModels(0);
-                this.searchForm.get('modelIndex').setValue(this.route.snapshot.paramMap.get('modelo'));
                 this.searchForm.get('price').setValue(this.route.snapshot.paramMap.get('condicion'));
                 if (this.route.snapshot.paramMap.get('condicion') !== '') {
                   this.price = parseInt(this.route.snapshot.paramMap.get('precio'));
                 }
-                this.getCars();
+                this.searchForm.get('brandIndex').setValue(this.route.snapshot.paramMap.get('marca'));
+                this.getModels(true);
               } else {
                 this.brandsState = RequestState.success;
               }
@@ -71,7 +65,7 @@ export class StoreComponent implements OnInit {
               this.brandsState = RequestState.error;
             }
           },
-          2000
+          this.route.snapshot.paramMap.get('marca') !== null ? 0 : 2000
         );
       },
       error => {
@@ -79,7 +73,7 @@ export class StoreComponent implements OnInit {
           () => {
             this.brandsState = RequestState.error;
           },
-          2000
+          this.route.snapshot.paramMap.get('marca') !== null ? 0 : 2000
         );
       });
   }
@@ -92,7 +86,7 @@ export class StoreComponent implements OnInit {
     return Math.round(value / 1000) * 1000;
   }
 
-  getModels(delayTime: number) {
+  getModels(homeRequest: boolean) {
     this.searchForm.get('modelIndex').setValue('');
     if (this.searchForm.get('brandIndex').value !== '') {
       this.searchForm.get('brandIndex').disable();
@@ -107,11 +101,16 @@ export class StoreComponent implements OnInit {
               if (response.ok) {
                 this.models = response.modelos;
                 this.modelsState = RequestState.success;
+                if (homeRequest) {
+                  this.searchForm.get('modelIndex').setValue(this.route.snapshot.paramMap.get('modelo'));
+                  this.brandsState = RequestState.success;
+                  this.getCars();
+                }
               } else {
                 this.modelsState = RequestState.error;
               }
             },
-            delayTime
+            homeRequest ? 0 : 200
           );
         },
         error => {
@@ -122,7 +121,7 @@ export class StoreComponent implements OnInit {
               this.searchForm.get('brandIndex').enable();
               this.modelsState = RequestState.error;
             },
-            delayTime
+            homeRequest ? 0 : 200
           );
         });
     } else {
