@@ -91,8 +91,7 @@ export class PublishComponent implements OnInit {
     );
     this._brandService.getBrands().subscribe(
       response => {
-        this.marcas$ = response['marcas$'];
-        console.log(this.marcas$);
+        this.marcas$ = response['marcas'];
       }
     );
   }
@@ -101,8 +100,7 @@ export class PublishComponent implements OnInit {
     console.log(this.currentBrand);
     this._modelService.getModels(this.currentBrand).subscribe(
       response => {
-        this.modelos$ = response['modelos$'];
-        console.log(this.modelos$);
+        this.modelos$ = response['modelos'];
       }
     );
   }
@@ -128,7 +126,7 @@ export class PublishComponent implements OnInit {
     });
     this._carService.newCar(this.auto.value).subscribe(
       () => {
-        this.router.navigate(['/inicio']);
+        this.router.navigate(['/cuenta/publicaciones']);
       },
       error => console.error(error)
     );
