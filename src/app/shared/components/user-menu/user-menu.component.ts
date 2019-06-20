@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import {AuthenticationService} from '../../../core/authentication/authentication.service';
 import {Enlace} from '../../models/enlace.model';
-import {UserService} from '../../../core/services/user.service';
+import {ADMIN_LINKS} from '../../constants/admin-links';
 import {USER_LINKS} from '../../constants/user-links';
 import {Subscription} from 'rxjs';
 
@@ -14,20 +14,20 @@ import {Subscription} from 'rxjs';
 })
 export class UserMenuComponent implements OnInit, OnDestroy {
 
-  isAdmin: boolean;
-  links: Enlace[];
+  isAdmin = false;
+  links: Enlace[] = USER_LINKS;
   subscription: Subscription;
 
   constructor(private _authService: AuthenticationService,
-              private _router: Router,
-              private _userService: UserService) {
+              private _router: Router) {
   }
 
   ngOnInit(): void {
-    this.links = USER_LINKS;
     this._authService.isAdmin.subscribe(
-      data => this.isAdmin = data,
-      () => this.isAdmin = false
+      data => {
+        this.isAdmin = data;
+        this.isAdmin ? this.links = ADMIN_LINKS : this.links = USER_LINKS;
+      }
     );
   }
 

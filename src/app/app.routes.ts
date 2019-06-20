@@ -30,6 +30,7 @@ export const routes: Routes = [
   {path: 'pago', children: CHECKOUT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'contacto', children: CONTACT_ROUTES},
   {path: 'inicio', children: HOME_ROUTES},
+  {path: '', children: HOME_ROUTES},
   {path: 'nueva-publicacion', children: PUBLISH_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'eliminar-cuenta', children: DELETE_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'editar-informacion', children: EDIT_ROUTES, canActivate: [AuthenticationGuard]},
