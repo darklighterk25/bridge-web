@@ -17,4 +17,29 @@ export class ReportService {
   getModelReport(): Observable<any> {
     return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/reporte-modelos`);
   }
+
+  getDateReport(day: number, month: number, year: number): Observable<any> {
+    let request = '/reporte-fecha';
+    let params = false;
+    if (day != null) {
+      request += '?dia=' + day;
+      params = true;
+    }
+    if (month != null) {
+      if (!params) {
+        request += '?mes=' + month;
+        params = true;
+      } else {
+        request += '&mes=' + month;
+      }
+    }
+    if (year != null) {
+      if (!params) {
+        request += '?anio=' + year;
+      } else {
+        request += '&anio=' + year;
+      }
+    }
+    return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}${request}`);
+  }
 }

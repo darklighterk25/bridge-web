@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 import {AdminComponent} from './admin.component';
 import {AngularMaterialModule} from '../angular-material.module';
@@ -14,6 +14,10 @@ import { BrandReportComponent } from './pages/brand-report/brand-report.componen
 import { ModelReportComponent } from './pages/model-report/model-report.component';
 import { DateReportComponent } from './pages/date-report/date-report.component';
 import { ChartsModule } from 'ng2-charts';
+import { registerLocaleData } from '@angular/common';
+import locale from '@angular/common/locales/es';
+
+registerLocaleData(locale, 'es');
 
 @NgModule({
   declarations: [
@@ -27,6 +31,7 @@ import { ChartsModule } from 'ng2-charts';
     ModelReportComponent,
     DateReportComponent
   ],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' } ],
   imports: [
     AngularMaterialModule,
     AppRoutingModule,

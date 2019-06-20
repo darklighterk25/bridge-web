@@ -16,7 +16,7 @@ export class CarService {
     return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/auto/${id}`, APP_SETTINGS.OPTIONS);
   }
 
-  getCars(brand: string, model: string, price: number): Observable<any> {
+  getCars(brand: string, model: string, price: number, quantity: number): Observable<any> {
     let request = '/autos';
     let params = false;
     if (brand != null) {
@@ -24,18 +24,26 @@ export class CarService {
       params = true;
     }
     if (model != null) {
-      if (params) {
+      if (!params) {
         request += '?modelo=' + model;
+        params = true;
       } else {
         request += '&modelo=' + model;
-        params = true;
       }
     }
     if (price != null) {
-      if (params) {
+      if (!params) {
         request += '?precio=' + price;
+        params = true;
       } else {
         request += '&precio=' + price;
+      }
+    }
+    if (quantity != null) {
+      if (!params) {
+        request += '?cantidad=' + quantity;
+      } else {
+        request += '&cantidad=' + quantity;
       }
     }
     return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}${request}`);

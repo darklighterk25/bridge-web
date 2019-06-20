@@ -41,22 +41,39 @@
       </div>
     </form>
   </mat-card-content>
-  <div class="example-button-row d-flex justify-content-center">
-    <button mat-raised-button color="primary" [disabled]="form.invalid || reportState == 1">Generar reporte</button>
+  <div class="example-button-row d-flex justify-content-center mb-4">
+    <button mat-raised-button color="primary" [disabled]="form.invalid || reportState == 1" (click)="getReport()">Generar reporte</button>
   </div>
-  <mat-card-content *ngIf="true">
-    <div class="flex">
-      <div class="flex-item">
-        <div style="display: block;">
-          <canvas baseChart width="400" height="400"
-                  [datasets]="lineChartData"
-                  [labels]="lineChartLabels"
-                  [options]="lineChartOptions"
-                  [colors]="lineChartColors"
-                  [legend]="lineChartLegend"
-                  [chartType]="lineChartType"></canvas>
+  <mat-card-content class="d-flex justify-content-center" *ngIf="reportState != 2">
+    <mat-spinner *ngIf="reportState == 1" mode="indeterminate"></mat-spinner>
+    <mat-error *ngIf="reportState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </mat-card-content>
+  <mat-card-content *ngIf="reportState == 2 && !emptyReport">
+    <div class="mb-2">
+      <h5 *ngIf="reportType == 1" class="w-100 text-center">Autos vendidos por marca</h5>
+      <h5 *ngIf="reportType == 2" class="w-100 text-center">Comision obtenida por marca</h5>
+    </div>
+    <div>
+      <div>
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="reportType == 1 ? barChartOptionsForSoldCars : barChartOptionsForEarnedCommisions"
+                  [legend]="barChartLegend"
+                  [chartType]="barChartType">
+          </canvas>
         </div>
       </div>
     </div>
+    <div class="example-button-row d-flex justify-content-center">
+      <button mat-raised-button color="primary" (click)="changeReportType()" class="mr-2">
+        <span *ngIf="reportType == 1">Reporte de comisiones obtenidas</span>
+        <span *ngIf="reportType == 2">Reporte de autos vendidos</span>
+      </button>
+    </div>
+  </mat-card-content>
+  <mat-card-content class="d-flex justify-content-center" *ngIf="reportState == 2 && emptyReport">
+    <mat-hint>No existen ventas para la fecha proporcionada, intente con otra fecha.</mat-hint>
   </mat-card-content>
 </mat-card>

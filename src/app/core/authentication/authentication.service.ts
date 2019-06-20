@@ -47,6 +47,6 @@ export class AuthenticationService {
   signOut() {
     this.admin.next(false);
     this.loggedIn.next(false);
-    this._router.navigate(['/']);
+    this._router.navigate(['/inicio']);
   }
 }

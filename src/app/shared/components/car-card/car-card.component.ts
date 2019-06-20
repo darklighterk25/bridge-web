@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class CarCardComponent implements OnInit {
 
-  @Input() vehiculo: any = null;
+  @Input() car: any = null;
 
   constructor() {
   }
@@ -16,12 +16,12 @@ export class CarCardComponent implements OnInit {
   }
 
   mostrarVerMas() {
-    document.getElementById('verMas' + this.vehiculo.id).classList.remove('fadeOut');
-    document.getElementById('verMas' + this.vehiculo.id).classList.add('fadeIn');
+    document.getElementById('verMas' + this.car._id).classList.remove('fadeOut');
+    document.getElementById('verMas' + this.car._id).classList.add('fadeIn');
   }
 
   quitarVerMas() {
-    document.getElementById('verMas' + this.vehiculo.id).classList.remove('fadeIn');
-    document.getElementById('verMas' + this.vehiculo.id).classList.add('fadeOut');
+    document.getElementById('verMas' + this.car._id).classList.remove('fadeIn');
+    document.getElementById('verMas' + this.car._id).classList.add('fadeOut');
   }
 }

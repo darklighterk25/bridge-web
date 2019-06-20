@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PaymentService} from '../../../../../../core/services/payment.service';
 import {Router} from '@angular/router';
+import {RequestState} from '../../../../../../shared/enums/request-state.enum';
+import {CardService} from '../../../../../../core/services/card.service';
 
 @Component({
   selector: 'app-new-card',
@@ -14,8 +16,9 @@ export class NewCardComponent implements OnInit {
   // cardType: number;
   paymentForm: FormGroup;
   disablePaymentBtn: boolean;
+  newState: RequestState;
 
-  constructor(private _paymentService: PaymentService, private _router: Router) {
+  constructor(private _paymentService: PaymentService, private _router: Router, private _cardService: CardService) {
     this.disablePaymentBtn = true;
     this.paymentForm = new FormGroup({
       'name': new FormControl(
@@ -40,34 +43,67 @@ export class NewCardComponent implements OnInit {
           Validators.required
         ]
       ),
-      'expiration': new FormControl(
+      'expirationDate': new FormControl(
         '',
         [
           Validators.required,
           Validators.pattern('^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$')
         ]
       ),
-      'cvv': new FormControl(
+      'code': new FormControl(
         '',
         [
           Validators.required,
           Validators.pattern('[0-9]*'),
-          Validators.minLength(3)
+          Validators.minLength(4)
         ]
       )
     });
   }
 
   ngOnInit() {
-    this.paymentForm.valueChanges.subscribe(
-      () => {
-        this.disablePaymentBtn = !this.paymentForm.valid;
-        // this.cardType = this._paymentService.getCardType(this.paymentForm.get('number').value);
-      }
-    );
+    this.newState = RequestState.initial;
   }
 
   returnToCards() {
     this._router.navigate(['/cuenta/tarjetas/mis-tarjetas']);
+  }
+
+  new() {
+    this.newState = RequestState.loading;
+    const data = {
+      titular: this.paymentForm.get('name').value,
+      numero: this.paymentForm.get('number').value,
+      tipo: this.paymentForm.get('type').value,
+      fechaVencimiento: this.paymentForm.get('expirationDate').value,
+      codigo: this.paymentForm.get('code').value
+    };
+    this._cardService.newCard(data).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.newState = RequestState.success;
+            } else {
+              this.newState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.newState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  returnToConfiguration() {
+    this._router.navigate(['/cuenta/tarjetas/mis-tarjetas']);
+
   }
 }

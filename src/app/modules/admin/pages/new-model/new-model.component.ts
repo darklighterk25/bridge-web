@@ -49,7 +49,7 @@ export class NewModelComponent implements OnInit {
           () => {
             console.log(response);
             if (response.ok) {
-              this.brands = response.marcas$;
+              this.brands = response.marcas;
               this.brandsState = RequestState.success;
             } else {
               this.brandsState = RequestState.error;
@@ -101,6 +101,6 @@ export class NewModelComponent implements OnInit {
   }
 
   returnToConfiguration() {
-    this._router.navigate(['/administracion/modelos$']);
+    this._router.navigate(['/administracion/modelos']);
   }
 }

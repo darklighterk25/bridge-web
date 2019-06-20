@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {RequestState} from '../../shared/enums/request-state.enum';
+import {CarService} from '../../core/services/car.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-store-page',
@@ -8,10 +11,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class StorePageComponent implements OnInit {
 
-  title = 'Artículo';
+  title = 'Página individual del auto';
   posicionImagen = 0;
   carrouselImagen = 0;
   id = 3;
+  car: any;
   vehiculo = {
     id: 4,
     marca: 'Nissan',
@@ -81,8 +85,9 @@ export class StorePageComponent implements OnInit {
   };
   deshabilitarBotonComentario = true;
   formularioComentario: FormGroup;
+  carState: RequestState;
 
-  constructor() {
+  constructor(private _carService: CarService, private route: ActivatedRoute) {
     this.formularioComentario = new FormGroup({
       'comentario': new FormControl(
         '',
@@ -99,6 +104,31 @@ export class StorePageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.carState = RequestState.loading;
+    this._carService.getCar(this.route.snapshot.paramMap.get('_id')).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.car = response.auto;
+              this.carState = RequestState.success;
+            } else {
+              this.carState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            // console.error(error);
+            this.carState = RequestState.error;
+          },
+          2000
+        );
+      });
   }
 
   mostrarIcono() {

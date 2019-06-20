@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
+import {RequestState} from '../../shared/enums/request-state.enum';
+import {CarService} from '../../core/services/car.service';
+import {Router} from '@angular/router';
+import {ModelService} from '../../core/services/model.service';
+import {BrandService} from '../../core/services/brand.service';
 
 @Component({
   selector: 'app-home',
@@ -11,96 +16,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class HomeComponent implements OnInit {
 
   title = 'Inicio';
-  busqueda: FormGroup;
-  minimo = 25000;
-  maximo = 2000000;
-  precio = this.minimo;
-  vehiculos = [
-    {
-      id: 1,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 2,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 3,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 4,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 5,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 6,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    }
-  ];
+  searchForm: FormGroup;
+  minimum = 25000;
+  maximum = 2000000;
+  price = this.minimum;
 
   imagenes = [
     {
@@ -124,42 +43,151 @@ export class HomeComponent implements OnInit {
       texto: 'Te proporcionamos vehículos de gran variedad de las marcas$ del mercado.'
     }
   ];
+  carsState: RequestState;
+  modelsState: RequestState;
+  brandsState: RequestState;
+  brands = [];
+  models = [];
+  cars = [];
 
-  constructor(config: NgbCarouselConfig) {
+  constructor(config: NgbCarouselConfig,
+              private _carService: CarService,
+              private _router: Router,
+              private _modelService: ModelService,
+              private _brandService: BrandService) {
     // customize default values of carousels used by this component tree
     config.interval = 8000;
     config.wrap = true;
     config.keyboard = true;
     config.pauseOnHover = true;
-    this.busqueda = new FormGroup({
-      'marca': new FormControl(''
+    this.searchForm = new FormGroup({
+      'brandIndex': new FormControl(''
       ),
-      'modelo': new FormControl({value: '', disabled: true}
+      'modelIndex': new FormControl({value: '', disabled: true}
       ),
-      'estado': new FormControl(''
-      ),
-      'precio': new FormControl(''
+      'price': new FormControl(''
       ),
     });
   }
 
   ngOnInit() {
+    this.modelsState = RequestState.initial;
+    this.carsState = RequestState.loading;
+    this.brandsState = RequestState.loading;
+    this._brandService.getBrands().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.brands = response.marcas;
+              this.brandsState = RequestState.success;
+            } else {
+              this.brandsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.brandsState = RequestState.error;
+          },
+          2000
+        );
+      });
+    this._carService.getCars(null, null, null, 6).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.cars = response.autos;
+              this.carsState = RequestState.success;
+            } else {
+              this.carsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            // console.error(error);
+            this.carsState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  getModels() {
+    this.searchForm.get('modelIndex').setValue('');
+    if (this.searchForm.get('brandIndex').value !== '') {
+      this.searchForm.get('brandIndex').disable();
+      this.searchForm.get('modelIndex').enable();
+      this.modelsState = RequestState.loading;
+      this._modelService.getModels(this.brands[parseInt(this.searchForm.get('brandIndex').value)]._id).subscribe(
+        response => {
+          setTimeout(
+            () => {
+              console.log(response);
+              this.searchForm.get('brandIndex').enable();
+              if (response.ok) {
+                this.models = response.modelos;
+                this.modelsState = RequestState.success;
+              } else {
+                this.modelsState = RequestState.error;
+              }
+            },
+            2000
+          );
+        },
+        error => {
+          setTimeout(
+            () => {
+              console.error(error);
+              this.searchForm.get('modelIndex').disable();
+              this.searchForm.get('brandIndex').enable();
+              this.modelsState = RequestState.error;
+            },
+            2000
+          );
+        });
+    } else {
+      this.searchForm.get('modelIndex').disable();
+      this.modelsState = RequestState.initial;
+      this.models = [];
+    }
   }
 
   formatLabel(value: number | null) {
     return Math.round(value / 1000) + 'k';
   }
 
-  obtenerValor(value: number | null) {
+  getRoundedValue(value: number | null) {
     return Math.round(value / 1000) * 1000;
   }
 
-  inicializar() {
-    if (this.busqueda.get('marca').value !== '') {
-      this.busqueda.get('modelo').disable();
+  /*inicializar() {
+    if (this.searchForm.get('brand').value !== '') {
+      this.searchForm.get('model').disable();
     } else {
-      this.busqueda.get('modelo').enable();
+      this.searchForm.get('model').enable();
     }
-    this.busqueda.get('modelo').setValue('');
+    this.searchForm.get('model').setValue('');
+  }*/
+
+  getCars() {
+    this._router.navigate(
+      ['/catalogo',
+        {
+          marca: this.searchForm.get('brandIndex').value,
+          modelo: this.searchForm.get('modelIndex').value,
+          condicion: this.searchForm.get('price').value,
+          precio: this.searchForm.get('price').value === '' ? '' : this.price
+        }]);
   }
 }

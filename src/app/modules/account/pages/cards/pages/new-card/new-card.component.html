@@ -1,7 +1,7 @@
 <h3 class="text-center mat-title">
   {{ title }}
 </h3>
-<mat-card class="mb-4">
+<mat-card class="mb-4" *ngIf="newState != 2">
   <mat-card-content>
     <form [formGroup]="paymentForm">
       <div class="row">
@@ -50,37 +50,49 @@
         <!-- <app-credit-card-icon [cardType]="cardType" class="col-1"></app-credit-card-icon> -->
         <mat-form-field class="col-12 col-md-4">
           <mat-label>Fecha de vencimiento</mat-label>
-          <input matInput formControlName="expiration" maxlength="5" required>
-          <mat-error *ngIf="paymentForm.controls['expiration'].errors?.required
-                                        &&( paymentForm.controls['expiration'].dirty || paymentForm.controls['expiration'].touched )"
+          <input matInput formControlName="expirationDate" maxlength="5" required>
+          <mat-error *ngIf="paymentForm.controls['expirationDate'].errors?.required
+                                        &&( paymentForm.controls['expirationDate'].dirty || paymentForm.controls['expirationDate'].touched )"
                      class="invalid-feedback d-block">
             Este campo es requerido.
           </mat-error>
-          <mat-error *ngIf="paymentForm.controls['expiration'].errors?.pattern
-                                        &&( paymentForm.controls['expiration'].dirty || paymentForm.controls['expiration'].touched)"
+          <mat-error *ngIf="paymentForm.controls['expirationDate'].errors?.pattern
+                                        &&( paymentForm.controls['expirationDate'].dirty || paymentForm.controls['expirationDate'].touched)"
                      class="invalid-feedback d-block">
             Fecha inválida.
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-12 col-sm-4">
-          <mat-label>CVV</mat-label>
-          <input matInput formControlName="cvv" maxlength="3" required>
-          <mat-error *ngIf="paymentForm.controls['cvv'].errors?.required
-                                        &&( paymentForm.controls['cvv'].dirty || paymentForm.controls['cvv'].touched )"
+          <mat-label>Código</mat-label>
+          <input matInput type="password" formControlName="code" maxlength="4" required>
+          <mat-error *ngIf="paymentForm.controls['code'].errors?.required
+                                        &&( paymentForm.controls['code'].dirty || paymentForm.controls['code'].touched )"
                      class="invalid-feedback d-block">
             Este campo es requerido.
           </mat-error>
-          <mat-error *ngIf="(paymentForm.controls['cvv'].errors?.pattern || paymentForm.controls['cvv'].errors?.minlength)
-                                        &&( paymentForm.controls['cvv'].dirty || paymentForm.controls['cvv'].touched)"
+          <mat-error *ngIf="(paymentForm.controls['code'].errors?.pattern || paymentForm.controls['code'].errors?.minlength)
+                                        &&( paymentForm.controls['code'].dirty || paymentForm.controls['code'].touched)"
                      class="invalid-feedback d-block">
-            CVV inválido.
+            Código inválido.
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="example-button-row d-flex justify-content-center mt-3">
-        <button mat-raised-button color="primary" class="mr-2" (click)="returnToCards()">Cancelar <i class="fas fa-times"></i></button>
-        <button mat-raised-button [disabled]="disablePaymentBtn" color="primary" class="m-1">Aceptar  <i class="fas fa-check"></i></button>
-      </div>
     </form>
   </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 0 || newState == 3">
+    <button mat-raised-button color="warn" (click)="returnToCards()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+    <button mat-raised-button color="primary" (click)="new()" [disabled]="paymentForm.invalid">Aceptar <i class="fas fa-check"></i></button>
+  </div>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 1 || newState == 3">
+    <mat-spinner *ngIf="newState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+    <mat-error *ngIf="newState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </div>
+</mat-card>
+<mat-card *ngIf="newState == 2" class="container-fluid p-5 mb-4">
+  <div class="example-button-row d-flex justify-content-center mb-2">
+    <mat-hint>Tarjeta guardada satisfactoriamente.</mat-hint>
+  </div>
+  <div class="example-button-row d-flex justify-content-center">
+    <button mat-stroked-button color="primary" (click)="returnToConfiguration()" class="mr-2">Regresar a la configuración</button>
+  </div>
 </mat-card>
