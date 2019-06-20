@@ -53,7 +53,7 @@ export class UserService {
   }
 
   updatePhoto(datos: any): Observable<any> {
-    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario`, datos, APP_SETTINGS.OPTIONS);
+    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario/imagen`, datos);
   }
 
   deleteUser(): Observable<any> {

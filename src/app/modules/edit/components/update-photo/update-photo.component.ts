@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RequestState} from '../../../../shared/enums/request-state.enum';
 import {UserService} from '../../../../core/services/user.service';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-update-photo',
@@ -14,7 +15,8 @@ export class UpdatePhotoComponent implements OnInit {
   selectedFile = null;
   imageState: RequestState;
 
-  constructor(private _userService: UserService) {
+  constructor(private formBuilder: FormBuilder,
+              private _userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -30,27 +32,21 @@ export class UpdatePhotoComponent implements OnInit {
 
   onUpload(): void {
     this.imageState = RequestState.loading;
-    this._userService.updatePhoto(this.selectedFile).subscribe(
+    const fd = new FormData();
+    fd.append('imagen', this.selectedFile, this.selectedFile.name);
+    this._userService.updatePhoto(fd).subscribe(
       response => {
-        setTimeout(
-          () => {
-            console.log(response);
-            if (response.ok) {
-              this.imageState = RequestState.success;
-            } else {
-              this.imageState = RequestState.error;
-            }
-          },
-          2000
-        );
+        if (response.ok) {
+          this.imageState = RequestState.success;
+          console.log(response);
+        } else {
+          this.imageState = RequestState.error;
+          console.error(response);
+        }
       },
       error => {
-        setTimeout(
-          () => {
-            this.imageState = RequestState.error;
-          },
-          2000
-        );
+        this.imageState = RequestState.error;
+        console.error(error);
       });
   }
 }
