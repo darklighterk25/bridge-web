@@ -14,6 +14,7 @@ import {Subscription} from 'rxjs';
 })
 export class UserMenuComponent implements OnInit, OnDestroy {
 
+  isAdmin: boolean;
   links: Enlace[];
   subscription: Subscription;
 
@@ -24,6 +25,10 @@ export class UserMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.links = USER_LINKS;
+    this._authService.isAdmin.subscribe(
+      data => this.isAdmin = data,
+      () => this.isAdmin = false
+    );
   }
 
   ngOnDestroy(): void {

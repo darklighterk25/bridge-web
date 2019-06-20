@@ -1,4 +1,4 @@
-<button mat-button [routerLink]="['/administracion']" routerLinkActive="mat-primary" matTooltip="Administración">
+<button mat-button *ngIf="isAdmin" [routerLink]="['/administracion']" routerLinkActive="mat-primary" matTooltip="Administración">
   <i class="far fa-lg fa-chart-bar"></i>
 </button>
 <!--<button mat-button [routerLink]="['/chat']" routerLinkActive="mat-primary" matTooltip="Mensajes">-->
