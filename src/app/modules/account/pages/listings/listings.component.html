@@ -36,7 +36,7 @@
           <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo/' + vehiculo._id">Ver más <i
             class="far fa-eye"></i></a>
           <a mat-button mat-raised-button (click)="deleteCar(i, vehiculo._id)" color="warn" class="mr-2">Eliminar <i class="fas fa-trash-alt"></i></a>
-          <a mat-button mat-stroked-button [routerLink]="'/editar-publicacion' + vehiculo._id" color="primary" class="">Editar {{vehiculo._id}}<i
+          <a mat-button mat-stroked-button [routerLink]="'/editar-publicacion/' + vehiculo._id" color="primary" class="">Editar<i
             class="fas fa-edit"></i></a>
         </div>
       </div>

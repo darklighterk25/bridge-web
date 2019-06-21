@@ -1,11 +1,12 @@
 import {ActivatedRoute} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
 import {CarService} from '../../core/services/car.service';
 import {ModelService} from '../../core/services/model.service';
 import {BrandService} from '../../core/services/brand.service';
+import {RequestState} from '../../shared/enums/request-state.enum';
 
 @Component({
   selector: 'app-edit-publication',
@@ -15,6 +16,10 @@ export class EditPublicationComponent implements OnInit {
 
   title = 'Editar Publicación';
 
+  disableBtn: boolean;
+  selectedFile = null;
+  imageState: RequestState;
+
   marcas$: any[];
   modelos$: any[];
   id: string;
@@ -22,7 +27,6 @@ export class EditPublicationComponent implements OnInit {
   currentBrand: string;
   currentModel: string;
 
-  disableBtn: boolean;
   auto: FormGroup;
   extranjero: boolean;
   alarma: boolean;
@@ -44,7 +48,6 @@ export class EditPublicationComponent implements OnInit {
               private _brandService: BrandService,
               private _carService: CarService,
               private _modelService: ModelService) {
-    this.disableBtn = true;
     this.extranjero = false;
     this.alarma = false;
     this.aireAcondicionado = false;
@@ -87,46 +90,42 @@ export class EditPublicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.auto.valueChanges.subscribe(
-      () => {
-        this.disableBtn = !this.auto.valid;
-      }
-    );
+    this.disableBtn = true;
+    this.imageState = RequestState.initial;
+    this.id = this.route.snapshot.paramMap.get('_id');
     this._brandService.getBrands().subscribe(
       response => {
-        this.marcas$ = response['marcas$'];
-        console.log(this.marcas$);
+        this.marcas$ = response['marcas'];
       }
     );
     this._carService.getCar(this.id).subscribe(
       response => {
-        this.currentBrand = response['marca'];
-        this.currentModel = response['modelo'];
-        this.auto = new FormGroup({
-          'modelo':  new FormControl(response['modelo'], [Validators.required]),
-          'precio': new FormControl(response['precio'], [Validators.required]),
-          'extranjero': new FormControl(response['extranjero']),
-          'kilometraje':  new FormControl(response['kilometraje'], [Validators.required]),
-          'totalDuenos': new FormControl(response['totalDuenos'], [Validators.required]),
-          'totalAccidentes':  new FormControl(response['totalAccidentes'], [Validators.required]),
-          'tipoMotor':  new FormControl(response['tipoMotor'], [Validators.required]),
-          'transmision':  new FormControl(response['transmision'], [Validators.required]),
-          'alarma': new FormControl(response['alarma']),
-          'aireAcondicionado': new FormControl(response['aireAcondicionado']),
-          'colorInterior': new FormControl(response['colorInterior'], [Validators.required]),
-          'colorExterior': new FormControl(response['colorExterior'], [Validators.required]),
-          'vidriosElectricos': new FormControl(response['vidriosElectricos']),
-          'puertasElectricas': new FormControl(response['puertasElectricas']),
-          'bolsasDeAirePiloto': new FormControl(response['bolsasDeAirePiloto']),
-          'bolsasDeAirePasajero': new FormControl(response['bolsasDeAirePasajero']),
-          'bolsasDeAireLaterales': new FormControl(response['bolsasDeAireLaterales']),
-          'seguroDeNinos': new FormControl(response['seguroDeNinos']),
-          'controlDeEstabilidad': new FormControl(response['controlDeEstabilidad']),
-          'bluetooth': new FormControl(response['bluetooth']),
-          'sensorFrontal': new FormControl(response['sensorFrontal']),
-          'sensorTrasero': new FormControl(response['sensorTrasero']),
-          'camaraTrasera': new FormControl(response['camaraTrasera']),
+        this.currentBrand = response.auto.modelo.marca['nombre'];
+        this.currentModel = response.auto.modelo['nombre'];
+        this.auto.setValue({
+          modelo:  response.auto['modelo'],
+          precio: response.auto['precio'],
+          extranjero: response.auto['extranjero'],
+          totalDuenos: response.auto['totalDuenos'],
+          totalAccidentes: response.auto['totalAccidentes'],
+          tipoMotor: response.auto['tipoMotor'],
+          transmision:  response.auto['transmision'],
+          colorInterior: response.auto['colorInterior'],
+          colorExterior: response.auto['colorExterior'],
+          kilometraje: response.auto['kilometraje'],
+          alarma: response.auto['alarma'],
+          aireAcondicionado: response.auto['aireAcondicionado'],
+          vidriosElectricos: response.auto['vidriosElectricos'],
+          puertasElectricas: response.auto['puertasElectricas'],
+          bolsasDeAirePiloto: response.auto['bolsasDeAirePiloto'],
+          bolsasDeAirePasajero: response.auto['bolsasDeAirePasajero'],
+          bolsasDeAireLaterales: response.auto['bolsasDeAireLaterales'],
+          seguroDeNinos: response.auto['seguroDeNinos'],
+          controlDeEstabilidad: response.auto['controlDeEstabilidad'],
+          bluetooth: response.auto['bluetooth'],
+          sensorFrontal: response.auto['sensorFrontal'],
+          sensorTrasero: response.auto['sensorTrasero'],
+          camaraTrasera: response.auto['camaraTrasera']
         });
       },
       () => {
@@ -159,33 +158,42 @@ export class EditPublicationComponent implements OnInit {
     );
   }
 
+
+  onFileSelected(event): void {
+    this.selectedFile = event.target.files[0];
+    this.disableBtn = false;
+    console.log(this.selectedFile);
+  }
+
+  onUpload(): void {
+    this.imageState = RequestState.loading;
+    const fd = new FormData();
+    fd.append('imagen', this.selectedFile, this.selectedFile.name);
+    this._carService.updatePhoto(fd, this.id).subscribe(
+      response => {
+        if (response.ok) {
+          this.imageState = RequestState.success;
+        } else {
+          this.imageState = RequestState.error;
+        }
+      },
+      error => {
+        this.imageState = RequestState.error;
+        console.error(error);
+      });
+  }
+
   setCurrentBrand(): void {
-    console.log(this.currentBrand);
     this._modelService.getModels(this.currentBrand).subscribe(
       response => {
-        this.modelos$ = response['modelos$'];
-        console.log(this.modelos$);
+        this.modelos$ = response['modelos'];
       }
     );
   }
 
   submit(): void {
-    this.auto.patchValue({
-      extranjero: this.extranjero,
-      alarma: this.alarma,
-      aireAcondicionado: this.aireAcondicionado,
-      vidriosElectricos: this.vidriosElectricos,
-      puertasElectricas: this.puertasElectricas,
-      bolsasDeAirePiloto: this.bolsasDeAirePiloto,
-      bolsasDeAirePasajero: this.bolsasDeAirePasajero,
-      bolsasDeAireLaterales: this.bolsasDeAireLaterales,
-      seguroDeNinos: this.seguroDeNinos,
-      controlDeEstabilidad: this.controlDeEstabilidad,
-      bluetooth: this.bluetooth,
-      sensorFrontal: this.sensorFrontal,
-      sensorTrasero: this.sensorTrasero,
-      camaraTrasera: this.camaraTrasera
-    });
-    console.log(this.auto);
+    this._carService.update(this.id).subscribe(
+      () => this.router.navigate(['cuenta/publicaciones'])
+    );
   }
 }

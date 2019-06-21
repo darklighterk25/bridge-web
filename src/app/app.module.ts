@@ -73,7 +73,7 @@ import {ChartsModule} from 'ng2-charts';
     ContactModule,
     DeleteModule,
     EditModule,
-    // EditPublicationModule,
+    EditPublicationModule,
     FAQModule,
     HomeModule,
     LayoutModule,

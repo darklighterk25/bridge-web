@@ -56,4 +56,13 @@ export class CarService {
   newCar(data: any): Observable<any> {
     return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/auto`, data, APP_SETTINGS.OPTIONS);
   }
+
+  update(id: string): Observable<Object> {
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/auto/${id}`, APP_SETTINGS.OPTIONS);
+  }
+
+  updatePhoto(data: any, id: string): Observable<any> {
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/auto/imagen-principal/${id}`, data);
+  }
+
 }
