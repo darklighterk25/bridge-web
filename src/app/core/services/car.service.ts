@@ -12,7 +12,7 @@ export class CarService {
   constructor(private _httpClient: HttpClient) {
   }
 
-  deleteCar(id: string): Observable<Object> {
+  deleteCar(id: string): Observable<any> {
     return this._httpClient.delete(`${APP_SETTINGS.API_ENDPOINT}/auto/${id}`, APP_SETTINGS.OPTIONS);
   }
 

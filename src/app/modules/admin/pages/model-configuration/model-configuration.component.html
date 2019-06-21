@@ -1,14 +1,14 @@
 <h3 class="text-center mat-title">
   {{ title }}
 </h3>
-<a *ngIf="brandsState == 2 && updateState != 1 && !deleteModel" mat-button color="primary" (click)="new()">
+<a *ngIf="brandsState == 2 && updateState != 1 && !deleteModel && brands.length != 0" mat-button color="primary" (click)="new()">
   Nuevo modelo&nbsp;<i class="fas fa-plus"></i>
 </a>
 <mat-card class="mb-4 d-flex justify-content-center" *ngIf="brandsState != 2">
   <mat-spinner *ngIf="brandsState == 1" mode="indeterminate"></mat-spinner>
   <mat-error *ngIf="brandsState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
 </mat-card>
-<mat-card class="mb-4" *ngIf="brandsState == 2">
+<mat-card class="mb-4" *ngIf="brandsState == 2 && brands.length != 0">
   <mat-card-content>
     <form [formGroup]="form">
       <div class="row">
@@ -70,7 +70,7 @@
   </div>
   <mat-card-content *ngIf="deleteModel">
     <h5 class="text-center">Eliminar modelo</h5>
-    <p class="text-center">¿Seguro que deseas eliminar este modelo?</p>
+    <p class="text-center">¿Seguro que deseas eliminar el modelo {{models[form.get('modelIndex').value].nombre}} de la marca {{brands[form.get('brandIndex').value].nombre}}?</p>
   </mat-card-content>
   <div class="example-button-row d-flex justify-content-center" *ngIf="deleteModel && (deleteState == 0 || deleteState == 3)">
     <button mat-raised-button color="primary" (click)="deleteCancelation()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
@@ -81,4 +81,9 @@
     <mat-hint *ngIf="deleteState == 2">Modelo eliminado satisfactoriamente.</mat-hint>
     <mat-error *ngIf="deleteState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
   </div>
+</mat-card>
+<mat-card *ngIf="brandsState == 2 && brands.length == 0" class="container-fluid p-5">
+  <h5 class="mt-5 text-center">¡Por el momento no se tiene ninguna marca dada de alta!</h5>
+  <p class="text-center mt-2 mb-1">¡Da de alta tu primera marca!</p>
+  <p class="mb-5 text-center">Solo debes de presionar en <a mat-button color="primary" [routerLink]="'/administracion/nueva-marca'">Nueva marca&nbsp;<i class="fas fa-plus"></i></a> para agregar una marca al sitio.</p>
 </mat-card>

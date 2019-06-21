@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {BrandService} from '../../core/services/brand.service';
 import {CarService} from '../../core/services/car.service';
 import {ModelService} from '../../core/services/model.service';
+import {RequestState} from '../../shared/enums/request-state.enum';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,12 @@ import {ModelService} from '../../core/services/model.service';
 export class PublishComponent implements OnInit {
 
   title = 'Nueva Publicación';
+  newState: RequestState;
+  brandsState: RequestState;
+  modelsState: RequestState;
 
-  marcas$: any[];
-  modelos$: any[];
+  marcas: any[];
+  modelos: any[];
 
   currentBrand: string;
   currentModel: string;
@@ -57,14 +61,14 @@ export class PublishComponent implements OnInit {
     this.sensorTrasero = false;
     this.camaraTrasera = false;
     this.auto = new FormGroup({
-      'modelo':  new FormControl(''),
+      'modelo': new FormControl({value: '', disabled: this.modelsState !== 2}),
       'precio': new FormControl(0, [Validators.required]),
       'extranjero': new FormControl(this.extranjero),
-      'kilometraje':  new FormControl(0, [Validators.required]),
+      'kilometraje': new FormControl(0, [Validators.required]),
       'totalDuenos': new FormControl(1, [Validators.required]),
-      'totalAccidentes':  new FormControl(0, [Validators.required]),
-      'tipoMotor':  new FormControl('Gasolina', [Validators.required]),
-      'transmision':  new FormControl(0, [Validators.required]),
+      'totalAccidentes': new FormControl(0, [Validators.required]),
+      'tipoMotor': new FormControl('Gasolina', [Validators.required]),
+      'transmision': new FormControl(0, [Validators.required]),
       'alarma': new FormControl(this.alarma),
       'aireAcondicionado': new FormControl(this.aireAcondicionado),
       'colorInterior': new FormControl('', [Validators.required]),
@@ -89,20 +93,70 @@ export class PublishComponent implements OnInit {
         this.disableBtn = !this.auto.valid;
       }
     );
+    this.newState = RequestState.initial;
+    this.modelsState = RequestState.initial;
+    this.brandsState = RequestState.loading;
     this._brandService.getBrands().subscribe(
       response => {
-        this.marcas$ = response['marcas'];
-      }
-    );
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.marcas = response.marcas;
+              this.brandsState = RequestState.success;
+            } else {
+              this.brandsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.brandsState = RequestState.error;
+          },
+          2000
+        );
+      });
   }
 
   setCurrentBrand(): void {
     console.log(this.currentBrand);
-    this._modelService.getModels(this.currentBrand).subscribe(
-      response => {
-        this.modelos$ = response['modelos'];
-      }
-    );
+    if (this.currentBrand !== '') {
+      this.modelsState = RequestState.loading;
+      this._modelService.getModels(this.currentBrand).subscribe(
+        response => {
+          setTimeout(
+            () => {
+              console.log(response);
+              if (response.ok) {
+                this.auto.get('modelo').enable();
+                this.modelos = response.modelos;
+                this.modelsState = RequestState.success;
+              } else {
+                this.modelsState = RequestState.error;
+              }
+            },
+            2000
+          );
+        },
+        error => {
+          setTimeout(
+            () => {
+              console.error(error);
+              this.modelos = [];
+              this.modelsState = RequestState.error;
+            },
+            2000
+          );
+        });
+    } else {
+      this.auto.get('modelo').disable();
+      this.modelsState = RequestState.initial;
+      this.modelos = [];
+    }
   }
 
   submit(): void {
@@ -124,12 +178,33 @@ export class PublishComponent implements OnInit {
       sensorTrasero: this.sensorTrasero,
       camaraTrasera: this.camaraTrasera
     });
+    this.newState = RequestState.loading;
     this._carService.newCar(this.auto.value).subscribe(
-      () => {
-        this.router.navigate(['/cuenta/publicaciones']);
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.newState = RequestState.success;
+            } else {
+              this.newState = RequestState.error;
+            }
+          },
+          2000
+        );
       },
-      error => console.error(error)
-    );
-    console.log(this.auto.value);
+      error => {
+        setTimeout(
+          () => {
+            this.newState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  returnToPublications() {
+    this.router.navigate(['/cuenta/publicaciones']);
+
   }
 }

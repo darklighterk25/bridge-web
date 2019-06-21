@@ -50,6 +50,7 @@ import {CardService} from './core/services/card.service';
 import {ReportService} from './core/services/report.service';
 import {ChartsModule} from 'ng2-charts';
 import {CommentService} from './core/services/comment.service';
+import {ProviderService} from './core/services/provider.service';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import {CommentService} from './core/services/comment.service';
     CardService,
     ReportService,
     CommentService,
+    ProviderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

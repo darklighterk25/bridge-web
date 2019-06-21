@@ -16,6 +16,8 @@ import { DateReportComponent } from './pages/date-report/date-report.component';
 import { ChartsModule } from 'ng2-charts';
 import { registerLocaleData } from '@angular/common';
 import locale from '@angular/common/locales/es';
+import { ProvidersConfigurationComponent } from './pages/providers-configuration/providers-configuration.component';
+import { NewProviderComponent } from './pages/new-provider/new-provider.component';
 
 registerLocaleData(locale, 'es');
 
@@ -29,7 +31,9 @@ registerLocaleData(locale, 'es');
     NewModelComponent,
     BrandReportComponent,
     ModelReportComponent,
-    DateReportComponent
+    DateReportComponent,
+    ProvidersConfigurationComponent,
+    NewProviderComponent
   ],
   providers: [ { provide: LOCALE_ID, useValue: 'es' } ],
   imports: [

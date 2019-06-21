@@ -23,7 +23,9 @@ export class StorePageComponent implements OnInit {
   carState: RequestState;
   commentsState: RequestState;
   newCommentState: RequestState;
+  deleteCommentState: RequestState;
   comments = [];
+  commentSelected = null;
 
   constructor(private _carService: CarService,
               private _commentService: CommentService,
@@ -46,6 +48,7 @@ export class StorePageComponent implements OnInit {
 
   ngOnInit() {
     this.newCommentState = RequestState.initial;
+    this.deleteCommentState = RequestState.initial;
     this.commentsState = RequestState.initial;
     this.isLoggedIn = false;
     this._authService.isLoggedIn.subscribe(
@@ -116,15 +119,7 @@ export class StorePageComponent implements OnInit {
           () => {
             console.log(response);
             if (response.ok) {
-              this.comments.push(
-                {
-                  id: 1,
-                  idUsuario: 1,
-                  nombre: 'José Roberto Vázquez',
-                  imagen: 'assets/about/sin-imagen.png',
-                  comentario: this.commentForm.get('comment').value
-                }
-              );
+              this.comments.push(response.comentario);
               this.commentForm.get('comment').setValue('');
               this.commentForm.get('comment').markAsUntouched();
               this.commentForm.get('comment').markAsPristine();
@@ -140,6 +135,34 @@ export class StorePageComponent implements OnInit {
         setTimeout(
           () => {
             this.newCommentState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  deleteComment() {
+    this.deleteCommentState = RequestState.loading;
+    this._commentService.deleteComment(this.comments[this.commentSelected]._id).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.comments.splice(this.commentSelected, 1);
+              this.commentSelected = null;
+              this.deleteCommentState = RequestState.success;
+            } else {
+              this.deleteCommentState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.deleteCommentState = RequestState.error;
           },
           2000
         );
