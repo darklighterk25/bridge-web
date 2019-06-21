@@ -11,6 +11,7 @@ import {APP_SETTINGS} from '../../configs/app-settings.config';
 export class AuthenticationService {
 
   private admin = new BehaviorSubject<boolean>(false);
+  private theme = new BehaviorSubject<string>('default-theme');
   private loggedIn = new BehaviorSubject<boolean>(false);
   private userId: string;
 
@@ -20,6 +21,10 @@ export class AuthenticationService {
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
+  }
+
+  get userTheme() {
+    return this.theme.asObservable();
   }
 
   constructor(private _router: Router,
@@ -36,6 +41,7 @@ export class AuthenticationService {
         console.log(response);
         this.userId = response['usuario']._id;
         this.admin.next(response['usuario'].isAdmin);
+        this.theme.next(response['usuario'].tema);
         this.loggedIn.next(true);
         localStorage.setItem('token', response['token']);
         this._router.navigate(['/cuenta']);

@@ -20,14 +20,14 @@
         </mat-card-content>
       </div>
       <span class="spacer"></span>
-      <button mat-stroked-button (click)="setLargeFont(false)" [matTooltip]="'Fuente normal'"><i
+      <button mat-stroked-button *ngIf="isLoggedIn$ | async" (click)="setLargeFont(false)" [matTooltip]="'Fuente normal'"><i
         class="fas fa-font"></i>
       </button>
-      <button mat-stroked-button (click)="setLargeFont(true)" [matTooltip]="'Fuente grande'" class="mx-2"><i
+      <button mat-stroked-button *ngIf="isLoggedIn$ | async" (click)="setLargeFont(true)" [matTooltip]="'Fuente grande'" class="mx-2"><i
         class="fas fa-font fa-2x"></i></button>
-      <i class="mx-1 far" [ngClass]="{'fa-eye-slash': accessibility === true, 'fa-eye': accessibility === false }"
+      <i class="mx-1 far" *ngIf="isLoggedIn$ | async" [ngClass]="{'fa-eye-slash': accessibility === true, 'fa-eye': accessibility === false }"
          [matTooltip]="'Tema de accesibilidad visual'"></i>
-      <mat-slide-toggle [color]="'dark'" [checked]="accessibility" (change)="setAccesibility()"></mat-slide-toggle>
+      <mat-slide-toggle *ngIf="isLoggedIn$ | async" [color]="'dark'" [checked]="accessibility" (change)="setAccesibility()"></mat-slide-toggle>
     </mat-toolbar>
     <mat-toolbar class="fondoNegro"><!--color="secondary"-->
       <button

@@ -56,8 +56,15 @@ export class UserService {
     return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario/imagen`, datos);
   }
 
+  updateTheme(theme: string): Observable<any> {
+    const data = {
+      tema: theme
+    };
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/usuario`, data, APP_SETTINGS.OPTIONS);
+  }
+
   deleteUser(): Observable<any> {
-    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario`, null, APP_SETTINGS.OPTIONS);
+    return this._httpClient.delete(`${APP_SETTINGS.API_ENDPOINT}/usuario`);
   }
 
 }

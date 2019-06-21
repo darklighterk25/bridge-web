@@ -26,24 +26,15 @@ export class DeleteComponent implements OnInit {
   delete(): void {
     console.log('Cuenta eliminada');
     this.deleteState = RequestState.loading;
-    /*setTimeout(
-      () => {
-        if () {
-          localStorage.removeItem('token');
-          this.deleteState = RequestState.success;
-        } else {
-          this.deleteState = RequestState.error;
-        }
-      },
-      4000
-    );*/
     this._userService.deleteUser().subscribe(
       response => {
         setTimeout(
           () => {
             console.log(response);
             if (response.ok) {
+              localStorage.removeItem('token');
               this.deleteState = RequestState.success;
+              this._router.navigate(['inicio']);
             } else {
               this.deleteState = RequestState.error;
             }
@@ -58,7 +49,7 @@ export class DeleteComponent implements OnInit {
           },
           2000
         );
-      });
-    // this._router.navigate(['eliminar-cuenta']);
+      }
+    );
   }
 }
