@@ -59,11 +59,11 @@
                       [ngModelOptions]="{standalone: true}"></mat-slider>
           <mat-hint class="w-100 d-flex justify-content-between">
             <span>
-              {{ minimum | currency:'':'symbol':'.2-2'}}
+              {{ minimum | currency:'MXN':'symbol':'.2-2'}}
             </span>
-            <span>Precio: {{getRoundedValue(price) | currency:'':'symbol':'.2-2'}}</span>
+            <span>Precio: {{getRoundedValue(price) | currency:'MXN':'symbol':'.2-2'}}</span>
             <span>
-              {{ maximum | currency:'':'symbol':'.2-2'}}
+              {{ maximum | currency:'MXN':'symbol':'.2-2'}}
             </span>
           </mat-hint>
         </div>

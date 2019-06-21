@@ -17,8 +17,8 @@
   <mat-card class="card-characteristics p-2" style="border-top-left-radius: 0; border-top-right-radius: 0px;">
     <mat-card-content class="">
       <div class="w-100 d-flex mb-2">
-        <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{car.precio | currency:'':'symbol':'.2-2'}}</span>
-        <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{car.colorExterior}}</span>
+        <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{car.precio | currency:'MXN':'symbol':'.2-2'}}</span>
+        <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': car.colorExterior}"></i> Color exterior</span>
       </div>
       <div class="w-100 d-flex">
         <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-car"></i> {{car.transmision === 0 ? 'Automático' : 'Estándar'}}</span>

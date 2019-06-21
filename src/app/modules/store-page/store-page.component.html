@@ -12,6 +12,51 @@
     </div>
   </mat-card>
   <div class="row mb-2" *ngIf="carState == 2">
+    <div class="col-sm-5 col-12 sticky-top align-self-sm-start mt-sm-0 mt-2" style="top: 10px;">
+      <mat-card class="pb-0">
+        <mat-card-header>
+          <mat-card-title><h1>{{car.modelo.nombre}}</h1></mat-card-title>
+          <mat-card-subtitle><h2>{{car.modelo.marca.nombre}}</h2></mat-card-subtitle>
+          <mat-card-title><h3>{{car.precio | currency:'MXN':'symbol':'.2-2'}}</h3></mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-header class="p-2">
+          <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
+          <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
+          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span
+            *ngIf="vehiculo.calificacion != null"><app-qualification
+            [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
+          <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
+        </mat-card-header>
+        <mat-card-content>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i> {{car.extranjero ? 'Extranjero': 'Nacional'}}</span>
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
+          </div>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-tint" [ngStyle]="{'color': car.colorExterior}"></i> Color exterior</span>
+            <span class="col-6 d-block pl-0 pr-1"><i
+              class="fas fa-tint" [ngStyle]="{'color': car.colorInterior}"></i> Color interior</span>
+          </div>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-0 pr-1"><i
+              class="fas fa-users"></i> Total de dueños: {{car.totalDuenos}}</span>
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-car-crash"></i> Total de accidentes: {{car.totalAccidentes}}</span>
+          </div>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-content class="pt-2 pb-2">
+          <div class="d-flex justify-content-between">
+            <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" mat-button
+               mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
+            <a mat-button mat-raised-button color="accent" class="float-left" [routerLink]="'/pago'">Comprar <i
+              class="fas fa-money-bill-wave"></i></a>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
     <div class="col-sm-7 col-12">
       <mat-card class="p-0">
         <mat-card-content class="position-relative">
@@ -165,54 +210,6 @@
           </mat-tab-group>
         </mat-card>
       </div>
-    </div>
-    <div class="col-sm-5 col-12 sticky-top align-self-sm-start mt-sm-0 mt-2" style="top: 10px;">
-      <mat-card class="pb-0">
-        <mat-card-header>
-          <mat-card-title><h1>{{car.modelo.nombre}}</h1></mat-card-title>
-          <mat-card-subtitle><h2>{{car.modelo.marca.nombre}}</h2></mat-card-subtitle>
-          <mat-card-title><h3>{{car.precio | currency:'':'symbol':'.2-2'}}</h3></mat-card-title>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <mat-card-header class="p-2">
-          <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
-          <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
-          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span
-            *ngIf="vehiculo.calificacion != null"><app-qualification
-            [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
-          <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            {{vehiculo.descripcion}}
-          </p>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i> {{car.extranjero ? 'Extranjero': 'Nacional'}}</span>
-            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
-          </div>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-1 pr-0"><i
-              class="fas fa-tint"></i> Color exterior: {{car.colorExterior}}</span>
-            <span class="col-6 d-block pl-0 pr-1"><i
-              class="fas fa-tint"></i> Color interior: {{car.colorInterior}}</span>
-          </div>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i
-              class="fas fa-users"></i> Total de dueños: {{car.totalDuenos}}</span>
-            <span class="col-6 d-block pl-1 pr-0"><i
-              class="fas fa-car-crash"></i> Total de accidentes: {{car.totalAccidentes}}</span>
-          </div>
-        </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-content class="pt-2 pb-2">
-          <div class="d-flex justify-content-between">
-            <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" mat-button
-               mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
-            <a mat-button mat-raised-button color="accent" class="float-left" [routerLink]="'/pago'">Comprar <i
-              class="fas fa-money-bill-wave"></i></a>
-          </div>
-        </mat-card-content>
-      </mat-card>
     </div>
   </div>
   <div class="w-100" *ngIf="carState == 2">

@@ -69,7 +69,6 @@ export class StoreComponent implements OnInit {
                   this.brandsState = RequestState.success;
                 }
               } else {
-                this.getCars();
                 this.brandsState = RequestState.success;
               }
             } else {

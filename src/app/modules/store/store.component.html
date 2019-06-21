@@ -50,11 +50,11 @@
                         [ngModelOptions]="{standalone: true}"></mat-slider>
             <mat-hint class="w-100 d-flex justify-content-between">
             <span>
-              {{ minimum | currency:'':'symbol':'.2-2'}}
+              {{ minimum | currency:'MXN':'symbol':'.2-2'}}
             </span>
-              <span>Precio: {{getRoundedValue(price) | currency:'':'symbol':'.2-2'}}</span>
+              <span>Precio: {{getRoundedValue(price) | currency:'MXN':'symbol':'.2-2'}}</span>
               <span>
-              {{ maximum | currency:'':'symbol':'.2-2'}}
+              {{ maximum | currency:'MXN':'symbol':'.2-2'}}
             </span>
             </mat-hint>
           </div>
@@ -73,7 +73,7 @@
       <span *ngIf="brandRequired != ''">&nbsp;/&nbsp;<a mat-button [disabled]="modelRequired == '' && conditionRequired == ''" color="primary" class="text-decoration-none" (click)="changeFilters(1)">{{brands[brandRequired].nombre}}</a></span>
       <span *ngIf="modelRequired != ''">&nbsp;/&nbsp;<a mat-button [disabled]="conditionRequired == ''" color="primary" class="text-decoration-none" (click)="changeFilters(2)">{{models[modelRequired].nombre}}</a></span>
       <span *ngIf="conditionRequired != ''">&nbsp;/&nbsp;<a mat-button [disabled]="true" color="primary" class="text-decoration-none">{{conditionRequired}}
-        a {{priceRequired | currency:'':'symbol':'.2-2'}}</a></span>
+        a {{priceRequired | currency:'MXN':'symbol':'.2-2'}}</a></span>
     </span>
     <span class="mat-body-1">
       Se han encontrado {{cars.length}} resultados
