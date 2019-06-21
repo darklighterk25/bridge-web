@@ -1,4 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {AuthenticationService} from '../../../core/authentication/authentication.service';
+import {Observable} from 'rxjs';
+import {RequestState} from '../../enums/request-state.enum';
 
 @Component({
   selector: 'app-car-card',
@@ -8,11 +11,18 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CarCardComponent implements OnInit {
 
   @Input() car: any = null;
+  isLoggedIn: boolean;
 
-  constructor() {
+  constructor(private _authService: AuthenticationService) {
   }
 
   ngOnInit() {
+    this.isLoggedIn = false;
+    this._authService.isLoggedIn.subscribe(
+      response => {
+        this.isLoggedIn = response;
+      },
+      error => {});
   }
 
   mostrarVerMas() {

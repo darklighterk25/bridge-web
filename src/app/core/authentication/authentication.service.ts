@@ -12,6 +12,7 @@ export class AuthenticationService {
 
   private admin = new BehaviorSubject<boolean>(false);
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private userId: string;
 
   get isAdmin() {
     return this.admin.asObservable();
@@ -33,6 +34,7 @@ export class AuthenticationService {
     this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/login`, {email: email, contrasena: password}, APP_SETTINGS.OPTIONS).subscribe(
       response => {
         console.log(response);
+        this.userId = response['usuario']._id;
         this.admin.next(response['usuario'].isAdmin);
         this.loggedIn.next(true);
         localStorage.setItem('token', response['token']);
@@ -48,5 +50,9 @@ export class AuthenticationService {
     this.admin.next(false);
     this.loggedIn.next(false);
     this._router.navigate(['/inicio']);
+  }
+
+  getUserId() {
+    return this.userId;
   }
 }

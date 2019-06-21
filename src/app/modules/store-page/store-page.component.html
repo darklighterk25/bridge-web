@@ -14,24 +14,22 @@
   <div class="row mb-2" *ngIf="carState == 2">
     <div class="col-sm-5 col-12 sticky-top align-self-sm-start mt-sm-0 mt-2" style="top: 10px;">
       <mat-card class="pb-0">
-        <mat-card-header>
+        <mat-card-header class="pb-2">
+          <img mat-card-avatar [src]="car.usuario.imagenPerfil" alt="Foto del vendedor">
+          <mat-card-title class="mb-1">{{car.usuario.nombreCompleto.nombres + ' ' + car.usuario.nombreCompleto.apellido1 + ' ' + car.usuario.nombreCompleto.apellido2}}</mat-card-title>
+        </mat-card-header>
+      </mat-card>
+      <mat-card class="pb-0 mt-4">
+        <mat-card-header class="pb-2">
           <mat-card-title><h1>{{car.modelo.nombre}}</h1></mat-card-title>
           <mat-card-subtitle><h2>{{car.modelo.marca.nombre}}</h2></mat-card-subtitle>
           <mat-card-title><h3>{{car.precio | currency:'MXN':'symbol':'.2-2'}}</h3></mat-card-title>
         </mat-card-header>
         <mat-divider></mat-divider>
-        <mat-card-header class="p-2">
-          <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
-          <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
-          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span
-            *ngIf="vehiculo.calificacion != null"><app-qualification
-            [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
-          <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
-        </mat-card-header>
-        <mat-card-content>
+        <mat-card-content class="mt-3" [ngClass]="isLoggedIn ? '' : 'pb-2'">
           <div class="w-100 d-flex mb-2">
             <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i> {{car.extranjero ? 'Extranjero': 'Nacional'}}</span>
-            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{car.kilometraje | number}} Kms.</span>
           </div>
           <div class="w-100 d-flex mb-2">
             <span class="col-6 d-block pl-1 pr-0"><i
@@ -46,8 +44,8 @@
               class="fas fa-car-crash"></i> Total de accidentes: {{car.totalAccidentes}}</span>
           </div>
         </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-content class="pt-2 pb-2">
+        <mat-divider *ngIf="isLoggedIn"></mat-divider>
+        <mat-card-content *ngIf="isLoggedIn" class="pt-2 pb-2">
           <div class="d-flex justify-content-between">
             <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" mat-button
                mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
@@ -212,57 +210,60 @@
       </div>
     </div>
   </div>
-  <div class="w-100" *ngIf="carState == 2">
+  <div class="w-100 mt-4" *ngIf="carState == 2">
     <mat-card class="pb-0">
       <mat-card-header>
         <mat-card-title><h3><i class="fas fa-comments"></i> Comentarios</h3></mat-card-title>
       </mat-card-header>
-      <div *ngIf="vehiculo.comentarios.length == 0">
-        <mat-divider></mat-divider>
-        <mat-card-content class="p-2">
-          <p>
-            Este vehículo no cuenta con comentarios por el momento.
-          </p>
-        </mat-card-content>
-      </div>
-      <div *ngFor="let comentario of vehiculo.comentarios; let i = index">
-        <mat-divider></mat-divider>
-        <div class="p-2">
-          <mat-card-header>
-            <img mat-card-avatar [src]="comentario.imagen" alt="Foto del vendedor">
-            <mat-card-title class="mb-1">{{comentario.nombre}}</mat-card-title>
-            <mat-card-subtitle class="mb-1">{{comentario.comentario}}</mat-card-subtitle>
-            <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
-          </mat-card-header>
-          <mat-card-actions *ngIf="comentario.id == id" class="m-0 p-0 d-flex justify-content-end">
-            <button mat-raised-button color="warn">Eliminar <i class="fas fa-trash-alt"></i></button>
-          </mat-card-actions>
-        </div>
-      </div>
       <mat-divider></mat-divider>
-      <div>
-        <mat-card-content class="p-2">
-          <form [formGroup]="formularioComentario">
-            <mat-form-field class="col-12">
-              <mat-label>Comentario</mat-label>
-              <textarea matInput placeholder="Deja tu comentario" style="resize: none;" rows="5"
-                        formControlName="comentario"></textarea>
-              <mat-error *ngIf="formularioComentario.get('comentario').errors?.required
-                          &&( formularioComentario.get('comentario').dirty || formularioComentario.get('comentario').touched)">
-                Este campo es requerido.
-              </mat-error>
-            </mat-form-field>
-            <button mat-raised-button [disabled]="deshabilitarBotonComentario" color="primary"
+      <mat-card-content *ngIf="commentsState == 1 || commentsState == 3" class="pt-3 pb-3 d-flex justify-content-center">
+        <mat-error *ngIf="commentsState == 3">Ha ocurrido un error, favor de intentarlo más tarde..</mat-error>
+        <mat-spinner *ngIf="commentsState == 1" mode="indeterminate"></mat-spinner>
+      </mat-card-content>
+      <mat-card-content *ngIf="commentsState == 2">
+        <div *ngIf="comments.length == 0">
+          <mat-card-content class="p-2">
+            <p>
+              Este vehículo no cuenta con comentarios por el momento.
+            </p>
+          </mat-card-content>
+        </div>
+        <div *ngFor="let comment of comments; let i = index">
+          <div class="p-2">
+            <mat-card-header>
+              <img mat-card-avatar [src]="comment.usuario.imagenPerfil" alt="Foto del vendedor">
+              <mat-card-title class="mb-1">{{comment.usuario.nombreCompleto.nombres + ' ' + comment.usuario.nombreCompleto.apellido1 + ' ' + comment.usuario.nombreCompleto.apellido1}}</mat-card-title>
+              <mat-card-subtitle class="mb-1">{{comment.contenido}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions *ngIf="isLoggedIn && comment.usuario._id == _authService.getUserId()" class="m-0 p-0 d-flex justify-content-end">
+              <button mat-raised-button color="warn">Eliminar <i class="fas fa-trash-alt"></i></button>
+            </mat-card-actions>
+          </div>
+        </div>
+        <mat-divider *ngIf="isLoggedIn"></mat-divider>
+        <div *ngIf="isLoggedIn">
+          <mat-card-content *ngIf="newCommentState == 1 || newCommentState == 3" class="pt-3 pb-3 d-flex justify-content-center">
+            <mat-error *ngIf="newCommentState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+            <mat-spinner *ngIf="newCommentState == 1" mode="indeterminate"></mat-spinner>
+          </mat-card-content>
+          <mat-card-content class="p-2" *ngIf="newCommentState == 0 || newCommentState == 2">
+            <form [formGroup]="commentForm">
+              <mat-form-field class="col-12">
+                <mat-label>Comentario</mat-label>
+                <textarea matInput placeholder="Deja tu comentario" style="resize: none;" rows="5"
+                          formControlName="comment"></textarea>
+                <mat-error *ngIf="commentForm.get('comment').errors?.required
+                          &&( commentForm.get('comment').dirty || commentForm.get('comment').touched)">
+                  Este campo es requerido.
+                </mat-error>
+              </mat-form-field>
+            </form>
+            <button mat-raised-button [disabled]="commentButtonDisabled || newCommentState == 1" color="primary" (click)="newComment()"
                     class="m-1">Enviar <i class="fas fa-check"></i>
             </button>
-          </form>
-        </mat-card-content>
-      </div>
+          </mat-card-content>
+        </div>
+      </mat-card-content>
     </mat-card>
   </div>
 </main>
-<!--
-
-
-• fecha_publicacion:
--->

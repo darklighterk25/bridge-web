@@ -3,12 +3,12 @@
     <mat-card-content class="position-relative">
       <div id="verMas{{car._id}}" class="position-absolute w-100 m-0 pt-0 pr-2 pl-2 animated animated-2x"
            style="top: 10px; opacity: 0">
-        <a mat-button mat-mini-fab color="primary" class="float-left"><i id="wishList" class="far fa-heart"></i></a>
+        <a *ngIf="isLoggedIn" mat-button mat-mini-fab color="primary" class="float-left"><i id="wishList" class="far fa-heart"></i></a>
         <a mat-button mat-raised-button color="primary" class="float-right" [routerLink]="'/articulo/' + car._id">Ver más <i
           class="far fa-eye"></i></a>
       </div>
       <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF;">
-        <h5 class="text-center">{{car.modelo.nombre}}, {{car.modelo.marca.nombre}}</h5> <!-- {{car.modelo.nombre}} {{car.anio}}, {{car.marca}}-->
+        <h5 class="text-center">{{car.modelo.nombre}}, {{car.modelo.marca.nombre}}</h5>
       </div>
       <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-top-right-radius: 5px"
            [src]="car.imagenes[0]" alt="Foto del vehículo">

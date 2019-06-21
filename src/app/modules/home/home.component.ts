@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   title = 'Inicio';
   searchForm: FormGroup;
   minimum = 25000;
-  maximum = 2000000;
+  maximum = 10000000;
   price = this.minimum;
 
   imagenes = [
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     {
       link: 'assets/home/carrusel4.jpg',
       titulo: '¡Contamos con variedad!',
-      texto: 'Te proporcionamos vehículos de gran variedad de las marcas$ del mercado.'
+      texto: 'Te proporcionamos vehículos de gran variedad de las marcas del mercado.'
     }
   ];
   carsState: RequestState;

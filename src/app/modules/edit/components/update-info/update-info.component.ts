@@ -96,6 +96,7 @@ export class UpdateInfoComponent implements OnInit {
       error => {
         setTimeout(
           () => {
+            console.log(error);
             this.infoState = RequestState.error;
           },
           2000

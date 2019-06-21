@@ -17,7 +17,8 @@ export class ModelReportComponent implements OnInit {
   reportState: RequestState;
   reportType: number;
   modelReport = [];
-  totalEarnings: number;
+  totalOfEarnings: number;
+  totalOfCars: number;
 
   public barChartOptionsForEarnedCommisions: ChartOptions = {
     responsive: true,
@@ -93,7 +94,8 @@ export class ModelReportComponent implements OnInit {
             console.log(response);
             if (response.ok) {
               this.modelReport = response.ventasPorModelo;
-              this.totalEarnings = response.totalGanancias;
+              this.totalOfEarnings = response.totalGanancias;
+              this.totalOfCars = response.totalAutos;
               for (let i = 0; i < this.modelReport.length; i++) {
                 this.pieChartLabels.push(this.modelReport[i]._id);
                 this.pieChartData.push(this.modelReport[i].autosVendidos);

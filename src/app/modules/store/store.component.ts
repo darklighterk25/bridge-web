@@ -15,7 +15,7 @@ export class StoreComponent implements OnInit {
   title = 'Catálogo';
   searchForm: FormGroup;
   minimum = 25000;
-  maximum = 2000000;
+  maximum = 10000000;
   price = this.minimum;
   modelRequired = null;
   brandRequired = null;

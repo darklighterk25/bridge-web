@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RequestState} from '../../shared/enums/request-state.enum';
 import {CarService} from '../../core/services/car.service';
 import {ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../../core/authentication/authentication.service';
+import {CommentService} from '../../core/services/comment.service';
 
 @Component({
   selector: 'app-store-page',
@@ -14,96 +16,43 @@ export class StorePageComponent implements OnInit {
   title = 'Página individual del auto';
   posicionImagen = 0;
   carrouselImagen = 0;
-  id = 3;
+  isLoggedIn: boolean;
   car: any;
-  vehiculo = {
-    id: 4,
-    marca: 'Nissan',
-    modelo: 'Versa',
-    anio: '2018',
-    vendedor: 'Alfredo Torres Jiménez',
-    calificacion: 4,
-    imagenVendedor: 'assets/about/sin-imagen.png',
-    imagenesVehiculo: [
-      'assets/store-page/vehiculo.jpg',
-      'assets/store-page/vehiculo.jpg',
-      'assets/about/sin-imagen.png',
-      'assets/store-page/vehiculo.jpg',
-      'assets/store-page/vehiculo.jpg'
-    ],
-    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-    precio: '150000',
-    estado: 'Usado',
-    kilometraje: '30000',
-    extranjero: false,
-    total_duenios: 2,
-    total_accidentes: 0,
-    tipo_motor: 'Gasolina',
-    transmision: 'Estándar',
-    alarma: true,
-    aire_acondicionado: true,
-    interiores: 'Tela',
-    color_interior: 'Negro',
-    color_exterior: 'Blanco',
-    vidrios_electricos: true,
-    puertas_electricas: true,
-    bolsas_de_aire_piloto: 1,
-    bolsas_de_aire_pasajero: 1,
-    bolsas_de_aire_laterales: 2,
-    seguro_de_ninios: true,
-    control_de_estabilidad: true,
-    bluetooth: true,
-    sensor_frontal: false,
-    sensor_trasero: true,
-    camara_trasera: false,
-    comentarios: [
-      {
-        id: 1,
-        idUsuario: 1,
-        nombre: 'José Roberto Vázquez',
-        // calificacion: 5,
-        imagen: 'assets/about/sin-imagen.png',
-        comentario: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobi.'
-      },
-      {
-        id: 2,
-        idUsuario: 2,
-        nombre: 'Pedro Carrillo Sandoval',
-        // calificacion: 4,
-        imagen: 'assets/about/sin-imagen.png',
-        comentario: 'Dsadkbew sakjdas ewk consectetur adipisicing elit. Architecto blanditiis consectetur cupidit.'
-      },
-      {
-        id: 3,
-        idUsuario: 3,
-        nombre: 'José Roberto Vázquez',
-        // calificacion: 5,
-        imagen: 'assets/about/sin-imagen.png',
-        comentario: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asdeum, ex iure labore nobi. Sasdnlkjsad sakld ekl wqleqwm e.'
-      }
-    ]
-  };
-  deshabilitarBotonComentario = true;
-  formularioComentario: FormGroup;
+  commentButtonDisabled = true;
+  commentForm: FormGroup;
   carState: RequestState;
+  commentsState: RequestState;
+  newCommentState: RequestState;
+  comments = [];
 
-  constructor(private _carService: CarService, private route: ActivatedRoute) {
-    this.formularioComentario = new FormGroup({
-      'comentario': new FormControl(
+  constructor(private _carService: CarService,
+              private _commentService: CommentService,
+              private route: ActivatedRoute,
+              private _authService: AuthenticationService) {
+    this.commentForm = new FormGroup({
+      'comment': new FormControl(
         '',
         [
           Validators.required
         ]
       )
     });
-    this.formularioComentario.valueChanges.subscribe(
+    this.commentForm.valueChanges.subscribe(
       () => {
-        this.deshabilitarBotonComentario = !this.formularioComentario.valid;
+        this.commentButtonDisabled = !this.commentForm.valid;
       }
     );
   }
 
   ngOnInit() {
+    this.newCommentState = RequestState.initial;
+    this.commentsState = RequestState.initial;
+    this.isLoggedIn = false;
+    this._authService.isLoggedIn.subscribe(
+      response => {
+        this.isLoggedIn = response;
+      },
+      error => {});
     this.carState = RequestState.loading;
     this._carService.getCar(this.route.snapshot.paramMap.get('_id')).subscribe(
       response => {
@@ -113,6 +62,7 @@ export class StorePageComponent implements OnInit {
             if (response.ok) {
               this.car = response.auto;
               this.carState = RequestState.success;
+              this.getComments();
             } else {
               this.carState = RequestState.error;
             }
@@ -125,6 +75,71 @@ export class StorePageComponent implements OnInit {
           () => {
             // console.error(error);
             this.carState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  getComments() {
+    this.commentsState = RequestState.loading;
+    this._commentService.getComments(this.car._id).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.comments = response.comentarios;
+              this.commentsState = RequestState.success;
+            } else {
+              this.commentsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.commentsState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  newComment() {
+    this.newCommentState = RequestState.loading;
+    this._commentService.newComment(this.car._id, this.commentForm.get('comment').value).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.comments.push(
+                {
+                  id: 1,
+                  idUsuario: 1,
+                  nombre: 'José Roberto Vázquez',
+                  imagen: 'assets/about/sin-imagen.png',
+                  comentario: this.commentForm.get('comment').value
+                }
+              );
+              this.commentForm.get('comment').setValue('');
+              this.commentForm.get('comment').markAsUntouched();
+              this.commentForm.get('comment').markAsPristine();
+              this.newCommentState = RequestState.success;
+            } else {
+              this.newCommentState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.newCommentState = RequestState.error;
           },
           2000
         );

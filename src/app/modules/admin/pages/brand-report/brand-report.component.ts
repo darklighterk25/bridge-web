@@ -17,7 +17,8 @@ export class BrandReportComponent implements OnInit {
   reportState: RequestState;
   reportType: number;
   brandReport = [];
-  totalEarnings: number;
+  totalOfEarnings: number;
+  totalOfCars: number;
 
   public barChartOptionsForEarnedCommisions: ChartOptions = {
     responsive: true,
@@ -93,7 +94,8 @@ export class BrandReportComponent implements OnInit {
             console.log(response);
             if (response.ok) {
               this.brandReport = response.ventasPorMarca;
-              this.totalEarnings = response.totalGanancias;
+              this.totalOfEarnings = response.totalGanancias;
+              this.totalOfCars = response.totalAutos;
               for (let i = 0; i < this.brandReport.length; i++) {
                 this.pieChartLabels.push(this.brandReport[i]._id);
                 this.pieChartData.push(this.brandReport[i].autosVendidos);
