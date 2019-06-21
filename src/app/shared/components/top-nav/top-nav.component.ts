@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NAV_LINKS} from '../../constants/nav-links';
 import {Enlace} from '../../models/enlace.model';
+import {AuthenticationService} from '../../../core/authentication/authentication.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -9,13 +10,17 @@ import {Enlace} from '../../models/enlace.model';
 })
 export class TopNavComponent implements OnInit {
 
+  isAdmin: boolean;
   navLinks: Enlace[];
 
-  constructor() {
+  constructor(private _authService: AuthenticationService) {
     this.navLinks = NAV_LINKS;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this._authService.isAdmin.subscribe(
+      data => this.isAdmin = data
+    );
   }
 
 }

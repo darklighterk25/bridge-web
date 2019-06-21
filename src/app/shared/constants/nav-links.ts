@@ -4,12 +4,14 @@ export const NAV_LINKS: Enlace[] = [
   {
     nombre: 'Inicio',
     ruta: 'inicio',
-    icono: 'fas fa-home'
+    icono: 'fas fa-home',
+    hide: true
   },
   {
     nombre: 'Catálogo',
     ruta: 'catalogo',
-    icono: 'fas fa-store'
+    icono: 'fas fa-store',
+    hide: true
   },
   {
     nombre: 'Acerca de',

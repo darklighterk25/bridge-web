@@ -4,7 +4,7 @@
 <!--<button mat-button [routerLink]="['/chat']" routerLinkActive="mat-primary" matTooltip="Mensajes">-->
   <!--<i class="far fa-lg fa-comment"></i>-->
 <!--</button>-->
-<button mat-button [routerLink]="['/lista-de-deseos']" routerLinkActive="mat-primary" matTooltip="Lista de deseos">
+<button mat-button *ngIf="!isAdmin" [routerLink]="['/lista-de-deseos']" routerLinkActive="mat-primary" matTooltip="Lista de deseos">
   <i class="far fa-lg fa-heart"></i>
 </button>
 <button mat-icon-button [matMenuTriggerFor]="menu">
