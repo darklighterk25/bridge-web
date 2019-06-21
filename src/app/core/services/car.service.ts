@@ -12,6 +12,10 @@ export class CarService {
   constructor(private _httpClient: HttpClient) {
   }
 
+  deleteCar(id: string): Observable<Object> {
+    return this._httpClient.delete(`${APP_SETTINGS.API_ENDPOINT}/auto/${id}`, APP_SETTINGS.OPTIONS);
+  }
+
   getCar(id: any): Observable<any> {
     return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/auto/${id}`, APP_SETTINGS.OPTIONS);
   }

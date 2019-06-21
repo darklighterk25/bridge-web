@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {Auto} from '../../../../shared/models/auto.model';
+import {AccountService} from '../../../../core/services/account.service';
+import {CarService} from '../../../../core/services/car.service';
 
 @Component({
   selector: 'app-listings',
@@ -6,61 +9,25 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ListingsComponent implements OnInit {
   title = 'Publicaciones';
-  vehiculos = [
-    {
-      id: 1,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 2,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 3,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 4,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    }
-  ];
+  vehiculos: Auto[];
 
-  constructor() {
+  constructor(private _accountSevice: AccountService,
+              private _carService: CarService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this._accountSevice.getCars().subscribe(
+      data => {
+        console.log(data);
+        this.vehiculos = data['autos'];
+      }
+    );
   }
 
+  deleteCar(index: number, id: string): void {
+    console.log(id);
+    this._carService.deleteCar(id).subscribe(
+      () => delete this.vehiculos[index]
+    );
+  }
 }

@@ -1,50 +1,53 @@
 <h3 class="text-center mat-title">
   {{ title }}
 </h3>
-<a *ngIf="vehiculos.length != 0" [routerLink]="['/nueva-publicacion']" mat-button color="primary">
-  Nueva publicación&nbsp;<i class="fas fa-plus"></i>
-</a>
-<mat-card *ngFor="let vehiculo of vehiculos" class="container-fluid mb-2 p-0">
-  <div class="d-flex justify-content-between">
-    <div class="col-sm-3 col-12 pl-0">
-      <mat-card class="p-0 m-0">
-        <mat-card-content class="position-relative">
-          <div class="position-absolute w-100 m-0 p-0"
-               style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
-            <h5 class="text-center">{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</h5>
-          </div>
-          <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px"
-               [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
-        </mat-card-content>
-      </mat-card>
+<div *ngIf="vehiculos">
+  <a [routerLink]="['/nueva-publicacion']" mat-button color="primary">
+    Nueva publicación&nbsp;<i class="fas fa-plus"></i>
+  </a>
+  <mat-card *ngFor="let vehiculo of vehiculos; let i = index" class="container-fluid mb-2 p-0">
+    <div *ngIf="vehiculo" class="d-flex justify-content-between">
+      <div class="col-sm-3 col-12 pl-0">
+        <mat-card class="p-0 m-0">
+          <mat-card-content class="position-relative">
+            <div class="position-absolute w-100 m-0 p-0"
+                 style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
+              <h5 class="text-center">{{vehiculo.modelo.nombre}} {{vehiculo.modelo.marca.nombre}}</h5>
+            </div>
+            <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px"
+                 [src]="vehiculo.imagenes[0]" alt="Foto del vehículo">
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-sm-9 col-12 p-2 mat-body-1">
+        <div class="w-100 d-flex mt-2 mb-2">
+          <span class="text-justify">{{vehiculo.descripcion}}</span>
+        </div>
+        <div class="w-100 d-flex mb-2 mt-2">
+        <span class="col-6 d-block pl-0 pr-1">
+          <i class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'MXN':'symbol':'.2-2'}}</span>
+          Color Exterior&nbsp;<span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-tint" [ngStyle]="{'color': vehiculo.colorExterior}"></i></span>
+          Color Interior&nbsp;<span class="d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': vehiculo.colorInterior}"></i></span>
+        </div>
+        <div class="w-100 d-flex mb-2">
+          <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
+        </div>
+        <div class="w-100 d-flex mb-2 justify-content-start">
+          <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo/' + vehiculo._id">Ver más <i
+            class="far fa-eye"></i></a>
+          <a mat-button mat-raised-button (click)="deleteCar(i, vehiculo._id)" color="warn" class="mr-2">Eliminar <i class="fas fa-trash-alt"></i></a>
+          <a mat-button mat-stroked-button [routerLink]="'/editar-publicacion' + vehiculo._id" color="primary" class="">Editar {{vehiculo._id}}<i
+            class="fas fa-edit"></i></a>
+        </div>
+      </div>
     </div>
-    <div class="col-sm-9 col-12 p-2 mat-body-1">
-      <div class="w-100 d-flex mt-2 mb-2">
-        <span class="text-justify">{{vehiculo.descripcion}}</span>
-      </div>
-      <div class="w-100 d-flex mb-2 mt-2">
-        <span class="col-6 d-block pl-0 pr-1"><i
-          class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'MXN':'symbol':'.2-2'}}</span>
-        <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{vehiculo.color}}</span>
-      </div>
-      <div class="w-100 d-flex mb-2">
-        <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i
-          *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
-        <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
-      </div>
-      <div class="w-100 d-flex mb-2 justify-content-start">
-        <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo'">Ver más <i
-          class="far fa-eye"></i></a>
-        <a mat-button mat-raised-button color="warn" class="mr-2">Eliminar <i class="fas fa-trash-alt"></i></a>
-        <a mat-button mat-stroked-button [routerLink]="['/editar-publicacion',vehiculo.id]" color="primary" class="">Editar<i class="fas fa-edit"></i></a>
-      </div>
-    </div>
-  </div>
-</mat-card>
-<mat-card *ngIf="vehiculos.length == 0" class="container-fluid p-5">
-  <h5 class="mt-5 text-center">¡Por el momento no cuentas con ninguna publicación de algún vehículo!</h5>
-  <p class="text-center mt-2 mb-1">¡Realiza tu primera publicación!</p>
-  <p class="mb-5 text-center">Solo debes de presionar en <a [routerLink]="['/nueva-publicacion']" mat-button
-                                                            color="primary">Nueva publicación&nbsp;<i
-    class="fas fa-plus"></i></a> para agregar alguna publicación de un vehículos para su venta.</p>
-</mat-card>
+  </mat-card>
+  <mat-card *ngIf="vehiculos.length == 0" class="container-fluid p-5">
+    <h5 class="mt-5 text-center">¡Por el momento no cuentas con ninguna publicación de algún vehículo!</h5>
+    <p class="text-center mt-2 mb-1">¡Realiza tu primera publicación!</p>
+    <p class="mb-5 text-center">Solo debes de presionar en <a [routerLink]="['/nueva-publicacion']" mat-button
+                                                              color="primary">Nueva publicación&nbsp;<i
+      class="fas fa-plus"></i></a> para agregar alguna publicación de un vehículos para su venta.</p>
+  </mat-card>
+
+</div>

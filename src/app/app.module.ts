@@ -36,6 +36,7 @@ import {TermsModule} from './modules/terms/terms.module';
 import {WishlistModule} from './modules/wishlist/wishlist.module';
 
 // Servicios
+import {AccountService} from './core/services/account.service';
 import {AdministrationGuard} from './core/guards/administration.guard';
 import {AuthenticationGuard} from './core/guards/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
@@ -91,6 +92,7 @@ import {ChartsModule} from 'ng2-charts';
     ChartsModule
   ],
   providers: [
+    AccountService,
     AdministrationGuard,
     AuthenticationGuard,
     AuthenticationService,
