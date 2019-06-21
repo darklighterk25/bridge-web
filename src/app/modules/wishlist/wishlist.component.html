@@ -2,58 +2,95 @@
   <h3 class="text-center mat-title">
     {{ title }}
   </h3>
-  <mat-card *ngFor="let vehiculo of vehiculos" class="container-fluid mb-2 p-0">
-    <div class="d-flex justify-content-between">
-      <div class="col-sm-4 col-12 pl-0">
-        <mat-card class="p-0 m-0">
-          <mat-card-content class="position-relative">
-            <div class="position-absolute w-100 m-0 p-0"
-                 style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
-              <h5 class="text-center mat-body-1">{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</h5>
-            </div>
-            <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px"
-                 [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-sm-8 col-12 p-2">
-        <mat-card-header>
-          <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
-          <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
-          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span
-            *ngIf="vehiculo.calificacion != null"><app-qualification
-            [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <div class="w-100 d-flex mt-2 mb-2">
-          <span class="text-justify mat-body-1">{{vehiculo.descripcion}}</span>
-        </div>
-        <div class="w-100 d-flex mb-2 mt-2 mat-body-1">
-          <span class="col-6 d-block pl-0 pr-1"><i
-            class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'MXN':'symbol':'.2-2'}}</span>
-          <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{vehiculo.color}}</span>
-        </div>
-        <div class="w-100 d-flex mb-2 mat-body-1">
-          <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i
-            *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
-          <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}}
-            Kms.</span>
-        </div>
-        <div class="w-100 d-flex mb-2 justify-content-start">
-          <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo'">Ver más <i
-            class="far fa-eye"></i></a>
-          <a mat-button mat-raised-button color="warn" class="mr-2">Eliminar <i class="fas fa-trash-alt"></i></a>
-          <a mat-button mat-raised-button color="accent" class="" [routerLink]="'/pago'">Comprar <i
-            class="fas fa-money-bill-wave"></i></a>
-        </div>
-      </div>
-    </div>
+  <mat-card class="mb-4 d-flex justify-content-center" *ngIf="wishListState != 2">
+    <mat-spinner *ngIf="wishListState == 1" mode="indeterminate"></mat-spinner>
+    <mat-error *ngIf="wishListState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
   </mat-card>
-  <mat-card *ngIf="vehiculos.length == 0" class="container-fluid p-5">
-    <h5 class="mt-5 text-center">¡Por el momento tu lista de deseos se encuentra vacía!</h5>
-    <p class="mb-5 text-center">Para agregar vehículos a tu lista de deseos preciona en <a mat-button mat-mini-fab
-                                                                                           color="primary"
-                                                                                           class="beatHeart"><i
-      class="far fa-heart"></i></a> en aquellos vehículos que te gusten.</p>
+  <div *ngIf="wishListState == 2 && !deleteAllCars">
+    <a *ngIf="wishList.length != 0 && wishListCarSelected == null" (click)="deleteAllCars = true" mat-button color="warn">
+      Vaciar lista de deseos&nbsp;<i class="fas fa-eraser"></i>
+    </a>
+    <div *ngIf="wishListCarSelected == null">
+      <mat-card *ngFor="let car of wishList; let i = index" class="container-fluid mb-2 p-0">
+        <div class="d-flex justify-content-between">
+          <div class="col-sm-4 col-12 pl-0">
+            <mat-card class="p-0 m-0">
+              <mat-card-content class="position-relative">
+                <div class="position-absolute w-100 m-0 p-0"
+                     style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
+                  <h5 class="text-center mat-body-1">{{car.auto.modelo.nombre}}, {{car.auto.modelo.marca.nombre}}</h5>
+                </div>
+                <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px" [src]="car.auto.imagenes[0]" alt="Foto del vehículo">
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col-sm-8 col-12 p-2">
+            <mat-card-header>
+              <img mat-card-avatar [src]="car.auto.usuario.imagenPerfil" alt="Foto del vendedor">
+              <mat-card-title class="mb-1">{{car.auto.usuario.nombreCompleto.nombres + ' ' + car.auto.usuario.nombreCompleto.apellido1 + ' ' + car.auto.usuario.nombreCompleto.apellido2}}</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <div class="w-100 d-flex mb-2 mt-2">
+              <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{car.auto.precio | currency:'MXN':'symbol':'.2-2'}}</span>
+              <span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-tint" [ngStyle]="{'color': car.auto.colorExterior}"></i> Color Exterior</span>
+            </div>
+            <div class="w-100 d-flex mb-2">
+              <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{car.auto.kilometraje | number}} Kms.</span>
+              <span class="d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': car.auto.colorInterior}"></i> Color Interior</span>
+            </div>
+            <div class="w-100 d-flex mb-2 justify-content-start">
+              <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo/' + car.auto._id">Ver más <i
+                class="far fa-eye"></i></a>
+              <a mat-button mat-raised-button color="warn" class="mr-2" (click)="wishListCarSelected = i">Eliminar <i class="fas fa-trash-alt"></i></a>
+              <a mat-button mat-raised-button color="accent" class="" [routerLink]="'/pago/' + car.auto._id">Comprar <i
+                class="fas fa-money-bill-wave"></i></a>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <mat-card *ngIf="wishListCarSelected != null">
+      <mat-card-content *ngIf="deleteState != 2">
+        <h5 class="text-center">Eliminar auto</h5>
+        <p class="text-center">¿Seguro que deseas eliminar el auto {{wishList[wishListCarSelected].auto.modelo.nombre}} de marca {{wishList[wishListCarSelected].auto.modelo.marca.nombre}} tu lista de deseos?</p>
+      </mat-card-content>
+      <mat-card-content class="d-flex justify-content-center" *ngIf="deleteState != 0">
+        <mat-spinner *ngIf="deleteState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+        <mat-hint *ngIf="deleteState == 2">Auto eliminado satisfactoriamente.</mat-hint>
+        <mat-error *ngIf="deleteState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+      </mat-card-content>
+      <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteState == 0 || deleteState == 3">
+        <button mat-raised-button color="primary" (click)="wishListCarSelected = null" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+        <button mat-raised-button color="warn" (click)="deleteConfirmation()">Eliminar <i class="fas fa-trash-alt"></i></button>
+      </mat-card-actions>
+      <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteState == 2">
+        <button mat-stroked-button color="primary" (click)="endDeleteProcess()" class="mr-2">Entendido <i class="fas fa-check"></i></button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="wishList.length == 0 && deleteState == 0" class="container-fluid p-5">
+      <h5 class="mt-5 text-center">¡Por el momento tu lista de deseos se encuentra vacía!</h5>
+      <p class="mb-5 text-center">Para agregar vehículos a tu lista de deseos presiona en <a mat-button mat-mini-fab
+                                                                                             color="primary"
+                                                                                             class="beatHeart"><i
+        class="far fa-heart"></i></a> en aquellos vehículos que te gusten.</p>
+    </mat-card>
+  </div>
+  <mat-card *ngIf="deleteAllCars">
+    <mat-card-content *ngIf="deleteAllState != 2">
+      <h5 class="text-center">Vaciar lista de deseos</h5>
+      <p class="text-center">¿Seguro que deseas eliminar todos los autos de tu lista de deseos?</p>
+    </mat-card-content>
+    <mat-card-content class="d-flex justify-content-center" *ngIf="deleteAllState != 0">
+      <mat-spinner *ngIf="deleteAllState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+      <mat-hint *ngIf="deleteAllState == 2">La lista de deseos fue vaciada satisfactoriamente.</mat-hint>
+      <mat-error *ngIf="deleteAllState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+    </mat-card-content>
+    <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteAllState == 0 || deleteAllState == 3">
+      <button mat-raised-button color="primary" (click)="deleteAllCars = false" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+      <button mat-raised-button color="warn" (click)="deleteAllConfirmation()">Vaciar <i class="fas fa-trash-alt"></i></button>
+    </mat-card-actions>
+    <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteAllState == 2">
+      <button mat-stroked-button color="primary" (click)="endDeleteAllProcess()" class="mr-2">Entendido <i class="fas fa-check"></i></button>
+    </mat-card-actions>
   </mat-card>
 </main>

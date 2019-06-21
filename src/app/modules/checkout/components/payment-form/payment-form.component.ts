@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
@@ -6,6 +6,11 @@ import {Direccion} from '../../../../shared/models/direccion.model';
 import {Tarjeta} from '../../../../shared/models/tarjeta.model';
 
 import {PaymentService} from '../../../../core/services/payment.service';
+import {RequestState} from '../../../../shared/enums/request-state.enum';
+import {ProviderService} from '../../../../core/services/provider.service';
+import {CardService} from '../../../../core/services/card.service';
+import {PurchaseService} from '../../../../core/services/purchase.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-payment-form',
@@ -16,110 +21,148 @@ import {PaymentService} from '../../../../core/services/payment.service';
 })
 export class PaymentFormComponent implements OnInit {
 
-  address: Direccion;
-  cardType: number;
-  creditCard: Tarjeta;
-  disableAddressBtn: boolean;
+  @Output() providerFeed = new EventEmitter();
+  carId: string = null;
   disablePaymentBtn: boolean;
   title = 'Pago';
 
-  addressForm: FormGroup;
+  providerForm: FormGroup;
   paymentForm: FormGroup;
+  providersState: RequestState;
+  purchaseState: RequestState;
+  providers = [];
+  cardsState: RequestState;
+  cards = [];
 
-  constructor(private _paymentService: PaymentService) {
-    this.disableAddressBtn = true;
+  constructor(private _paymentService: PaymentService,
+              private _providerService: ProviderService,
+              private _cardService: CardService,
+              private _purchaseService: PurchaseService,
+              private route: ActivatedRoute) {
     this.disablePaymentBtn = true;
-    this.addressForm = new FormGroup({
-      'street': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[.a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
-            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
-        ]
-      ),
-      'number': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[0-9]*')
-        ]
-      ),
-      'interiorNumber': new FormControl(
-        '',
-        Validators.pattern('[a-zA-Z0-9]*')
-      ),
-      'neighborhood': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
-            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
-        ]
-      ),
-      'zipCode': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[0-9]*'),
-          Validators.minLength(5)
-        ]
-      ),
-      'phone': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[0-9]*'),
-          Validators.minLength(10)
-        ]
-      )
-    });
+    this.providerForm = new FormGroup({
+      'providerIndex': new FormControl(''
+        )
+      });
     this.paymentForm = new FormGroup({
-      'name': new FormControl(
-        '',
+      'cardIndex': new FormControl('',
         [
-          Validators.required,
-          Validators.pattern('[.a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
-            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
-        ]
-      ),
-      'number': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[0-9]*'),
-          Validators.minLength(14)
-        ]
-      ),
-      'expiration': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$')
-        ]
-      ),
-      'cvv': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[0-9]*'),
-          Validators.minLength(3)
+          Validators.required
         ]
       )
     });
   }
 
   ngOnInit(): void {
-    this.addressForm.valueChanges.subscribe(
-      () => {
-        this.disableAddressBtn = !this.addressForm.valid;
-      }
-    );
+    this.carId = this.route.snapshot.paramMap.get('_id')
     this.paymentForm.valueChanges.subscribe(
       () => {
         this.disablePaymentBtn = !this.paymentForm.valid;
-        this.cardType = this._paymentService.getCardType(this.paymentForm.get('number').value);
       }
     );
+    this.getProviders();
+    this.getCards();
+  }
+
+  getProviders() {
+    this.purchaseState = RequestState.initial;
+    this.providersState = RequestState.loading;
+    this._providerService.getProviders().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.providers = response.proveedoresDeEnvio;
+              this.providersState = RequestState.success;
+            } else {
+              console.log('error');
+              this.providersState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.providersState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  getCards() {
+    this.cardsState = RequestState.loading;
+    this._cardService.getCards().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.cards = response.tarjeta;
+              for (let i = 0 ; i < this.cards.length; i++) {
+                this.cards[i].codigo = this.cards[i].codigo.replace(/[0-9]/g, '·');
+              }
+              this.cardsState = RequestState.success;
+            } else {
+              this.cardsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.cardsState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  providerFeedChange(event) {
+    this.providerFeed.emit( {
+      providerFeed: this.providerForm.get('providerIndex').value !== '' ?
+        this.providers[this.providerForm.get('providerIndex').value].costo :
+        null
+    });
+  }
+
+  addPurchase () {
+    this.purchaseState = RequestState.loading;
+    const data = {
+      auto: this.carId,
+      tarjeta: this.cards[this.paymentForm.get('cardIndex').value]._id,
+      proveedorDeEnvio: this.providerForm.get('providerIndex').value !== '' ?
+        this.providers[this.providerForm.get('providerIndex').value]._id : null
+    };
+    console.log(data);
+    this._purchaseService.addPurchase(data).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.purchaseState = RequestState.success;
+            } else {
+              this.purchaseState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.purchaseState = RequestState.error;
+          },
+          2000
+        );
+      });
   }
 }

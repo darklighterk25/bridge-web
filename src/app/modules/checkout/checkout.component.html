@@ -4,19 +4,14 @@
       <!-- Formulario de pago -->
       <div class="col-12 order-1 col-lg-8 order-lg-0 mb-2">
         <mat-card class="container-fluid">
-          <mat-card-header class="row">
-            <h3 class="col-12 mat-headline">Formulario de Pago</h3>
-          </mat-card-header>
-          <mat-card-content class="row">
-            <app-payment-form></app-payment-form>
-          </mat-card-content>
+          <app-payment-form (providerFeed)="providerFeedChange($event)"></app-payment-form>
         </mat-card>
       </div>
       <!-- Resumen de compra -->
       <div class="col-12 order-0 col-lg-4 order-lg-1 mb-2">
-        <mat-card>
-          <app-summary></app-summary>
-        </mat-card>
+        <div>
+          <app-summary [providerFeed]="providerFeed"></app-summary>
+        </div>
       </div>
     </div>
   </div>

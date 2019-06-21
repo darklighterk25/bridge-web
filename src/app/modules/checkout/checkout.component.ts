@@ -8,9 +8,14 @@ export class CheckoutComponent implements OnInit {
 
   title = 'Pago';
 
+  providerFeed: number = null;
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  providerFeedChange(event) {
+    this.providerFeed = event.providerFeed;
   }
 }

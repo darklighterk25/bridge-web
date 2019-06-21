@@ -26,13 +26,12 @@
         </div>
         <div class="col-sm-9 col-12 p-2 mat-body-1">
           <div class="w-100 d-flex mb-2 mt-2">
-        <span class="col-6 d-block pl-0 pr-1">
-          <i class="fas fa-money-bill-wave"></i> {{car.precio | currency:'MXN':'symbol':'.2-2'}}</span>
-            Color Exterior&nbsp;<span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-tint" [ngStyle]="{'color': car.colorExterior}"></i></span>
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{car.precio | currency:'MXN':'symbol':'.2-2'}}</span>
+            <span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-tint" [ngStyle]="{'color': car.colorExterior}"></i> Color Exterior</span>
           </div>
           <div class="w-100 d-flex mb-2">
             <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{car.kilometraje | number}} Kms.</span>
-            Color Interior&nbsp;<span class="d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': car.colorInterior}"></i></span>
+            <span class="d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': car.colorInterior}"></i> Color Interior</span>
           </div>
           <div class="w-100 d-flex mb-2 justify-content-start">
             <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo/' + car._id">Ver más <i class="far fa-eye"></i></a>

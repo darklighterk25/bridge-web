@@ -1,4 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {CarService} from '../../../../core/services/car.service';
+import {RequestState} from '../../../../shared/enums/request-state.enum';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-summary',
@@ -6,26 +9,39 @@ import {Component, OnInit} from '@angular/core';
 })
 export class SummaryComponent implements OnInit {
 
-  vehiculo = {
-    id: 1,
-    marca: 'Nissan',
-    modelo: 'Versa',
-    anio: '2018',
-    vendedor: 'Alfredo Torres Jiménez',
-    calificacion: 5,
-    imagenVendedor: 'assets/about/sin-imagen.png',
-    imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-    precio: '150000',
-    color: 'Blanco',
-    estado: 'Usado',
-    kilometraje: '30000'
-  };
+  @Input() providerFeed: any = null;
+  carState: RequestState;
+  car: any;
 
-  constructor() {
+  constructor(private _carService: CarService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.carState = RequestState.loading;
+    this._carService.getCar(this.route.snapshot.paramMap.get('_id')).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.car = response.auto;
+              this.carState = RequestState.success;
+            } else {
+              this.carState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            // console.error(error);
+            this.carState = RequestState.error;
+          },
+          2000
+        );
+      });
   }
-
 }

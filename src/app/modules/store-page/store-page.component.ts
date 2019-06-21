@@ -5,6 +5,7 @@ import {CarService} from '../../core/services/car.service';
 import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../../core/authentication/authentication.service';
 import {CommentService} from '../../core/services/comment.service';
+import {WishListService} from '../../core/services/wish-list.service';
 
 @Component({
   selector: 'app-store-page',
@@ -26,11 +27,17 @@ export class StorePageComponent implements OnInit {
   deleteCommentState: RequestState;
   comments = [];
   commentSelected = null;
+  addToWishListState: RequestState;
+  deleteFromWishListState: RequestState;
+  wishListCheckState: RequestState;
+  isInTheWishList: boolean;
+  wishListId: string = null;
 
   constructor(private _carService: CarService,
               private _commentService: CommentService,
               private route: ActivatedRoute,
-              private _authService: AuthenticationService) {
+              private _authService: AuthenticationService,
+              private _wishListService: WishListService) {
     this.commentForm = new FormGroup({
       'comment': new FormControl(
         '',
@@ -50,12 +57,11 @@ export class StorePageComponent implements OnInit {
     this.newCommentState = RequestState.initial;
     this.deleteCommentState = RequestState.initial;
     this.commentsState = RequestState.initial;
+    this.addToWishListState = RequestState.initial;
+    this.deleteFromWishListState = RequestState.initial;
+    this.wishListCheckState = RequestState.initial;
+    this.isInTheWishList = false;
     this.isLoggedIn = false;
-    this._authService.isLoggedIn.subscribe(
-      response => {
-        this.isLoggedIn = response;
-      },
-      error => {});
     this.carState = RequestState.loading;
     this._carService.getCar(this.route.snapshot.paramMap.get('_id')).subscribe(
       response => {
@@ -64,6 +70,29 @@ export class StorePageComponent implements OnInit {
             console.log(response);
             if (response.ok) {
               this.car = response.auto;
+              this._authService.isLoggedIn.subscribe(
+                loggedInResponse => {
+                  this.isLoggedIn = loggedInResponse;
+                  if (this.isLoggedIn) {
+                    this.wishListCheckState = RequestState.loading;
+                    this._wishListService.isInWishList(this.car._id).subscribe(
+                      wishListResponse => {
+                        console.log(wishListResponse);
+                        if (wishListResponse.ok) {
+                          this.isInTheWishList = wishListResponse.existe;
+                          this.wishListId = wishListResponse.id;
+                          this.wishListCheckState = RequestState.success;
+                        } else {
+                          this.wishListCheckState = RequestState.error;
+                        }
+                      },
+                      error => {
+                        console.error(error);
+                        this.wishListCheckState = RequestState.error;
+                      });
+                  }
+                },
+                error => {});
               this.carState = RequestState.success;
               this.getComments();
             } else {
@@ -170,12 +199,75 @@ export class StorePageComponent implements OnInit {
   }
 
   mostrarIcono() {
-    document.getElementById('wishList').classList.remove('far');
-    document.getElementById('wishList').classList.add('fas');
+    if (this.wishListCheckState !== RequestState.error) {
+      if (this.addToWishListState === RequestState.error) {
+        this.addToWishListState = RequestState.initial;
+      }
+      if (this.deleteFromWishListState === RequestState.error) {
+        this.deleteFromWishListState = RequestState.initial;
+      }
+    }
   }
 
-  ocultarIcono() {
-    document.getElementById('wishList').classList.remove('fas');
-    document.getElementById('wishList').classList.add('far');
+  addToWishList() {
+    this.addToWishListState = RequestState.loading;
+    const data = {
+      auto: this.car._id
+    };
+    this._wishListService.addCarToWishList(data).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.isInTheWishList = true;
+              this.wishListId = response.wishList._id;
+              this.deleteFromWishListState = RequestState.initial;
+              this.addToWishListState = RequestState.success;
+            } else {
+              this.addToWishListState = RequestState.error;
+            }
+          },
+          1000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.addToWishListState = RequestState.error;
+          },
+          1000
+        );
+      });
+  }
+
+  deleteFromWishList() {
+    this.deleteFromWishListState = RequestState.loading;
+    this._wishListService.deleteCarFromWishList(this.wishListId).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.isInTheWishList = false;
+              this.addToWishListState = RequestState.initial;
+              this.deleteFromWishListState = RequestState.success;
+            } else {
+              this.deleteFromWishListState = RequestState.error;
+            }
+          },
+          1000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.deleteFromWishListState = RequestState.error;
+          },
+          1000
+        );
+      });
   }
 }

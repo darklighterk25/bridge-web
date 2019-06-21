@@ -51,6 +51,8 @@ import {ReportService} from './core/services/report.service';
 import {ChartsModule} from 'ng2-charts';
 import {CommentService} from './core/services/comment.service';
 import {ProviderService} from './core/services/provider.service';
+import {WishListService} from './core/services/wish-list.service';
+import {PurchaseService} from './core/services/purchase.service';
 
 @NgModule({
   declarations: [
@@ -107,6 +109,8 @@ import {ProviderService} from './core/services/provider.service';
     ReportService,
     CommentService,
     ProviderService,
+    WishListService,
+    PurchaseService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

@@ -47,10 +47,11 @@
         <mat-divider *ngIf="isLoggedIn && _authService.getUserId() != car.usuario._id"></mat-divider>
         <mat-card-content *ngIf="isLoggedIn && _authService.getUserId() != car.usuario._id" class="pt-2 pb-2">
           <div class="d-flex justify-content-between">
-            <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" mat-button
-               mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
-            <a mat-button mat-raised-button color="accent" class="float-left" [routerLink]="'/pago'">Comprar <i
-              class="fas fa-money-bill-wave"></i></a>
+            <a (mouseover)="mostrarIcono()" *ngIf="addToWishListState == 0 && !isInTheWishList && wishListCheckState != 1" mat-button mat-mini-fab color="primary" (click)="addToWishList()" matTooltip="Agregar a tu lista de deseos"><i id="wishList" class="far fa-heart"></i></a>
+            <a *ngIf="(addToWishListState == 3 || deleteFromWishListState == 3 || wishListCheckState == 3)" mat-button mat-mini-fab color="warn" matTooltip="Ha ocurrido un error"><i class="fas fa-times"></i></a>
+            <mat-spinner *ngIf="addToWishListState == 1 || deleteFromWishListState == 1 || wishListCheckState == 1" mode="indeterminate" diameter="40"></mat-spinner>
+            <a *ngIf="deleteFromWishListState == 0 && isInTheWishList && wishListCheckState != 1" mat-button mat-mini-fab color="accent" (click)="deleteFromWishList()" matTooltip="Esta en tu lista de deseos"><i class="fas fa-check"></i></a>
+            <a mat-button mat-raised-button color="accent" [routerLink]="'/pago/' + car._id">Comprar <i class="fas fa-money-bill-wave"></i></a>
           </div>
         </mat-card-content>
       </mat-card>

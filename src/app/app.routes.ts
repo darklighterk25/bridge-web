@@ -27,7 +27,7 @@ export const routes: Routes = [
   {path: 'cuenta', children: ACCOUNT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'administracion', children: ADMIN_ROUTES, canActivate: [AdministrationGuard]},
   {path: 'chat', children: CHAT_ROUTES, canActivate: [AuthenticationGuard]},
-  {path: 'pago', children: CHECKOUT_ROUTES, canActivate: [AuthenticationGuard]},
+  {path: 'pago/:_id', children: CHECKOUT_ROUTES, canActivate: [AuthenticationGuard]},
   {path: 'contacto', children: CONTACT_ROUTES},
   {path: 'inicio', children: HOME_ROUTES},
   {path: '', children: HOME_ROUTES},
