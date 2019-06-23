@@ -20,8 +20,8 @@ export class EditPublicationComponent implements OnInit {
   selectedFile = null;
   imageState: RequestState;
 
-  marcas$: any[];
-  modelos$: any[];
+  marcas: any[];
+  modelos: any[];
   id: string;
 
   currentBrand: string;
@@ -95,7 +95,7 @@ export class EditPublicationComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('_id');
     this._brandService.getBrands().subscribe(
       response => {
-        this.marcas$ = response['marcas'];
+        this.marcas = response['marcas'];
       }
     );
     this._carService.getCar(this.id).subscribe(
@@ -186,7 +186,7 @@ export class EditPublicationComponent implements OnInit {
   setCurrentBrand(): void {
     this._modelService.getModels(this.currentBrand).subscribe(
       response => {
-        this.modelos$ = response['modelos'];
+        this.modelos = response['modelos'];
       }
     );
   }

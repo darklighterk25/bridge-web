@@ -34,7 +34,7 @@ export class ProvidersConfigurationComponent implements OnInit {
       'cost': new FormControl({value: '', disabled: this.updateState === RequestState.loading},
         [
           Validators.required,
-          Validators.pattern('[0-9]*')
+          Validators.pattern('[0-9]+([.][0-9][0-9])?')
         ]
       ),
       'deliverDays': new FormControl({value: '', disabled: this.updateState === RequestState.loading},

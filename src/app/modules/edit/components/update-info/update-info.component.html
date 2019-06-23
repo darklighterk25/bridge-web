@@ -9,7 +9,7 @@
     </mat-error>
     <mat-error *ngIf="form.get('name').errors?.pattern
                           &&( form.get('name').dirty || form.get('name').touched )">
-      No parece ser un nombre válido.
+      Este campo sólo acepta letras.
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-lg-4 col-sm-12">
@@ -21,7 +21,7 @@
     </mat-error>
     <mat-error *ngIf="form.get('lastName1').errors?.pattern
                           &&( form.get('lastName1').dirty || form.get('lastName1').touched )">
-      No parece ser un apellido válido.
+      Este campo sólo acepta letras.
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-lg-4 col-sm-12">
@@ -29,7 +29,7 @@
     <input matInput formControlName="lastName2">
     <mat-error *ngIf="form.get('lastName2').errors?.pattern
                           &&( form.get('lastName2').dirty || form.get('lastName2').touched )">
-      No parece ser un apellido válido.
+      Este campo sólo acepta letras.
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-lg-6 col-sm-12">
@@ -41,7 +41,7 @@
     </mat-error>
     <mat-error *ngIf="form.get('phone').errors?.pattern
                           &&( form.get('phone').dirty || form.get('phone').touched )">
-      No parece ser un teléfono válido.
+      Este campo sólo acepta números.
     </mat-error>
   </mat-form-field>
   <div class="col-lg-6 col-sm-12 mb-1">

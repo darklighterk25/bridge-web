@@ -16,7 +16,7 @@
           <mat-error *ngIf="paymentForm.controls['name'].errors?.pattern
                                         &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched)"
                      class="invalid-feedback d-block">
-            El nombre es inválido.
+            Este campo sólo acepta letras y puntos.
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-12 col-md-6">
@@ -30,7 +30,7 @@
           <mat-error *ngIf="(paymentForm.controls['number'].errors?.pattern || paymentForm.controls['number'].errors?.minlength)
                                         &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched)"
                      class="invalid-feedback d-block">
-            Número inválido.
+            Este campo solo acepta números y requiere de una longitud mínima de 14 y una máxima de 16.
           </mat-error>
         </mat-form-field>
       </div>
@@ -59,7 +59,7 @@
           <mat-error *ngIf="paymentForm.controls['expirationDate'].errors?.pattern
                                         &&( paymentForm.controls['expirationDate'].dirty || paymentForm.controls['expirationDate'].touched)"
                      class="invalid-feedback d-block">
-            Fecha inválida.
+            Este campo debe de tener un formato de mm/aa, es decir, dos dígitos para el mes y dos dígitos para el año.
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-12 col-sm-4">
@@ -73,7 +73,7 @@
           <mat-error *ngIf="(paymentForm.controls['code'].errors?.pattern || paymentForm.controls['code'].errors?.minlength)
                                         &&( paymentForm.controls['code'].dirty || paymentForm.controls['code'].touched)"
                      class="invalid-feedback d-block">
-            Código inválido.
+            Este campo sólo permite números y requiere de una longitud de 4 dígitos.
           </mat-error>
         </mat-form-field>
       </div>

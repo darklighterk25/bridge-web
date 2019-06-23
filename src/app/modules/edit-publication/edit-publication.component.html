@@ -13,21 +13,21 @@
       </div>
     </div>
   </mat-card>
-  <mat-card class="container-fluid" *ngIf="marcas$ && auto">
+  <mat-card class="container-fluid mb-4" *ngIf="marcas && auto">
     <div class="row">
       <form [formGroup]="auto" (ngSubmit)="submit()">
-        <mat-form-field *ngIf="marcas$" class="col-4">
+        <mat-form-field *ngIf="marcas" class="col-4">
           <mat-label>Marca</mat-label>
           <mat-select [(ngModel)]="currentBrand" [ngModelOptions]="{standalone: true}" (selectionChange)="setCurrentBrand()">
-            <mat-option *ngFor="let marca of marcas$" [value]="marca._id">
+            <mat-option *ngFor="let marca of marcas" [value]="marca._id">
               {{marca.nombre}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="modelos$" class="col-4">
+        <mat-form-field *ngIf="modelos" class="col-4">
           <mat-label>Modelo</mat-label>
           <mat-select [(ngModel)]="currentModel" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let modelo of modelos$" [value]="modelo._id">
+            <mat-option *ngFor="let modelo of modelos" [value]="modelo._id">
               {{modelo.nombre}}
             </mat-option>
           </mat-select>
@@ -137,5 +137,5 @@
       </form>
     </div>
   </mat-card>
-  <mat-progress-spinner *ngIf="!marcas$" mode="indeterminate"></mat-progress-spinner>
+  <mat-progress-spinner *ngIf="!marcas" mode="indeterminate"></mat-progress-spinner>
 </main>

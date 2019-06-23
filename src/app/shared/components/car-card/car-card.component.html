@@ -3,7 +3,7 @@
     <mat-card-content class="position-relative">
       <div id="verMas{{car._id}}" class="position-absolute w-100 m-0 pt-0 pr-2 pl-2 animated animated-2x"
            style="top: 10px; opacity: 0">
-        <a *ngIf="isLoggedIn && addToWishListState == 0 && !isInTheWishList && wishListCheckState != 1 && car.usuario != _authService.getUserId()" mat-button mat-mini-fab color="primary" class="float-left" (click)="addToWishList()" matTooltip="Agregar a tu lista de deseos"><i id="wishList" class="far fa-heart"></i></a>
+        <a *ngIf="isLoggedIn && addToWishListState == 0 && !isInTheWishList && wishListCheckState != 1 && car.usuario._id != _authService.getUserId()" mat-button mat-mini-fab color="primary" class="float-left" (click)="addToWishList()" matTooltip="Agregar a tu lista de deseos"><i id="wishList" class="far fa-heart"></i></a>
         <a *ngIf="isLoggedIn && (addToWishListState == 3 || deleteFromWishListState == 3 || wishListCheckState == 3)" mat-button mat-mini-fab color="warn" class="float-left" matTooltip="Ha ocurrido un error"><i class="fas fa-times"></i></a>
         <mat-spinner *ngIf="addToWishListState == 1 || deleteFromWishListState == 1 || wishListCheckState == 1" class="float-left" mode="indeterminate" diameter="40"></mat-spinner>
         <a *ngIf="isLoggedIn && deleteFromWishListState == 0 && isInTheWishList && wishListCheckState != 1" mat-button mat-mini-fab color="accent" class="float-left" (click)="deleteFromWishList()" matTooltip="Esta en tu lista de deseos"><i class="fas fa-check"></i></a>

@@ -34,7 +34,7 @@
           </mat-error>
           <mat-error *ngIf="form.get('name').errors?.pattern
                           &&( form.get('name').dirty || form.get('name').touched )">
-            No parece ser un nombre válido.
+            Este campo sólo acepta letras, números y puntos.
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-12 col-sm-6">
@@ -46,7 +46,7 @@
           </mat-error>
           <mat-error *ngIf="form.get('cost').errors?.pattern
                           &&( form.get('cost').dirty || form.get('cost').touched )">
-            No parece ser un costo válido.
+            Este campo sólo acepta números y opcionalmente un punto y con dos decimales.
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-12">
@@ -58,7 +58,7 @@
           </mat-error>
           <mat-error *ngIf="form.get('deliverDays').errors?.pattern
                           &&( form.get('deliverDays').dirty || form.get('deliverDays').touched )">
-            No parece ser una cantidad de días válida.
+            Este campo sólo acepta números.
           </mat-error>
         </mat-form-field>
       </div>

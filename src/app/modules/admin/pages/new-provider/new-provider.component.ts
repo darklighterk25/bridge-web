@@ -27,7 +27,7 @@ export class NewProviderComponent implements OnInit {
       'cost': new FormControl({value: '', disabled: this.newState === RequestState.loading},
         [
           Validators.required,
-          Validators.pattern('[0-9]*')
+          Validators.pattern('[0-9]+([.][0-9][0-9])?')
         ]
       ),
       'deliverDays': new FormControl({value: '', disabled: this.newState === RequestState.loading},

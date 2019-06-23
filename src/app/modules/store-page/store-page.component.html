@@ -270,6 +270,10 @@
                           &&( commentForm.get('comment').dirty || commentForm.get('comment').touched)">
                   Este campo es requerido.
                 </mat-error>
+                <mat-error *ngIf="commentForm.get('comment').errors?.pattern
+                          &&( commentForm.get('comment').dirty || commentForm.get('comment').touched )">
+                  Este campo sólo acepta letras, números, comas y puntos.
+                </mat-error>
               </mat-form-field>
             </form>
             <button mat-raised-button [disabled]="commentButtonDisabled || newCommentState == 1 || deleteCommentState == 1" color="primary" (click)="newComment()"
