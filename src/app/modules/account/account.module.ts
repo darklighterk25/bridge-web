@@ -12,6 +12,7 @@ import {ListingsComponent} from './pages/listings/listings.component';
 import {NombrePipe} from '../../shared/pipes/nombre.pipe';
 import {PhonePipe} from '../../shared/pipes/phone.pipe';
 import {SharedModule} from '../../shared/shared.module';
+import {CardsModule} from './pages/cards/cards.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {SharedModule} from '../../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    CardsModule
   ],
   exports: [
     AccountComponent

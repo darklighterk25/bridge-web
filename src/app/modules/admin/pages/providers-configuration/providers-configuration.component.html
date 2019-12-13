@@ -1,0 +1,94 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<a *ngIf="providersState == 2 && updateState != 1 && !deleteProvider && providers.length != 0" mat-button color="primary" (click)="new()">
+  Nuevo proveedor&nbsp;<i class="fas fa-plus"></i>
+</a>
+<mat-card class="mb-4 d-flex justify-content-center" *ngIf="providersState != 2">
+  <mat-spinner *ngIf="providersState == 1" mode="indeterminate"></mat-spinner>
+  <mat-error *ngIf="providersState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+</mat-card>
+<mat-card class="mb-4" *ngIf="providersState == 2 && providers.length != 0">
+  <mat-card-content>
+    <form [formGroup]="form">
+      <div class="row mb-2 d-flex justify-content-center">
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>Proveedor</mat-label>
+          <mat-select formControlName="providerIndex" (selectionChange)="reset()">
+            <mat-option value="">Ninguno</mat-option>
+            <mat-option *ngFor="let provider of providers; let i = index" value="{{i}}">{{provider.nombre}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-12" *ngIf="form.get('providerIndex').value !== ''">
+        <p class="text-center">Tu auto se entrega en {{providers[form.get('providerIndex').value].diasDeEntrega}} días a un costo de {{providers[form.get('providerIndex').value].costo | currency:'MXN':'symbol':'.2-2'}}.</p>
+      </div>
+      <h5 class="text-center" *ngIf="form.get('providerIndex').value !== '' && !deleteProvider">Actualizar datos</h5>
+      <div class="row" *ngIf="form.get('providerIndex').value !== '' && !deleteProvider">
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="form.get('name').errors?.required
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('name').errors?.pattern
+                          &&( form.get('name').dirty || form.get('name').touched )">
+            Este campo sólo acepta letras, números y puntos.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-6">
+          <mat-label>Costo (MXN)</mat-label>
+          <input matInput formControlName="cost" required>
+          <mat-error *ngIf="form.get('cost').errors?.required
+                          &&( form.get('cost').dirty || form.get('cost').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('cost').errors?.pattern
+                          &&( form.get('cost').dirty || form.get('cost').touched )">
+            Este campo sólo acepta números y opcionalmente un punto y con dos decimales.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12">
+          <mat-label>Días de entrega</mat-label>
+          <input matInput formControlName="deliverDays">
+          <mat-error *ngIf="form.get('deliverDays').errors?.required
+                          &&( form.get('deliverDays').dirty || form.get('deliverDays').touched )">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('deliverDays').errors?.pattern
+                          &&( form.get('deliverDays').dirty || form.get('deliverDays').touched )">
+            Este campo sólo acepta números.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="form.get('providerIndex').value != '' && (updateState == 0 || updateState == 3)  && !deleteProvider">
+    <button mat-raised-button color="primary" (click)="update()" class="mr-2" [disabled]="form.invalid">Actualizar</button>
+    <button mat-raised-button color="warn" (click)="delete()">Eliminar <i class="fas fa-trash-alt"></i></button>
+  </div>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="updateState != 0">
+    <mat-spinner *ngIf="updateState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+    <mat-hint *ngIf="updateState == 2">Proveedor actualizado satisfactoriamente.</mat-hint>
+    <mat-error *ngIf="updateState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </div>
+  <mat-card-content *ngIf="deleteProvider">
+    <h5 class="text-center">Eliminar proveedor</h5>
+    <p class="text-center">¿Seguro que deseas eliminar al proveedor {{providers[form.get('providerIndex').value].nombre}}?</p>
+  </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="deleteProvider && (deleteState == 0 || deleteState == 3)">
+    <button mat-raised-button color="primary" (click)="deleteCancelation()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+    <button mat-raised-button color="warn" (click)="deleteConfirmation()">Eliminar <i class="fas fa-trash-alt"></i></button>
+  </div>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="deleteState !== 0">
+    <mat-spinner *ngIf="deleteState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+    <mat-hint *ngIf="deleteState == 2">Proveedor eliminado satisfactoriamente.</mat-hint>
+    <mat-error *ngIf="deleteState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </div>
+</mat-card>
+<mat-card *ngIf="providersState == 2 && providers.length == 0 && (deleteState == 0 || deleteState == 2)" class="container-fluid p-5">
+  <h5 class="mt-5 text-center">¡Por el momento no se tiene ningun proveedor dada de alta!</h5>
+  <p class="text-center mt-2 mb-1">¡Da de alta tu primer proveedor!</p>
+  <p class="mb-5 text-center">Solo debes de presionar en <a mat-button color="primary" (click)="new()">Nuevo proveedor&nbsp;<i class="fas fa-plus"></i></a> para agregar alguno al sitio.</p>
+</mat-card>

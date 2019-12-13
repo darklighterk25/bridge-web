@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from '../../core/authentication/authentication.service';
 
 @Component({
   selector: 'app-account',
@@ -7,10 +8,16 @@ import {Component, OnInit} from '@angular/core';
 export class AccountComponent implements OnInit {
 
   title = 'Cuenta';
+  isAdmin: boolean;
 
-  constructor() {
+  constructor(private _authService: AuthenticationService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this._authService.isAdmin.subscribe(
+      data => {
+        this.isAdmin = data;
+      }
+    );
   }
 }

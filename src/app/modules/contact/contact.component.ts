@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -9,8 +10,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class ContactComponent implements OnInit {
 
   title = 'Contacto';
-  basicInfo: FormGroup;
+  form: FormGroup;
   disableBasicInfoBtn = true;
+  submited = false;
+  loading = false;
   aspectos = [
     {
       contenido: 'Te podemos brindar información del sitio con respecto a algúna duda con la que cuentes.'
@@ -29,8 +32,11 @@ export class ContactComponent implements OnInit {
     }
   ];
 
-  constructor() {
-    this.basicInfo = new FormGroup({
+  constructor(private http: HttpClient) {
+  }
+
+  ngOnInit(): void {
+    this.form = new FormGroup({
       'name': new FormControl(
         '',
         [
@@ -38,19 +44,6 @@ export class ContactComponent implements OnInit {
           Validators.pattern('[.a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
             '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
         ]
-      ),
-      'lastName1': new FormControl(
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[.a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
-            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
-        ]
-      ),
-      'lastName2': new FormControl(
-        '',
-        Validators.pattern('[.a-zA-ZñÑáéíóúÁÉÍÓÚ\'\\t\\n\\v\\f\\r ' +
-          '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
       ),
       'phone': new FormControl(
         '',
@@ -74,13 +67,27 @@ export class ContactComponent implements OnInit {
         ]
       )
     });
-    this.basicInfo.valueChanges.subscribe(
+    this.form.valueChanges.subscribe(
       () => {
-        this.disableBasicInfoBtn = !this.basicInfo.valid;
+        this.disableBasicInfoBtn = !this.form.valid;
       }
     );
   }
 
-  ngOnInit() {
+  submit(): void {
+    this.loading = true;
+    this.disableBasicInfoBtn =  true;
+    this.http.post('https://bridge-back-end.herokuapp.com/contacto', this.form.value).subscribe(
+      data => {
+        console.log(data);
+        this.submited = true;
+        this.loading = false;
+      },
+      error => {
+        console.error(error);
+        this.loading = false;
+        this.disableBasicInfoBtn =  false;
+      }
+    );
   }
 }

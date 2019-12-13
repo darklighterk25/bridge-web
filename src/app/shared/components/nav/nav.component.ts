@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {OverlayContainer} from '@angular/cdk/overlay';
 
 import {AuthenticationService} from '../../../core/authentication/authentication.service';
+import {UserService} from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-web-nav',
@@ -37,6 +38,7 @@ export class WebNavComponent implements OnInit {
     );
 
   constructor(private _authService: AuthenticationService,
+              private _userService: UserService,
               private breakpointObserver: BreakpointObserver,
               public overlayContainer: OverlayContainer) {
     this.theme = 'default-theme';
@@ -47,6 +49,9 @@ export class WebNavComponent implements OnInit {
   ngOnInit(): void {
     this.admin$ = this._authService.isAdmin;
     this.isLoggedIn$ = this._authService.isLoggedIn;
+    this._authService.userTheme.subscribe(
+      theme => this.theme = theme
+    );
   }
 
   logout(): void {
@@ -64,6 +69,10 @@ export class WebNavComponent implements OnInit {
     } else {
       theme = 'tritanerope-theme-big';
     }
+    this._userService.updateTheme(theme).subscribe(
+      success => console.log(success),
+      error => console.error(error),
+    );
     this.overlayContainer.getContainerElement().classList.add(theme);
     this.theme = theme;
   }

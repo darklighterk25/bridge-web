@@ -1,5 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {RequestState} from '../../shared/enums/request-state.enum';
+import {CarService} from '../../core/services/car.service';
+import {ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../../core/authentication/authentication.service';
+import {CommentService} from '../../core/services/comment.service';
+import {WishListService} from '../../core/services/wish-list.service';
 
 @Component({
   selector: 'app-store-page',
@@ -8,106 +14,262 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class StorePageComponent implements OnInit {
 
-  title = 'Artículo';
+  title = 'Página individual del auto';
   posicionImagen = 0;
   carrouselImagen = 0;
-  id = 3;
-  vehiculo = {
-    id: 4,
-    marca: 'Nissan',
-    modelo: 'Versa',
-    anio: '2018',
-    vendedor: 'Alfredo Torres Jiménez',
-    calificacion: 4,
-    imagenVendedor: 'assets/about/sin-imagen.png',
-    imagenesVehiculo: [
-      'assets/store-page/vehiculo.jpg',
-      'assets/store-page/vehiculo.jpg',
-      'assets/about/sin-imagen.png',
-      'assets/store-page/vehiculo.jpg',
-      'assets/store-page/vehiculo.jpg'
-    ],
-    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-    precio: '150000',
-    estado: 'Usado',
-    kilometraje: '30000',
-    extranjero: false,
-    total_duenios: 2,
-    total_accidentes: 0,
-    tipo_motor: 'Gasolina',
-    transmision: 'Estándar',
-    alarma: true,
-    aire_acondicionado: true,
-    interiores: 'Tela',
-    color_interior: 'Negro',
-    color_exterior: 'Blanco',
-    vidrios_electricos: true,
-    puertas_electricas: true,
-    bolsas_de_aire_piloto: 1,
-    bolsas_de_aire_pasajero: 1,
-    bolsas_de_aire_laterales: 2,
-    seguro_de_ninios: true,
-    control_de_estabilidad: true,
-    bluetooth: true,
-    sensor_frontal: false,
-    sensor_trasero: true,
-    camara_trasera: false,
-    comentarios: [
-      {
-        id: 1,
-        idUsuario: 1,
-        nombre: 'José Roberto Vázquez',
-        // calificacion: 5,
-        imagen: 'assets/about/sin-imagen.png',
-        comentario: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobi.'
-      },
-      {
-        id: 2,
-        idUsuario: 2,
-        nombre: 'Pedro Carrillo Sandoval',
-        // calificacion: 4,
-        imagen: 'assets/about/sin-imagen.png',
-        comentario: 'Dsadkbew sakjdas ewk consectetur adipisicing elit. Architecto blanditiis consectetur cupidit.'
-      },
-      {
-        id: 3,
-        idUsuario: 3,
-        nombre: 'José Roberto Vázquez',
-        // calificacion: 5,
-        imagen: 'assets/about/sin-imagen.png',
-        comentario: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asdeum, ex iure labore nobi. Sasdnlkjsad sakld ekl wqleqwm e.'
-      }
-    ]
-  };
-  deshabilitarBotonComentario = true;
-  formularioComentario: FormGroup;
+  isLoggedIn: boolean;
+  car: any;
+  commentButtonDisabled = true;
+  commentForm: FormGroup;
+  carState: RequestState;
+  commentsState: RequestState;
+  newCommentState: RequestState;
+  deleteCommentState: RequestState;
+  comments = [];
+  commentSelected = null;
+  addToWishListState: RequestState;
+  deleteFromWishListState: RequestState;
+  wishListCheckState: RequestState;
+  isInTheWishList: boolean;
+  wishListId: string = null;
 
-  constructor() {
-    this.formularioComentario = new FormGroup({
-      'comentario': new FormControl(
+  constructor(private _carService: CarService,
+              private _commentService: CommentService,
+              private route: ActivatedRoute,
+              private _authService: AuthenticationService,
+              private _wishListService: WishListService) {
+    this.commentForm = new FormGroup({
+      'comment': new FormControl(
         '',
         [
-          Validators.required
+          Validators.required,
+          Validators.pattern('[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,.\'\\t\\n\\v\\f\\r ' +
+            '\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000]*')
         ]
       )
     });
-    this.formularioComentario.valueChanges.subscribe(
+    this.commentForm.valueChanges.subscribe(
       () => {
-        this.deshabilitarBotonComentario = !this.formularioComentario.valid;
+        this.commentButtonDisabled = !this.commentForm.valid;
       }
     );
   }
 
   ngOnInit() {
+    this.newCommentState = RequestState.initial;
+    this.deleteCommentState = RequestState.initial;
+    this.commentsState = RequestState.initial;
+    this.addToWishListState = RequestState.initial;
+    this.deleteFromWishListState = RequestState.initial;
+    this.wishListCheckState = RequestState.initial;
+    this.isInTheWishList = false;
+    this.isLoggedIn = false;
+    this.carState = RequestState.loading;
+    this._carService.getCar(this.route.snapshot.paramMap.get('_id')).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.car = response.auto;
+              this._authService.isLoggedIn.subscribe(
+                loggedInResponse => {
+                  this.isLoggedIn = loggedInResponse;
+                  if (this.isLoggedIn) {
+                    this.wishListCheckState = RequestState.loading;
+                    this._wishListService.isInWishList(this.car._id).subscribe(
+                      wishListResponse => {
+                        console.log(wishListResponse);
+                        if (wishListResponse.ok) {
+                          this.isInTheWishList = wishListResponse.existe;
+                          this.wishListId = wishListResponse.id;
+                          this.wishListCheckState = RequestState.success;
+                        } else {
+                          this.wishListCheckState = RequestState.error;
+                        }
+                      },
+                      error => {
+                        console.error(error);
+                        this.wishListCheckState = RequestState.error;
+                      });
+                  }
+                },
+                error => {});
+              this.carState = RequestState.success;
+              this.getComments();
+            } else {
+              this.carState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            // console.error(error);
+            this.carState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  getComments() {
+    this.commentsState = RequestState.loading;
+    this._commentService.getComments(this.car._id).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.comments = response.comentarios;
+              this.commentsState = RequestState.success;
+            } else {
+              this.commentsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.commentsState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  newComment() {
+    this.newCommentState = RequestState.loading;
+    this._commentService.newComment(this.car._id, this.commentForm.get('comment').value).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.comments.push(response.comentario);
+              this.commentForm.get('comment').setValue('');
+              this.commentForm.get('comment').markAsUntouched();
+              this.commentForm.get('comment').markAsPristine();
+              this.newCommentState = RequestState.success;
+            } else {
+              this.newCommentState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.newCommentState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  deleteComment() {
+    this.deleteCommentState = RequestState.loading;
+    this._commentService.deleteComment(this.comments[this.commentSelected]._id).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.comments.splice(this.commentSelected, 1);
+              this.commentSelected = null;
+              this.deleteCommentState = RequestState.success;
+            } else {
+              this.deleteCommentState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.deleteCommentState = RequestState.error;
+          },
+          2000
+        );
+      });
   }
 
   mostrarIcono() {
-    document.getElementById('wishList').classList.remove('far');
-    document.getElementById('wishList').classList.add('fas');
+    if (this.wishListCheckState !== RequestState.error) {
+      if (this.addToWishListState === RequestState.error) {
+        this.addToWishListState = RequestState.initial;
+      }
+      if (this.deleteFromWishListState === RequestState.error) {
+        this.deleteFromWishListState = RequestState.initial;
+      }
+    }
   }
 
-  ocultarIcono() {
-    document.getElementById('wishList').classList.remove('fas');
-    document.getElementById('wishList').classList.add('far');
+  addToWishList() {
+    this.addToWishListState = RequestState.loading;
+    const data = {
+      auto: this.car._id
+    };
+    this._wishListService.addCarToWishList(data).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.isInTheWishList = true;
+              this.wishListId = response.wishList._id;
+              this.deleteFromWishListState = RequestState.initial;
+              this.addToWishListState = RequestState.success;
+            } else {
+              this.addToWishListState = RequestState.error;
+            }
+          },
+          1000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.addToWishListState = RequestState.error;
+          },
+          1000
+        );
+      });
+  }
+
+  deleteFromWishList() {
+    this.deleteFromWishListState = RequestState.loading;
+    this._wishListService.deleteCarFromWishList(this.wishListId).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.isInTheWishList = false;
+              this.addToWishListState = RequestState.initial;
+              this.deleteFromWishListState = RequestState.success;
+            } else {
+              this.deleteFromWishListState = RequestState.error;
+            }
+          },
+          1000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.deleteFromWishListState = RequestState.error;
+          },
+          1000
+        );
+      });
   }
 }

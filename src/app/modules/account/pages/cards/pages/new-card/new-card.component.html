@@ -1,0 +1,98 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4" *ngIf="newState != 2">
+  <mat-card-content>
+    <form [formGroup]="paymentForm">
+      <div class="row">
+        <mat-form-field class="col-12 col-md-6">
+          <mat-label>Titular</mat-label>
+          <input matInput formControlName="name" maxlength="50" required>
+          <mat-error *ngIf="paymentForm.controls['name'].errors?.required
+                                        &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="paymentForm.controls['name'].errors?.pattern
+                                        &&( paymentForm.controls['name'].dirty || paymentForm.controls['name'].touched)"
+                     class="invalid-feedback d-block">
+            Este campo sólo acepta letras y puntos.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-md-6">
+          <mat-label>Número de la tarjeta</mat-label>
+          <input matInput formControlName="number" maxlength="16" required>
+          <mat-error *ngIf="paymentForm.controls['number'].errors?.required
+                                        &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(paymentForm.controls['number'].errors?.pattern || paymentForm.controls['number'].errors?.minlength)
+                                        &&( paymentForm.controls['number'].dirty || paymentForm.controls['number'].touched)"
+                     class="invalid-feedback d-block">
+            Este campo solo acepta números y requiere de una longitud mínima de 14 y una máxima de 16.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type" required>
+            <mat-option value="" disabled>Ninguno</mat-option>
+            <mat-option value="Credito">Crédito</mat-option>
+            <mat-option value="Debito">Débito</mat-option>
+          </mat-select>
+          <mat-error *ngIf="paymentForm.get('type').errors?.required
+                          &&( paymentForm.get('type').dirty || paymentForm.get('type').touched )">
+            Este campo es requerido.
+          </mat-error>
+        </mat-form-field>
+        <!-- <app-credit-card-icon [cardType]="cardType" class="col-1"></app-credit-card-icon> -->
+        <mat-form-field class="col-12 col-md-4">
+          <mat-label>Fecha de vencimiento</mat-label>
+          <input matInput formControlName="expirationDate" maxlength="5" required>
+          <mat-error *ngIf="paymentForm.controls['expirationDate'].errors?.required
+                                        &&( paymentForm.controls['expirationDate'].dirty || paymentForm.controls['expirationDate'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="paymentForm.controls['expirationDate'].errors?.pattern
+                                        &&( paymentForm.controls['expirationDate'].dirty || paymentForm.controls['expirationDate'].touched)"
+                     class="invalid-feedback d-block">
+            Este campo debe de tener un formato de mm/aa, es decir, dos dígitos para el mes y dos dígitos para el año.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-4">
+          <mat-label>Código</mat-label>
+          <input matInput type="password" formControlName="code" maxlength="4" required>
+          <mat-error *ngIf="paymentForm.controls['code'].errors?.required
+                                        &&( paymentForm.controls['code'].dirty || paymentForm.controls['code'].touched )"
+                     class="invalid-feedback d-block">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="(paymentForm.controls['code'].errors?.pattern || paymentForm.controls['code'].errors?.minlength)
+                                        &&( paymentForm.controls['code'].dirty || paymentForm.controls['code'].touched)"
+                     class="invalid-feedback d-block">
+            Este campo sólo permite números y requiere de una longitud de 4 dígitos.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 0 || newState == 3">
+    <button mat-raised-button color="warn" (click)="returnToCards()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+    <button mat-raised-button color="primary" (click)="new()" [disabled]="paymentForm.invalid">Aceptar <i class="fas fa-check"></i></button>
+  </div>
+  <div class="example-button-row d-flex justify-content-center" *ngIf="newState == 1 || newState == 3">
+    <mat-spinner *ngIf="newState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+    <mat-error *ngIf="newState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </div>
+</mat-card>
+<mat-card *ngIf="newState == 2" class="container-fluid p-5 mb-4">
+  <div class="example-button-row d-flex justify-content-center mb-2">
+    <mat-hint>Tarjeta guardada satisfactoriamente.</mat-hint>
+  </div>
+  <div class="example-button-row d-flex justify-content-center">
+    <button mat-stroked-button color="primary" (click)="returnToConfiguration()" class="mr-2">Regresar a la configuración</button>
+  </div>
+</mat-card>

@@ -1,4 +1,4 @@
-<app-account-navbar></app-account-navbar>
+<app-account-navbar *ngIf="!isAdmin"></app-account-navbar>
 <main>
   <router-outlet></router-outlet>
 </main>

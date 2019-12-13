@@ -1,50 +1,70 @@
 <h3 class="text-center mat-title">
   {{ title }}
 </h3>
-<a *ngIf="vehiculos.length != 0" [routerLink]="['/nueva-publicacion']" mat-button color="primary">
-  Nueva publicación&nbsp;<i class="fas fa-plus"></i>
-</a>
-<mat-card *ngFor="let vehiculo of vehiculos" class="container-fluid mb-2 p-0">
-  <div class="d-flex justify-content-between">
-    <div class="col-sm-3 col-12 pl-0">
-      <mat-card class="p-0 m-0">
-        <mat-card-content class="position-relative">
-          <div class="position-absolute w-100 m-0 p-0"
-               style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
-            <h5 class="text-center">{{vehiculo.modelo}} {{vehiculo.anio}}, {{vehiculo.marca}}</h5>
+<mat-card class="mb-4 d-flex justify-content-center" *ngIf="carsState != 2">
+  <mat-spinner *ngIf="carsState == 1" mode="indeterminate"></mat-spinner>
+  <mat-error *ngIf="carsState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+</mat-card>
+<div *ngIf="carsState == 2">
+  <a *ngIf="cars.length != 0 && publicationSelected == null" [routerLink]="['/nueva-publicacion']" mat-button color="primary">
+    Nueva publicación&nbsp;<i class="fas fa-plus"></i>
+  </a>
+  <div *ngIf="publicationSelected == null">
+    <mat-card *ngFor="let car of cars; let i = index" class="container-fluid mb-2 p-0">
+      <div *ngIf="car" class="d-flex justify-content-between">
+        <div class="col-sm-3 col-12 pl-0">
+          <mat-card class="p-0 m-0">
+            <mat-card-content class="position-relative">
+              <div class="position-absolute w-100 m-0 p-0"
+                   style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
+                <h5 class="text-center">{{car.modelo.nombre}}, {{car.modelo.marca.nombre}}</h5>
+              </div>
+              <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px"
+                   [src]="car.imagenes[0]" alt="Foto del vehículo">
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-sm-9 col-12 p-2 mat-body-1">
+          <div class="w-100 d-flex mb-2 mt-2">
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{car.precio | currency:'MXN':'symbol':'.2-2'}}</span>
+            <span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-tint" [ngStyle]="{'color': car.colorExterior}"></i> Color Exterior</span>
           </div>
-          <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px"
-               [src]="vehiculo.imagenVehiculo" alt="Foto del vehículo">
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col-sm-9 col-12 p-2 mat-body-1">
-      <div class="w-100 d-flex mt-2 mb-2">
-        <span class="text-justify">{{vehiculo.descripcion}}</span>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{car.kilometraje | number}} Kms.</span>
+            <span class="d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': car.colorInterior}"></i> Color Interior</span>
+          </div>
+          <div class="w-100 d-flex mb-2 justify-content-start">
+            <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo/' + car._id">Ver más <i class="far fa-eye"></i></a>
+            <a mat-button mat-raised-button (click)="publicationSelected = i" color="warn" class="mr-2">Eliminar <i class="fas fa-trash-alt"></i></a>
+            <a mat-button mat-stroked-button [routerLink]="'/editar-publicacion/' + car._id" color="primary" class="">Editar <i class="fas fa-edit"></i></a>
+          </div>
+        </div>
       </div>
-      <div class="w-100 d-flex mb-2 mt-2">
-        <span class="col-6 d-block pl-0 pr-1"><i
-          class="fas fa-money-bill-wave"></i> {{vehiculo.precio | currency:'':'symbol':'.2-2'}}</span>
-        <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-tint"></i> {{vehiculo.color}}</span>
-      </div>
-      <div class="w-100 d-flex mb-2">
-        <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i
-          *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
-        <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}} Kms.</span>
-      </div>
-      <div class="w-100 d-flex mb-2 justify-content-start">
-        <a mat-button mat-raised-button color="primary" class="mr-2" [routerLink]="'/articulo'">Ver más <i
-          class="far fa-eye"></i></a>
-        <a mat-button mat-raised-button color="warn" class="mr-2">Eliminar <i class="fas fa-trash-alt"></i></a>
-        <a mat-button mat-stroked-button color="primary" class="">Editar <i class="fas fa-edit"></i></a>
-      </div>
-    </div>
+    </mat-card>
   </div>
-</mat-card>
-<mat-card *ngIf="vehiculos.length == 0" class="container-fluid p-5">
-  <h5 class="mt-5 text-center">¡Por el momento no cuentas con ninguna publicación de algún vehículo!</h5>
-  <p class="text-center mt-2 mb-1">¡Realiza tu primera publicación!</p>
-  <p class="mb-5 text-center">Solo debes de presionar en <a [routerLink]="['/nueva-publicacion']" mat-button
-                                                            color="primary">Nueva publicación&nbsp;<i
-    class="fas fa-plus"></i></a> para agregar alguna publicación de un vehículos para su venta.</p>
-</mat-card>
+  <mat-card *ngIf="publicationSelected != null">
+    <mat-card-content *ngIf="deleteState != 2">
+      <h5 class="text-center">Eliminar publicación</h5>
+      <p class="text-center">¿Seguro que deseas eliminar tu publicación de {{cars[publicationSelected].modelo.nombre}}?</p>
+    </mat-card-content>
+    <mat-card-content class="d-flex justify-content-center" *ngIf="deleteState != 0">
+      <mat-spinner *ngIf="deleteState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+      <mat-hint *ngIf="deleteState == 2">Publicación eliminada satisfactoriamente.</mat-hint>
+      <mat-error *ngIf="deleteState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+    </mat-card-content>
+    <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteState == 0 || deleteState == 3">
+      <button mat-raised-button color="primary" (click)="publicationSelected = null" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+      <button mat-raised-button color="warn" (click)="deleteConfirmation()">Eliminar <i class="fas fa-trash-alt"></i></button>
+    </mat-card-actions>
+    <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteState == 2">
+      <button mat-stroked-button color="primary" (click)="endDeleteProcess()" class="mr-2">Entendido <i class="fas fa-check"></i></button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card *ngIf="cars.length == 0 && deleteState == 0" class="container-fluid p-5">
+    <h5 class="mt-5 text-center">¡Por el momento no cuentas con ninguna publicación de algún vehículo!</h5>
+    <p class="text-center mt-2 mb-1">¡Realiza tu primera publicación!</p>
+    <p class="mb-5 text-center">Solo debes de presionar en <a [routerLink]="['/nueva-publicacion']" mat-button
+                                                              color="primary">Nueva publicación&nbsp;<i
+      class="fas fa-plus"></i></a> para agregar alguna publicación de un vehículos para su venta.</p>
+  </mat-card>
+</div>

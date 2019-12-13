@@ -1,4 +1,7 @@
 import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
 import {AngularMaterialModule} from '../angular-material.module';
 import {PublishComponent} from './publish.component';
@@ -8,7 +11,11 @@ import {PublishComponent} from './publish.component';
     PublishComponent
   ],
   imports: [
-    AngularMaterialModule
+    AngularMaterialModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     PublishComponent

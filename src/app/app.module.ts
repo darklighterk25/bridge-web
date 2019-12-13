@@ -21,7 +21,9 @@ import {AngularMaterialModule} from './modules/angular-material.module';
 import {ChatModule} from './modules/chat/chat.module';
 import {CheckoutModule} from './modules/checkout/checkout.module';
 import {ContactModule} from './modules/contact/contact.module';
+import {DeleteModule} from './modules/delete/delete.module';
 import {EditModule} from './modules/edit/edit.module';
+import {EditPublicationModule} from './modules/edit-publication/edit-publication.module';
 import {FAQModule} from './modules/faq/faq.module';
 import {HomeModule} from './modules/home/home.module';
 import {NotFoundModule} from './modules/not-found/not-found.module';
@@ -34,12 +36,23 @@ import {TermsModule} from './modules/terms/terms.module';
 import {WishlistModule} from './modules/wishlist/wishlist.module';
 
 // Servicios
+import {AccountService} from './core/services/account.service';
 import {AdministrationGuard} from './core/guards/administration.guard';
 import {AuthenticationGuard} from './core/guards/authentication.guard';
 import {AuthenticationService} from './core/authentication/authentication.service';
+import {CarService} from './core/services/car.service';
 import {PaymentService} from './core/services/payment.service';
 import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {UserService} from './core/services/user.service';
+import {ModelService} from './core/services/model.service';
+import {BrandService} from './core/services/brand.service';
+import {CardService} from './core/services/card.service';
+import {ReportService} from './core/services/report.service';
+import {ChartsModule} from 'ng2-charts';
+import {CommentService} from './core/services/comment.service';
+import {ProviderService} from './core/services/provider.service';
+import {WishListService} from './core/services/wish-list.service';
+import {PurchaseService} from './core/services/purchase.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +75,9 @@ import {UserService} from './core/services/user.service';
     ChatModule,
     CheckoutModule,
     ContactModule,
+    DeleteModule,
     EditModule,
+    EditPublicationModule,
     FAQModule,
     HomeModule,
     LayoutModule,
@@ -74,14 +89,28 @@ import {UserService} from './core/services/user.service';
     TermsModule,
     WishlistModule,
     NotFoundModule,
-    NgbModule
+    NgbModule,
+    ChartsModule
+  ],
+  exports: [
+    ChartsModule
   ],
   providers: [
+    AccountService,
     AdministrationGuard,
     AuthenticationGuard,
     AuthenticationService,
+    CarService,
     PaymentService,
     UserService,
+    ModelService,
+    BrandService,
+    CardService,
+    ReportService,
+    CommentService,
+    ProviderService,
+    WishListService,
+    PurchaseService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

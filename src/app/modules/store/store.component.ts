@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
+import {CarService} from '../../core/services/car.service';
+import {ModelService} from '../../core/services/model.service';
+import {BrandService} from '../../core/services/brand.service';
+import {RequestState} from '../../shared/enums/request-state.enum';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-store',
@@ -8,114 +13,193 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class StoreComponent implements OnInit {
 
   title = 'Catálogo';
-  busqueda: FormGroup;
-  minimo = 25000;
-  maximo = 2000000;
-  precio = this.minimo;
-  busquedaSolicitada = false;
-  modeloSolicitud = null;
-  marcaSolicitud = null;
-  precioSolicitud = null;
-  estadoSolicitud = null;
-  ordenSolicitud = null;
-  vehiculos = [
-    {
-      id: 1,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 2,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 3,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 4,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    }
-  ];
+  searchForm: FormGroup;
+  minimum = 25000;
+  maximum = 10000000;
+  price = this.minimum;
+  modelRequired = null;
+  brandRequired = null;
+  priceRequired = null;
+  conditionRequired = null;
+  cars = [];
 
-  constructor() {
-    this.busqueda = new FormGroup({
-      'marca': new FormControl(''
+  brandsState: RequestState;
+  modelsState: RequestState;
+  carsState: RequestState;
+  brands = [];
+  models = [];
+  constructor(private _carService: CarService, private _modelService: ModelService, private _brandService: BrandService, private route: ActivatedRoute) {
+    this.searchForm = new FormGroup({
+      'brandIndex': new FormControl(''
       ),
-      'modelo': new FormControl({value: '', disabled: true}
+      'modelIndex': new FormControl({value: '', disabled: true}
       ),
-      'estado': new FormControl(''
-      ),
-      'precio': new FormControl(''
+      'price': new FormControl(''
       ),
     });
+    this.brandsState = RequestState.initial;
+    this.modelsState = RequestState.initial;
+    this.carsState = RequestState.initial;
   }
 
   ngOnInit() {
+    this.brandsState = RequestState.loading;
+    this._brandService.getBrands().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.brands = response.marcas;
+              if (this.route.snapshot.paramMap.get('marca') !== null) {
+                if (this.route.snapshot.paramMap.get('condicion') === 'Menor o igual'
+                    && !isNaN(parseInt(this.route.snapshot.paramMap.get('precio')))
+                    && parseInt(this.route.snapshot.paramMap.get('precio')) >= this.minimum
+                    && parseInt(this.route.snapshot.paramMap.get('precio')) < this.maximum) {
+                  this.searchForm.get('price').setValue(this.route.snapshot.paramMap.get('condicion'));
+                  this.price = parseInt(this.route.snapshot.paramMap.get('precio'));
+                }
+                if (!isNaN(parseInt(this.route.snapshot.paramMap.get('marca')))
+                    && parseInt(this.route.snapshot.paramMap.get('marca')) >= 0
+                    && parseInt(this.route.snapshot.paramMap.get('marca')) < this.brands.length) {
+                  this.searchForm.get('brandIndex').setValue(this.route.snapshot.paramMap.get('marca'));
+                  this.getModels(true);
+                } else {
+                  this.getCars();
+                  this.brandsState = RequestState.success;
+                }
+              } else {
+                this.brandsState = RequestState.success;
+              }
+            } else {
+              this.brandsState = RequestState.error;
+            }
+          },
+          this.route.snapshot.paramMap.get('marca') !== null ? 0 : 2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.brandsState = RequestState.error;
+          },
+          this.route.snapshot.paramMap.get('marca') !== null ? 0 : 2000
+        );
+      });
   }
 
   formatLabel(value: number | null) {
     return Math.round(value / 1000) + 'k';
   }
 
-  obtenerValor(value: number | null) {
+  getRoundedValue(value: number | null) {
     return Math.round(value / 1000) * 1000;
   }
 
-  inicializar() {
-    if (this.busqueda.get('marca').value !== '') {
-      this.busqueda.get('modelo').disable();
+  getModels(homeRequest: boolean) {
+    this.searchForm.get('modelIndex').setValue('');
+    if (this.searchForm.get('brandIndex').value !== '') {
+      this.searchForm.get('brandIndex').disable();
+      this.searchForm.get('modelIndex').enable();
+      this.modelsState = RequestState.loading;
+      this._modelService.getModels(this.brands[parseInt(this.searchForm.get('brandIndex').value)]._id).subscribe(
+        response => {
+          setTimeout(
+            () => {
+              console.log(response);
+              this.searchForm.get('brandIndex').enable();
+              if (response.ok) {
+                this.models = response.modelos;
+                this.modelsState = RequestState.success;
+                if (homeRequest) {
+                  if (!isNaN(parseInt(this.route.snapshot.paramMap.get('modelo')))
+                      && parseInt(this.route.snapshot.paramMap.get('modelo')) >= 0
+                      && parseInt(this.route.snapshot.paramMap.get('modelo')) < this.brands.length) {
+                    this.searchForm.get('modelIndex').setValue(this.route.snapshot.paramMap.get('modelo'));
+                  }
+                  this.brandsState = RequestState.success;
+                  this.getCars();
+                }
+              } else {
+                this.modelsState = RequestState.error;
+              }
+            },
+            homeRequest ? 0 : 200
+          );
+        },
+        error => {
+          setTimeout(
+            () => {
+              console.error(error);
+              this.searchForm.get('modelIndex').disable();
+              this.searchForm.get('brandIndex').enable();
+              this.modelsState = RequestState.error;
+            },
+            homeRequest ? 0 : 200
+          );
+        });
     } else {
-      this.busqueda.get('modelo').enable();
+      this.searchForm.get('modelIndex').disable();
+      this.modelsState = RequestState.initial;
+      this.models = [];
     }
-    this.busqueda.get('modelo').setValue('');
   }
 
-  realizarBusqueda() {
-    this.busquedaSolicitada = true;
-    this.marcaSolicitud = this.busqueda.get('marca').value;
-    this.modeloSolicitud = this.busqueda.get('modelo').value;
-    this.estadoSolicitud = this.busqueda.get('estado').value;
-    this.precioSolicitud = this.precio;
-    this.ordenSolicitud = this.busqueda.get('precio').value;
+  getCars() {
+    this.brandRequired = this.searchForm.get('brandIndex').value;
+    this.modelRequired = this.searchForm.get('modelIndex').value;
+    this.priceRequired = this.getRoundedValue(this.price);
+    this.conditionRequired = this.searchForm.get('price').value;
+    this.searchForm.get('brandIndex').disable();
+    this.searchForm.get('modelIndex').disable();
+    this.searchForm.get('price').disable();
+    this.carsState = RequestState.loading;
+    this._carService.getCars(
+      this.brandRequired !== '' ? this.brands[parseInt(this.brandRequired)]._id : null,
+      this.modelRequired !== '' ? this.models[parseInt(this.modelRequired)]._id : null,
+      this.conditionRequired !== '' ? this.priceRequired : null,
+      null).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            this.searchForm.get('brandIndex').enable();
+            this.searchForm.get('modelIndex').enable();
+            this.searchForm.get('price').enable();
+            if (response.ok) {
+              this.cars = response.autos;
+              this.carsState = RequestState.success;
+            } else {
+              this.carsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            // console.error(error);
+            this.searchForm.get('brandIndex').enable();
+            this.searchForm.get('modelIndex').enable();
+            this.searchForm.get('price').enable();
+            this.carsState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  changeFilters(filter: number) {
+    switch (filter) {
+      case 1: this.searchForm.get('modelIndex').setValue('');
+              this.searchForm.get('price').setValue('');
+              this.price = 25000;
+              break;
+      case 2: this.searchForm.get('price').setValue('');
+              this.price = 25000;
+              break;
+    }
+    this.getCars();
   }
 }

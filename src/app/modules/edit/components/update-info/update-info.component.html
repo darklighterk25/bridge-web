@@ -1,5 +1,5 @@
-<h3 class="col-lg-6 col-sm-12 mat-headline">Actualizar Información</h3>
-<form [formGroup]="form" (ngSubmit)="update()">
+<h3 class="col-lg-6 col-sm-12 mat-headline">{{title}}</h3>
+<form [formGroup]="form">
   <mat-form-field class="col-lg-4 col-sm-12">
     <mat-label>Nombre(s)</mat-label>
     <input matInput formControlName="name">
@@ -9,7 +9,7 @@
     </mat-error>
     <mat-error *ngIf="form.get('name').errors?.pattern
                           &&( form.get('name').dirty || form.get('name').touched )">
-      No parece ser un nombre válido.
+      Este campo sólo acepta letras.
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-lg-4 col-sm-12">
@@ -21,7 +21,7 @@
     </mat-error>
     <mat-error *ngIf="form.get('lastName1').errors?.pattern
                           &&( form.get('lastName1').dirty || form.get('lastName1').touched )">
-      No parece ser un apellido válido.
+      Este campo sólo acepta letras.
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-lg-4 col-sm-12">
@@ -29,7 +29,7 @@
     <input matInput formControlName="lastName2">
     <mat-error *ngIf="form.get('lastName2').errors?.pattern
                           &&( form.get('lastName2').dirty || form.get('lastName2').touched )">
-      No parece ser un apellido válido.
+      Este campo sólo acepta letras.
     </mat-error>
   </mat-form-field>
   <mat-form-field class="col-lg-6 col-sm-12">
@@ -41,19 +41,7 @@
     </mat-error>
     <mat-error *ngIf="form.get('phone').errors?.pattern
                           &&( form.get('phone').dirty || form.get('phone').touched )">
-      No parece ser un teléfono válido.
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="col-lg-6 col-sm-12 mb-1">
-    <mat-label>Contraseña</mat-label>
-    <input matInput formControlName="password" type="password">
-    <mat-error *ngIf="form.get('password').errors?.required
-                          &&( form.get('password').dirty || form.get('password').touched )">
-      Este campo es requerido.
-    </mat-error>
-    <mat-error *ngIf="form.get('password').errors?.minlength
-                          &&( form.get('password').dirty || form.get('password').touched )">
-      La contraseña es demasiado corta.
+      Este campo sólo acepta números.
     </mat-error>
   </mat-form-field>
   <div class="col-lg-6 col-sm-12 mb-1">
@@ -61,7 +49,10 @@
   </div>
   <div class="col-12 my-3">
     <div class="row mx-1">
-      <button mat-raised-button [disabled]="disableBtn" color="primary">Actualizar</button>
+      <button mat-raised-button type="button" [disabled]="disableBtn || infoState == 1" color="primary" (click)="update()" class="mr-2">Actualizar</button>
+      <mat-spinner *ngIf="infoState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+      <mat-hint *ngIf="infoState == 2" class="col-12 col-sm-6 col-xl-3 mt-3">Información actualizada satisfactoriamente.</mat-hint>
+      <mat-error *ngIf="infoState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
     </div>
   </div>
 </form>

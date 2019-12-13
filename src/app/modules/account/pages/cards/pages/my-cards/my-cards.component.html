@@ -1,0 +1,61 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4 d-flex justify-content-center" *ngIf="cardsState != 2">
+  <mat-spinner *ngIf="cardsState == 1" mode="indeterminate"></mat-spinner>
+  <mat-error *ngIf="cardsState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+</mat-card>
+<div *ngIf="cardsState == 2">
+  <a *ngIf="cards.length != 0" [routerLink]="['/cuenta/tarjetas/nueva-tarjeta']" mat-button color="primary">
+    Nueva tarjeta&nbsp;<i class="fas fa-plus"></i>
+  </a>
+  <div *ngIf="cards.length != 0 && cardSelected == null" class="row">
+    <div *ngFor="let card of cards; let i = index" class="container-fluid mb-4 col-4">
+      <mat-card>
+        <mat-card-content>
+          <p class="w-100 d-flex justify-content-between"><b>Titular: </b><span>{{card.titular}}</span></p>
+          <p class="w-100 d-flex justify-content-between"><b>Número: </b><span>{{card.numero}}</span></p>
+          <p class="w-100 d-flex justify-content-between"><b>Tipo: </b><span><span *ngIf="card.tipo == 'Credito'">Crédito</span><span *ngIf="card.tipo == 'Debito'">Débito</span></span></p>
+          <p class="w-100 d-flex justify-content-between"><b>Fecha de vencimiento: </b><span>{{card.fechaVencimiento}}</span></p>
+          <p class="w-100 d-flex justify-content-between"><b>Código: </b><span>{{card.codigo}}</span></p>
+        </mat-card-content>
+        <mat-card-actions class="d-flex justify-content-center mb-1">
+          <a mat-button mat-raised-button color="warn" (click)="cardSelected = i">Eliminar <i class="fas fa-trash-alt"></i></a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <div *ngIf="cardSelected != null" class="row">
+    <mat-card class="container-fluid mb-4 col-4">
+      <mat-card-content>
+        <h5 class="text-center">Eliminar tarjeta</h5>
+        <p class="text-center">¿Seguro que deseas eliminar esta tarjeta?</p>
+        <mat-divider></mat-divider>
+        <p class="w-100 d-flex justify-content-between mt-4"><b>Titular: </b><span>{{cards[cardSelected].titular}}</span></p>
+        <p class="w-100 d-flex justify-content-between"><b>Número: </b><span>{{cards[cardSelected].numero}}</span></p>
+        <p class="w-100 d-flex justify-content-between"><b>Tipo: </b><span><span *ngIf="cards[cardSelected].tipo == 'Credito'">Crédito</span><span *ngIf="cards[cardSelected].tipo == 'Debito'">Débito</span></span></p>
+        <p class="w-100 d-flex justify-content-between"><b>Fecha de vencimiento: </b><span>{{cards[cardSelected].fechaVencimiento}}</span></p>
+        <p class="w-100 d-flex justify-content-between"><b>Código: </b><span>{{cards[cardSelected].codigo}}</span></p>
+      </mat-card-content>
+      <mat-card-content class="d-flex justify-content-center" *ngIf="deleteState != 0">
+        <mat-spinner *ngIf="deleteState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+        <mat-hint *ngIf="deleteState == 2">Tarjeta eliminada satisfactoriamente.</mat-hint>
+        <mat-error *ngIf="deleteState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+      </mat-card-content>
+      <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteState == 0 || deleteState == 3">
+        <button mat-raised-button color="primary" (click)="cardSelected = null" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+        <button mat-raised-button color="warn" (click)="deleteConfirmation()">Eliminar <i class="fas fa-trash-alt"></i></button>
+      </mat-card-actions>
+      <mat-card-actions class="d-flex justify-content-center mb-1" *ngIf="deleteState == 2">
+        <button mat-stroked-button color="primary" (click)="endDeleteProcess()" class="mr-2">Entendido <i class="fas fa-check"></i></button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <mat-card *ngIf="cards.length == 0" class="container-fluid p-5">
+    <h5 class="mt-5 text-center">¡Por el momento no cuentas con ninguna tarjeta registrada!</h5>
+    <p class="text-center mt-2 mb-1">¡Registra tu primera tarjeta!</p>
+    <p class="mb-5 text-center">Solo debes de presionar en <a [routerLink]="['/cuenta/tarjetas/nueva-tarjeta']" mat-button
+                                                              color="primary">Nueva tarjeta&nbsp;<i
+      class="fas fa-plus"></i></a> para agregar una nueva tarjeta para efectuar los pagos de tus compras.</p>
+  </mat-card>
+</div>

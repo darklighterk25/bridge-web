@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {AccountService} from '../../../../core/services/account.service';
+import {CarService} from '../../../../core/services/car.service';
+import {RequestState} from '../../../../shared/enums/request-state.enum';
 
 @Component({
   selector: 'app-listings',
@@ -6,61 +9,74 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ListingsComponent implements OnInit {
   title = 'Publicaciones';
-  vehiculos = [
-    {
-      id: 1,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 2,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 3,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 4,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    }
-  ];
+  cars: any[];
+  carsState: RequestState;
+  deleteState: RequestState;
+  publicationSelected: number;
 
-  constructor() {
+  constructor(private _accountSevice: AccountService,
+              private _carService: CarService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.deleteState = RequestState.initial;
+    this.carsState = RequestState.loading;
+    this.publicationSelected = null;
+    this._accountSevice.getCars().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.cars = response.autos;
+              this.carsState = RequestState.success;
+            } else {
+              this.carsState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.carsState = RequestState.error;
+          },
+          2000
+        );
+      });
   }
 
+  deleteConfirmation(): void {
+    this.deleteState = RequestState.loading;
+    this._carService.deleteCar(this.cars[this.publicationSelected]._id).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.cars.splice(this.publicationSelected, 1);
+              this.deleteState = RequestState.success;
+            } else {
+              this.deleteState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.deleteState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  endDeleteProcess() {
+    this.publicationSelected = null;
+    this.deleteState = RequestState.initial;
+  }
 }

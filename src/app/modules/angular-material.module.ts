@@ -88,7 +88,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatTooltipModule,
     MatGridListModule,
     MatSliderModule
-  ]
+  ],
+  declarations: []
 })
 export class AngularMaterialModule {
 }

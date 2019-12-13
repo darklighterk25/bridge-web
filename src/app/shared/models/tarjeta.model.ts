@@ -1,7 +1,7 @@
 import {CardType} from '../enums/card-type.enum';
 
 export interface Tarjeta {
-  tipo: CardType;
+  tipo: number;
   titular: string;
   numero: string;
   fechaVencimiento: string;

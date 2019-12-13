@@ -1,28 +1,70 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
+import {APP_SETTINGS} from '../../configs/app-settings.config';
 import {Usuario} from '../../shared/models/usario.model';
 import {Observable} from 'rxjs';
+import {Direccion} from '../../shared/models/direccion.model';
+import {Nombre} from '../../shared/models/nombre.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private apiEndpoint: string;
   private user: Usuario;
 
   constructor(private _httpClient: HttpClient) {
-    this.apiEndpoint = 'https://bridge-back-end.herokuapp.com';
     this.user = TEST_DATA;
   }
 
+  setUser(user: Usuario) {
+    this.user = user;
+  }
+
   getUser(): Observable<Object> {
-    return this._httpClient.get(`${this.apiEndpoint}/usuario`);
+    return this._httpClient.get(`${APP_SETTINGS.API_ENDPOINT}/usuario`, APP_SETTINGS.OPTIONS);
   }
 
   registerUser(user: Usuario): Observable<Object> {
-    return this._httpClient.post(`${this.apiEndpoint}/usuario`, user);
+    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario`, user, APP_SETTINGS.OPTIONS);
+  }
+
+  updateAddress(address: Direccion): Observable<any> {
+    const data = {
+      direccion: address
+    };
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/usuario`, data, APP_SETTINGS.OPTIONS);
+  }
+
+  updateInfo(completeName: Nombre, phone: string): Observable<any> {
+    const data = {
+      nombreCompleto: completeName,
+      telefono: phone
+    };
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/usuario`, data, APP_SETTINGS.OPTIONS);
+  }
+
+  updatePassword(password: string): Observable<any> {
+    const data = {
+      contrasena: password
+    };
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/usuario`, data, APP_SETTINGS.OPTIONS);
+  }
+
+  updatePhoto(datos: any): Observable<any> {
+    return this._httpClient.post(`${APP_SETTINGS.API_ENDPOINT}/usuario/imagen`, datos);
+  }
+
+  updateTheme(theme: string): Observable<any> {
+    const data = {
+      tema: theme
+    };
+    return this._httpClient.put(`${APP_SETTINGS.API_ENDPOINT}/usuario`, data, APP_SETTINGS.OPTIONS);
+  }
+
+  deleteUser(): Observable<any> {
+    return this._httpClient.delete(`${APP_SETTINGS.API_ENDPOINT}/usuario`);
   }
 
 }

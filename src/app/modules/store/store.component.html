@@ -1,98 +1,89 @@
 <main>
   <h3 class="text-center mat-title">{{title}}</h3>
-  <mat-card class="mb-4">
+  <mat-card class="mb-4 d-flex justify-content-center" *ngIf="brandsState != 2">
+    <mat-spinner *ngIf="brandsState == 1" mode="indeterminate"></mat-spinner>
+    <mat-error *ngIf="brandsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+  </mat-card>
+  <mat-card class="mb-4" *ngIf="brandsState == 2">
     <mat-card-content>
       <mat-card-title>Búsqueda</mat-card-title>
       <mat-card-subtitle>Realiza la búsqueda de vehículos de acuerdo a tus necesidades</mat-card-subtitle>
     </mat-card-content>
     <mat-card-content>
-      <form [formGroup]="busqueda">
-        <mat-form-field class="col-12 col-sm-4">
-          <mat-label>Marca</mat-label>
-          <mat-select formControlName="marca" (valueChange)="inicializar()">
-            <mat-option value="">Ninguna</mat-option>
-            <mat-option value="Chevrolet">Chevrolet</mat-option>
-            <mat-option value="Ford">Ford</mat-option>
-            <mat-option value="Mazda">Mazda</mat-option>
-            <mat-option value="Nissan">Nissan</mat-option>
-            <mat-option value="Toyota">Toyota</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="busqueda.get('marca').errors?.required &&( busqueda.get('marca').dirty || busqueda.get('marca').touched )">
-            Este campo es requerido.
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-12 col-sm-4">
-          <mat-label>Modelo</mat-label>
-          <mat-select formControlName="modelo">
-            <mat-option value="">Ninguno</mat-option>
-            <mat-option value="Suburban">Suburban</mat-option>
-            <mat-option value="Tahoe">Tahoe</mat-option>
-            <mat-option value="Aveo">Aveo</mat-option>
-            <mat-option value="Silverado">Silverado</mat-option>
-            <mat-option value="Cheyenne">Cheyenne</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="col-12 col-sm-4">
-          <mat-label>Estado</mat-label>
-          <mat-select formControlName="estado">
-            <mat-option value="">Ninguno</mat-option>
-            <mat-option value="Nuevo">Nuevo</mat-option>
-            <mat-option value="Usado">Usado</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="col-12 col-sm-4">
-          <mat-label>Precio</mat-label>
-          <mat-select formControlName="precio">
-            <mat-option value="">Ninguno</mat-option>
-            <mat-option value="Menor o igual">Menor o igual</mat-option>
-            <mat-option value="Mayor o igual">Mayor o igual</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="busqueda.get('precio').value != ''" class="col-12 col-sm-8 d-inline-block">
-          <mat-slider class="w-100"
-                      color="primary"
-                      [disabled]="busqueda.get('precio').value == ''"
-                      thumbLabel
-                      [displayWith]="formatLabel"
-                      tickInterval="5000"
-                      [min]="minimo"
-                      [max]="maximo"
-                      [(ngModel)]="precio"
-                      [ngModelOptions]="{standalone: true}"></mat-slider>
-          <mat-hint class="w-100 d-flex justify-content-between">
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <mat-form-field class="col-12 col-sm-6">
+            <mat-label>Marca</mat-label>
+            <mat-select formControlName="brandIndex" (selectionChange)="getModels(false)">
+              <mat-option value="">Ninguno</mat-option>
+              <mat-option *ngFor="let brand of brands; let i = index" value="{{i}}">{{brand.nombre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-card-content class="col-12 col-sm-6 d-flex justify-content-center" *ngIf="modelsState != 0 && modelsState != 2">
+            <mat-spinner *ngIf="modelsState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+            <mat-error *ngIf="modelsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+          </mat-card-content>
+          <mat-form-field class="col-12 col-sm-6" *ngIf="modelsState == 0 || modelsState == 2">
+            <mat-label>Modelo</mat-label>
+            <mat-select formControlName="modelIndex">
+              <mat-option value="">Ninguno</mat-option>
+              <mat-option *ngFor="let model of models; let i = index" value="{{i}}">{{model.nombre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-12 col-sm-6">
+            <mat-label>Precio</mat-label>
+            <mat-select formControlName="price">
+              <mat-option value="">Ninguno</mat-option>
+              <mat-option value="Menor o igual">Menor o igual a cierto precio</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="searchForm.get('price').value != ''" class="col-12 col-sm-6 d-inline-block">
+            <mat-slider class="w-100"
+                        color="primary"
+                        [disabled]="searchForm.get('price').value == '' || carsState == 1"
+                        thumbLabel
+                        [displayWith]="formatLabel"
+                        tickInterval="5000"
+                        [min]="minimum"
+                        [max]="maximum"
+                        [(ngModel)]="price"
+                        [ngModelOptions]="{standalone: true}"></mat-slider>
+            <mat-hint class="w-100 d-flex justify-content-between">
             <span>
-              {{ minimo | currency:'':'symbol':'.2-2'}}
+              {{ minimum | currency:'MXN':'symbol':'.2-2'}}
             </span>
-            <span>Precio: {{obtenerValor(precio) | currency:'':'symbol':'.2-2'}}</span>
-            <span>
-              {{ maximo | currency:'':'symbol':'.2-2'}}
+              <span>Precio: {{getRoundedValue(price) | currency:'MXN':'symbol':'.2-2'}}</span>
+              <span>
+              {{ maximum | currency:'MXN':'symbol':'.2-2'}}
             </span>
-          </mat-hint>
-        </div>
-        <div class="col-12">
-          <button mat-raised-button (click)="realizarBusqueda()"
-                  [disabled]="busqueda.get('marca').value == '' && busqueda.get('estado').value == '' && busqueda.get('precio').value == ''"
-                  color="primary" class="m-1">
-            Buscar
-          </button>
+            </mat-hint>
+          </div>
         </div>
       </form>
     </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions class="d-flex justify-content-end">
+      <button mat-raised-button (click)="getCars()" color="primary" class="mt-2 mb-2 mr-1" [disabled]="carsState == 1 || modelsState == 1">
+        Buscar
+      </button>
+    </mat-card-actions>
   </mat-card>
-  <div *ngIf="busquedaSolicitada" class="d-flex justify-content-between">
+  <div *ngIf="carsState == 2 || carsState == 3" class="w-100 d-flex justify-content-between">
     <span>
-      <span><a mat-button color="primary">{{marcaSolicitud}}</a></span>
-      <span *ngIf="modeloSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{modeloSolicitud}}</a></span>
-      <span *ngIf="estadoSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{estadoSolicitud}}</a></span>
-      <span *ngIf="ordenSolicitud!=''">&nbsp;/&nbsp;<a mat-button color="primary">{{ordenSolicitud}}
-        a {{obtenerValor(precioSolicitud) | currency:'':'symbol':'.2-2'}}</a></span>
+      <span *ngIf="brandRequired != ''">&nbsp;/&nbsp;<a mat-button [disabled]="modelRequired == '' && conditionRequired == ''" color="primary" class="text-decoration-none" (click)="changeFilters(1)">{{brands[brandRequired].nombre}}</a></span>
+      <span *ngIf="modelRequired != ''">&nbsp;/&nbsp;<a mat-button [disabled]="conditionRequired == ''" color="primary" class="text-decoration-none" (click)="changeFilters(2)">{{models[modelRequired].nombre}}</a></span>
+      <span *ngIf="conditionRequired != ''">&nbsp;/&nbsp;<a mat-button [disabled]="true" color="primary" class="text-decoration-none">{{conditionRequired}}
+        a {{priceRequired | currency:'MXN':'symbol':'.2-2'}}</a></span>
     </span>
     <span class="mat-body-1">
-      Se han encontrado 4 resultados
+      Se han encontrado {{cars.length}} resultados
     </span>
   </div>
-  <div class="row" *ngIf="busquedaSolicitada">
-    <app-car-card class="col-4 mb-4" *ngFor="let vehiculo of vehiculos" [vehiculo]="vehiculo"></app-car-card>
+  <div *ngIf="carsState != 2" class="w-100 d-flex justify-content-center">
+    <mat-spinner *ngIf="carsState == 1" mode="indeterminate"></mat-spinner>
+    <mat-hint *ngIf="carsState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">No se encontraron autos con las especificaciones solicitadas, favor de realizar otra búsqueda.</mat-hint>
+  </div>
+  <div *ngIf="carsState == 2" class="row">
+    <app-car-card class="col-4 mb-4" *ngFor="let car of cars" [car]="car"></app-car-card>
   </div>
 </main>

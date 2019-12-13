@@ -17,7 +17,7 @@
             </mat-error>
             <mat-error *ngIf="basicInfo.get('nombres').errors?.pattern
                           &&( basicInfo.get('nombres').dirty || basicInfo.get('nombres').touched )">
-              No parece ser un nombre válido.
+              Este campo sólo acepta letras.
             </mat-error>
           </mat-form-field>
           <!--Primer Apellido-->
@@ -30,7 +30,7 @@
             </mat-error>
             <mat-error *ngIf="basicInfo.get('apellido1').errors?.pattern
                           &&( basicInfo.get('apellido1').dirty || basicInfo.get('apellido1').touched )">
-              No parece ser un apellido válido.
+              Este campo sólo acepta letras.
             </mat-error>
           </mat-form-field>
           <!--Segundo Apellido-->
@@ -39,7 +39,7 @@
             <input matInput formControlName="apellido2">
             <mat-error *ngIf="basicInfo.get('apellido2').errors?.pattern
                           &&( basicInfo.get('apellido2').dirty || basicInfo.get('apellido2').touched )">
-              No parece ser un apellido válido.
+              Este campo sólo acepta letras.
             </mat-error>
           </mat-form-field>
           <!--Teléfono-->
@@ -52,7 +52,7 @@
             </mat-error>
             <mat-error *ngIf="basicInfo.get('telefono').errors?.pattern
                           &&( basicInfo.get('telefono').dirty || basicInfo.get('telefono').touched )">
-              No parece ser un teléfono válido (Solo se aceptan números).
+              Este campo sólo acepta números.
             </mat-error>
           </mat-form-field>
           <!--Correo-->
@@ -65,7 +65,7 @@
             </mat-error>
             <mat-error *ngIf="basicInfo.get('email').errors?.email
                           &&( basicInfo.get('email').dirty || basicInfo.get('email').touched )">
-              No parece ser un correo válido.
+              No parece ser un correo válido, un ejemplo de correo válido es ejemplo@correo.com
             </mat-error>
           </mat-form-field>
           <!--Contraseña-->
@@ -113,7 +113,7 @@
             </mat-error>
             <mat-error *ngIf="address.get('calle').errors?.pattern
                           &&( address.get('calle').dirty || address.get('calle').touched )">
-              No parece ser una calle válida.
+              Este campo sólo acepta letras y números.
             </mat-error>
           </mat-form-field>
           <!--Número-->
@@ -126,16 +126,16 @@
             </mat-error>
             <mat-error *ngIf="address.get('numeroExterior').errors?.pattern
                           &&( address.get('numeroExterior').dirty || address.get('numeroExterior').touched )">
-              No parece ser un número válido.
+              Este campo sólo acepta números.
             </mat-error>
           </mat-form-field>
           <!--Número interior-->
           <mat-form-field class="col-lg-4 col-sm-12">
             <mat-label>Número interior</mat-label>
-            <input matInput formControlName="numeroInterior">
+            <input matInput formControlName="numeroInterior" maxLength="5">
             <mat-error *ngIf="address.get('numeroInterior').errors?.pattern
                           &&( address.get('numeroInterior').dirty || address.get('numeroInterior').touched )">
-              No parece ser un número interior válido.
+              Este campo sólo acepta letras y números.
             </mat-error>
           </mat-form-field>
           <!--Colonia-->
@@ -148,7 +148,7 @@
             </mat-error>
             <mat-error *ngIf="address.get('colonia').errors?.pattern
                           &&( address.get('colonia').dirty || address.get('colonia').touched )">
-              No parece ser una colonia válida.
+              Este campo sólo acepta números.
             </mat-error>
           </mat-form-field>
           <!--Código Postal-->
@@ -161,7 +161,7 @@
             </mat-error>
             <mat-error *ngIf="address.get('codigoPostal').errors?.pattern
                           &&( address.get('codigoPostal').dirty || address.get('codigoPostal').touched )">
-              No parece ser un código postal válido.
+              Este campo sólo acepta números.
             </mat-error>
           </mat-form-field>
           <div class="row">

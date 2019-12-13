@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {RequestState} from '../../shared/enums/request-state.enum';
+import {WishListService} from '../../core/services/wish-list.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -8,87 +10,110 @@ import {Component, OnInit} from '@angular/core';
 export class WishlistComponent implements OnInit {
 
   title = 'Lista de deseos';
-  vehiculoAyuda = {
-    id: 1,
-    marca: 'Nissan',
-    modelo: 'Versa',
-    anio: '2018',
-    vendedor: 'Alfredo Torres Jiménez',
-    calificacion: 5,
-    imagenVendedor: 'assets/about/sin-imagen.png',
-    imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-    precio: '150000',
-    color: 'Blanco',
-    estado: 'Usado',
-    kilometraje: '30000'
-  };
-  vehiculos = [
-    {
-      id: 1,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      calificacion: 5,
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 2,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      calificacion: 3,
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 3,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      calificacion: 4,
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    },
-    {
-      id: 4,
-      marca: 'Nissan',
-      modelo: 'Versa',
-      anio: '2018',
-      vendedor: 'Alfredo Torres Jiménez',
-      calificacion: 5,
-      imagenVendedor: 'assets/about/sin-imagen.png',
-      imagenVehiculo: 'assets/store-page/vehiculo.jpg',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto blanditiis consectetur cupiditate eum, ex iure labore nobis odit omnis optio perspiciatis quam quasi, quibusdam ratione reiciendis, rem repellendus repudiandae tempore.',
-      precio: '150000',
-      color: 'Blanco',
-      estado: 'Usado',
-      kilometraje: '30000'
-    }
-  ];
+  deleteState: RequestState;
+  deleteAllState: RequestState;
+  wishListState: RequestState;
+  wishListCarSelected: number;
+  wishList = [];
+  deleteAllCars: boolean = null;
 
-  constructor() {
+  constructor(private _wishListService: WishListService) {
   }
 
   ngOnInit() {
+    this.deleteState = RequestState.initial;
+    this.deleteAllState = RequestState.initial;
+    this.wishListState = RequestState.loading;
+    this.wishListCarSelected = null;
+    this.deleteAllCars = false;
+    this._wishListService.getWishListCars().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.wishList = response.wishList;
+              console.log(this.wishList);
+              this.wishListState = RequestState.success;
+            } else {
+              this.wishListState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            console.error(error);
+            this.wishListState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  deleteConfirmation(): void {
+    this.deleteState = RequestState.loading;
+    this._wishListService.deleteCarFromWishList(this.wishList[this.wishListCarSelected]._id).subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.wishList.splice(this.wishListCarSelected, 1);
+              this.deleteState = RequestState.success;
+            } else {
+              this.deleteState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.deleteState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  endDeleteProcess() {
+    this.wishListCarSelected = null;
+    this.deleteState = RequestState.initial;
+  }
+
+  deleteAllConfirmation(): void {
+    this.deleteAllState = RequestState.loading;
+    this._wishListService.deleteAllCarsFromWishList().subscribe(
+      response => {
+        setTimeout(
+          () => {
+            console.log(response);
+            if (response.ok) {
+              this.wishList = [];
+              this.deleteAllState = RequestState.success;
+            } else {
+              this.deleteAllState = RequestState.error;
+            }
+          },
+          2000
+        );
+      },
+      error => {
+        setTimeout(
+          () => {
+            this.deleteAllState = RequestState.error;
+          },
+          2000
+        );
+      });
+  }
+
+  endDeleteAllProcess() {
+    this.deleteAllCars = false;
+    this.deleteAllState = RequestState.initial;
   }
 }

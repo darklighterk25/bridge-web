@@ -1,0 +1,75 @@
+<h3 class="col-lg-6 col-sm-12 mat-headline">{{title}}</h3>
+<form [formGroup]="address">
+  <!--Calle-->
+  <mat-form-field class="col-lg-4 col-sm-12">
+    <mat-label>Calle</mat-label>
+    <input matInput formControlName="calle">
+    <mat-error *ngIf="address.get('calle').errors?.required
+                          &&( address.get('calle').dirty || address.get('calle').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="address.get('calle').errors?.pattern
+                          &&( address.get('calle').dirty || address.get('calle').touched )">
+     Este campo sólo acepta letras y números.
+    </mat-error>
+  </mat-form-field>
+  <!--Número-->
+  <mat-form-field class="col-lg-4 col-sm-12">
+    <mat-label>Número exterior</mat-label>
+    <input matInput formControlName="numeroExterior" maxLength="5">
+    <mat-error *ngIf="address.get('numeroExterior').errors?.required
+                          &&( address.get('numeroExterior').dirty || address.get('numeroExterior').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="address.get('numeroExterior').errors?.pattern
+                          &&( address.get('numeroExterior').dirty || address.get('numeroExterior').touched )">
+      Este campo sólo acepta números.
+    </mat-error>
+  </mat-form-field>
+  <!--Número interior-->
+  <mat-form-field class="col-lg-4 col-sm-12">
+    <mat-label>Número interior</mat-label>
+    <input matInput formControlName="numeroInterior">
+    <mat-error *ngIf="address.get('numeroInterior').errors?.pattern
+                          &&( address.get('numeroInterior').dirty || address.get('numeroInterior').touched )">
+      Este campo sólo acepta letras y números.
+    </mat-error>
+  </mat-form-field>
+  <!--Colonia-->
+  <mat-form-field class="col-lg-4 col-sm-12">
+    <mat-label>Colonia</mat-label>
+    <input matInput formControlName="colonia">
+    <mat-error *ngIf="address.get('colonia').errors?.required
+                          &&( address.get('colonia').dirty || address.get('colonia').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="address.get('colonia').errors?.pattern
+                          &&( address.get('colonia').dirty || address.get('colonia').touched )">
+      Este campo sólo acepta letras y números.
+    </mat-error>
+  </mat-form-field>
+  <!--Código Postal-->
+  <mat-form-field class="col-lg-4 col-sm-12">
+    <mat-label>Código Postal</mat-label>
+    <input matInput formControlName="codigoPostal" maxlength="5">
+    <mat-error *ngIf="address.get('codigoPostal').errors?.required
+                          &&( address.get('codigoPostal').dirty || address.get('codigoPostal').touched )">
+      Este campo es requerido.
+    </mat-error>
+    <mat-error *ngIf="address.get('codigoPostal').errors?.pattern
+                          &&( address.get('codigoPostal').dirty || address.get('codigoPostal').touched )">
+      Este campo sólo acepta números.
+    </mat-error>
+  </mat-form-field>
+  <div class="col-lg-6 col-sm-12 mb-1">
+    <!-- Espacio vacío.-->
+  </div>
+  <div class="col-12 my-3">
+    <div class="row mx-1">
+      <button mat-raised-button type="button" [disabled]="disableBtn || addressState == 1" color="primary" (click)="update()" class="mr-2">Actualizar</button>
+      <mat-spinner *ngIf="addressState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+      <mat-hint *ngIf="addressState == 2" class="col-12 col-sm-6 col-xl-3 mt-3">Dirección actualizada satisfactoriamente.</mat-hint>
+      <mat-error *ngIf="addressState == 3" class="col-12 col-sm-6 col-xl-3 mt-3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+    </div>
+  </div>
+</form>

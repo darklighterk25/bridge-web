@@ -28,6 +28,10 @@ const LINKS: Enlace[] = [
     ruta: 'publicaciones'
   },
   {
+    nombre: 'Tarjetas',
+    ruta: 'tarjetas'
+  },
+  {
     nombre: 'Historial',
     ruta: 'historial'
   },

@@ -1,0 +1,20 @@
+<main>
+  <h3 class="text-center mat-title">
+    {{ title }}
+  </h3>
+  <mat-card *ngIf="deleteState === 0" class="container-fluid p-5">
+    <mat-card-content>
+      <p class="mt-5 text-center">Al eliminar tu cuenta no podrás ingrsar a ella nuevamente, por lo que tendrás que volver a crear una cuenta nueva.</p>
+      <p class="mb-5 text-center">¿Seguro que deseas eliminar tu cuenta?</p>
+    </mat-card-content>
+    <div class="example-button-row d-flex justify-content-center">
+      <button mat-raised-button color="primary" (click)="cancel()" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+      <button mat-raised-button color="warn" (click)="delete()">Eliminar mi cuenta <i class="fas fa-trash-alt"></i></button>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="deleteState !== 0" class="container-fluid p-5 d-flex justify-content-center">
+    <app-loading *ngIf="deleteState === 1"></app-loading>
+    <app-success *ngIf="deleteState === 2"></app-success>
+    <app-error *ngIf="deleteState === 3"></app-error>
+  </mat-card>
+</main>

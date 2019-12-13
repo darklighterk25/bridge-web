@@ -1,0 +1,40 @@
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4 d-flex justify-content-center" *ngIf="reportState != 2">
+  <mat-spinner *ngIf="reportState == 1" mode="indeterminate"></mat-spinner>
+  <mat-error *ngIf="reportState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+</mat-card>
+<mat-card class="mb-4" *ngIf="reportState == 2">
+  <div class="mb-2">
+    <h5 *ngIf="reportType == 1" class="w-100 text-center">Autos vendidos por marca</h5>
+    <h5 *ngIf="reportType == 2" class="w-100 text-center">Comision obtenida por marca</h5>
+  </div>
+  <mat-card-content>
+    <div *ngIf="reportState == 2">
+      <div>
+        <div class="chart">
+          <canvas baseChart
+                  [data]="pieChartData"
+                  [labels]="pieChartLabels"
+                  [chartType]="pieChartType"
+                  [options]="reportType == 1 ? barChartOptionsForSoldCars : barChartOptionsForEarnedCommisions"
+                  [plugins]="pieChartPlugins"
+                  [colors]="pieChartColors"
+                  [legend]="pieChartLegend">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <div class="w-100 d-flex justify-content-center">
+      <mat-hint *ngIf="reportType == 1" class="text-center">Total de autos vendidos: {{totalOfCars}}</mat-hint>
+      <mat-hint *ngIf="reportType == 2" class="text-center">Total de comisiones obtenidas: {{totalOfEarnings | currency:'MXN':'symbol':'.2-2'}}</mat-hint>
+    </div>
+  </mat-card-content>
+  <div class="example-button-row d-flex justify-content-center">
+    <button mat-raised-button color="primary" (click)="changeReportType()" class="mr-2">
+      <span *ngIf="reportType == 1">Reporte de comisiones obtenidas</span>
+      <span *ngIf="reportType == 2">Reporte de autos vendidos</span>
+    </button>
+  </div>
+</mat-card>

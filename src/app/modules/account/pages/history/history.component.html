@@ -1,3 +1,55 @@
-<mat-card class="container-fluid">
-  <!--  -->
+<h3 class="text-center mat-title">
+  {{ title }}
+</h3>
+<mat-card class="mb-4 d-flex justify-content-center" *ngIf="purchasesState != 2 || cardsState != 2 || providersState != 2">
+  <mat-spinner *ngIf="purchasesState == 1 || cardsState == 1 || providersState == 1" mode="indeterminate"></mat-spinner>
+  <mat-error *ngIf="purchasesState == 3 || cardsState == 3 || providersState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
 </mat-card>
+<div *ngIf="purchasesState == 2 && cardsState == 2 && providersState == 2">
+  <div>
+    <mat-card *ngFor="let purchase of purchases; let i = index" class="container-fluid mb-2 p-0">
+      <div class="d-flex justify-content-between">
+        <div class="col-sm-4 col-12 pl-0">
+          <mat-card class="p-0 m-0">
+            <mat-card-content class="position-relative">
+              <div class="position-absolute w-100 m-0 p-0"
+                   style="bottom: 0; background: #000; opacity: 0.7; color: #FFF; border-bottom-left-radius: 5px">
+                <h5 class="text-center mat-body-1">{{purchase.auto.modelo.nombre}}, {{purchase.auto.modelo.marca.nombre}}</h5>
+              </div>
+              <img class="mb-0 w-100" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px" [src]="purchase.auto.imagenes[0]" alt="Foto del vehículo">
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-sm-8 col-12 p-2">
+          <mat-card-header>
+            <img mat-card-avatar [src]="purchase.auto.usuario.imagenPerfil" alt="Foto del vendedor">
+            <mat-card-title class="mb-1">{{purchase.auto.usuario.nombreCompleto.nombres + ' ' + purchase.auto.usuario.nombreCompleto.apellido1 + ' ' + purchase.auto.usuario.nombreCompleto.apellido2}}</mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
+          <div class="w-100 d-flex mb-2 mt-2">
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-credit-card"></i> {{purchase.cardNumber}}</span>
+            <span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-truck-loading"></i> {{purchase.providerName}}</span>
+          </div>
+          <h5 class="mt-4">{{purchase.subtotal | currency:'MXN':'symbol':'.2-2'}} precio base</h5>
+          <p class="text-muted">+ {{purchase.comision | currency:'MXN':'symbol':'.2-2'}} de comisión</p>
+          <p class="text-muted">+ {{purchase.iva | currency:'MXN':'symbol':'.2-2'}} de IVA</p>
+          <p class="text-muted" *ngIf="purchase.proveedorDeEnvio != null">+ {{purchase.costoEnvio | currency:'MXN':'symbol':'.2-2'}} de proveedor</p>
+          <h3>{{purchase.total | currency:'MXN':'symbol':'.2-2'}}</h3>
+          <!--<div class="w-100 d-flex mb-2 mt-2">
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-money-bill-wave"></i> {{purchase.auto.precio | currency:'MXN':'symbol':'.2-2'}}</span>
+            <span class="d-block pl-1 pr-0 mr-2"><i class="fas fa-tint" [ngStyle]="{'color': purchase.auto.colorExterior}"></i> Color Exterior</span>
+          </div>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-1 pr-0"><i class="fas fa-road"></i> {{purchase.auto.kilometraje | number}} Kms.</span>
+            <span class="d-block pl-1 pr-0"><i class="fas fa-tint" [ngStyle]="{'color': purchase.auto.colorInterior}"></i> Color Interior</span>
+          </div>-->
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <mat-card *ngIf="purchases.length == 0" class="container-fluid p-5">
+    <h5 class="mt-5 text-center">¡Por el momento no cuentas con ninguna compra!</h5>
+    <p class="mb-5 text-center">Para agregar realizar una compra presiona en <a mat-button mat-raised-button color="accent">Comprar <i
+      class="fas fa-money-bill-wave"></i></a> en aquellos autos que desees adquirir para efectuar el proceso de compra.</p>
+  </mat-card>
+</div>

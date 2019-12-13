@@ -1,9 +1,65 @@
 <main>
-  <div class="row mb-2">
+  <h3 *ngIf="carState == 1 || carState == 3" class="text-center mat-title">{{title}}</h3>
+  <mat-card *ngIf="carState == 1" class="mb-4 d-flex justify-content-center">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+  </mat-card>
+  <mat-card *ngIf="carState == 3" class="container-fluid p-5 mb-4">
+    <div class="example-button-row d-flex justify-content-center mb-2">
+      <mat-error>No se encontró el auto solicitado, favor de solicitar otro auto.</mat-error>
+    </div>
+    <div class="example-button-row d-flex justify-content-center">
+      <button mat-stroked-button color="primary" [routerLink]="'/catalogo'" class="mr-2">Ir a catálogo</button>
+    </div>
+  </mat-card>
+  <div class="row mb-2" *ngIf="carState == 2">
+    <div class="col-sm-5 col-12 sticky-top align-self-sm-start mt-sm-0 mt-2" style="top: 10px;">
+      <mat-card class="pb-0">
+        <mat-card-header class="pb-2">
+          <img mat-card-avatar [src]="car.usuario.imagenPerfil" alt="Foto del vendedor">
+          <mat-card-title class="mb-1">{{car.usuario.nombreCompleto.nombres + ' ' + car.usuario.nombreCompleto.apellido1 + ' ' + car.usuario.nombreCompleto.apellido2}}</mat-card-title>
+        </mat-card-header>
+      </mat-card>
+      <mat-card class="pb-0 mt-4">
+        <mat-card-header class="pb-2">
+          <mat-card-title><h1>{{car.modelo.nombre}}</h1></mat-card-title>
+          <mat-card-subtitle><h2>{{car.modelo.marca.nombre}}</h2></mat-card-subtitle>
+          <mat-card-title><h3>{{car.precio | currency:'MXN':'symbol':'.2-2'}}</h3></mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="mt-3" [ngClass]="(isLoggedIn && _authService.getUserId() != car.usuario._id)? '' : 'pb-2'">
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i> {{car.extranjero ? 'Extranjero': 'Nacional'}}</span>
+            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{car.kilometraje | number}} Kms.</span>
+          </div>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-tint" [ngStyle]="{'color': car.colorExterior}"></i> Color exterior</span>
+            <span class="col-6 d-block pl-0 pr-1"><i
+              class="fas fa-tint" [ngStyle]="{'color': car.colorInterior}"></i> Color interior</span>
+          </div>
+          <div class="w-100 d-flex mb-2">
+            <span class="col-6 d-block pl-0 pr-1"><i
+              class="fas fa-users"></i> Total de dueños: {{car.totalDuenos}}</span>
+            <span class="col-6 d-block pl-1 pr-0"><i
+              class="fas fa-car-crash"></i> Total de accidentes: {{car.totalAccidentes}}</span>
+          </div>
+        </mat-card-content>
+        <mat-divider *ngIf="isLoggedIn && _authService.getUserId() != car.usuario._id"></mat-divider>
+        <mat-card-content *ngIf="isLoggedIn && _authService.getUserId() != car.usuario._id" class="pt-2 pb-2">
+          <div class="d-flex justify-content-between">
+            <a (mouseover)="mostrarIcono()" *ngIf="addToWishListState == 0 && !isInTheWishList && wishListCheckState != 1" mat-button mat-mini-fab color="primary" (click)="addToWishList()" matTooltip="Agregar a tu lista de deseos"><i id="wishList" class="far fa-heart"></i></a>
+            <a *ngIf="(addToWishListState == 3 || deleteFromWishListState == 3 || wishListCheckState == 3)" mat-button mat-mini-fab color="warn" matTooltip="Ha ocurrido un error"><i class="fas fa-times"></i></a>
+            <mat-spinner *ngIf="addToWishListState == 1 || deleteFromWishListState == 1 || wishListCheckState == 1" mode="indeterminate" diameter="40"></mat-spinner>
+            <a *ngIf="deleteFromWishListState == 0 && isInTheWishList && wishListCheckState != 1" mat-button mat-mini-fab color="accent" (click)="deleteFromWishList()" matTooltip="Esta en tu lista de deseos"><i class="fas fa-check"></i></a>
+            <a mat-button mat-raised-button color="accent" [routerLink]="'/pago/' + car._id">Comprar <i class="fas fa-money-bill-wave"></i></a>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
     <div class="col-sm-7 col-12">
       <mat-card class="p-0">
         <mat-card-content class="position-relative">
-          <div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF;">
+          <!--<div class="position-absolute w-100 m-0 p-0" style="bottom: 0; background: #000; opacity: 0.7; color: #FFF;">
             <div class="pt-2 pb-2 d-flex justify-content-between">
               <div class="col-2 text-center align-self-center">
                 <a *ngIf="carrouselImagen > 0" mat-icon-button (click)="carrouselImagen = carrouselImagen - 1"><i
@@ -20,8 +76,8 @@
                   class="fas fa-chevron-right fa-2x"></i></a>
               </div>
             </div>
-          </div>
-          <img class="w-100" style="border-radius: 5px 5px" [src]="vehiculo.imagenesVehiculo[posicionImagen]"
+          </div>-->
+          <img class="w-100" style="border-radius: 5px 5px" [src]="car.imagenes[0]"
                alt="Foto del vehículo">
         </mat-card-content>
       </mat-card>
@@ -40,22 +96,21 @@
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Transmision</span>
-                    <span>{{vehiculo.transmision}}</span>
+                    <span>{{car.transmision == 0 ? 'Automática' : 'Estándar'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Motor</span>
-                    <span>{{vehiculo.tipo_motor}}</span>
+                    <span>{{car.tipoMotor}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Control de estabilidad</span>
-                    <span *ngIf="vehiculo.control_de_estabilidad">Si</span>
-                    <span *ngIf="!vehiculo.control_de_estabilidad">No</span>
+                    <span>{{car.controlDeEstabilidad ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
               </mat-list>
@@ -65,37 +120,35 @@
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Bolsas de aire para el piloto</span>
-                    <span>{{vehiculo.bolsas_de_aire_piloto}}</span>
+                    <span>{{car.bolsasDeAirePiloto ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Bolsas de aire para el pasajero</span>
-                    <span>{{vehiculo.bolsas_de_aire_pasajero}}</span>
+                    <span>{{car.bolsasDeAirePasajero ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Bolsas de aire laterales</span>
-                    <span>{{vehiculo.bolsas_de_aire_laterales}}</span>
+                    <span>{{car.bolsasDeAireLaterales ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Seguro de niños</span>
-                    <span *ngIf="vehiculo.seguro_de_ninios">Si</span>
-                    <span *ngIf="!vehiculo.seguro_de_ninios">No</span>
+                    <span>{{car.seguroDeNinos ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Alarma</span>
-                    <span *ngIf="vehiculo.alarma">Si</span>
-                    <span *ngIf="!vehiculo.alarma">No</span>
+                    <span>{{car.alarma ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
               </mat-list>
@@ -105,56 +158,49 @@
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Bluetooth</span>
-                    <span *ngIf="vehiculo.bluetooth">Si</span>
-                    <span *ngIf="!vehiculo.bluetooth">No</span>
+                    <span>{{car.bluetooth ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Cámara trasera</span>
-                    <span *ngIf="vehiculo.camara_trasera">Si</span>
-                    <span *ngIf="!vehiculo.camara_trasera">No</span>
+                    <span>{{car.camaraTrasera ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
-                    <span>Sensores frontales</span>
-                    <span *ngIf="vehiculo.sensor_frontal">Si</span>
-                    <span *ngIf="!vehiculo.sensor_frontal">No</span>
+                    <span>Sensor frontal</span>
+                    <span>{{car.sensorFrontal ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
-                    <span>Sensores traseros</span>
-                    <span *ngIf="vehiculo.sensor_trasero">Si</span>
-                    <span *ngIf="!vehiculo.sensor_trasero">No</span>
+                    <span>Sensor trasero</span>
+                    <span>{{car.sensorTrasero ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Puertas eléctricas</span>
-                    <span *ngIf="vehiculo.puertas_electricas">Si</span>
-                    <span *ngIf="!vehiculo.puertas_electricas">No</span>
+                    <span>{{car.puertasElectricas ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Vidrios eléctricos</span>
-                    <span *ngIf="vehiculo.vidrios_electricos">Si</span>
-                    <span *ngIf="!vehiculo.vidrios_electricos">No</span>
+                    <span>{{car.vidriosElectricos ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item class="w-100">
                   <div class="d-flex justify-content-between w-100">
                     <span>Aire acondicionado</span>
-                    <span *ngIf="vehiculo.aire_acondicionado">Si</span>
-                    <span *ngIf="!vehiculo.aire_acondicionado">No</span>
+                    <span>{{car.aireAcondicionado ? 'Si' : 'No'}}</span>
                   </div>
                 </mat-list-item>
               </mat-list>
@@ -164,114 +210,78 @@
         </mat-card>
       </div>
     </div>
-    <div class="col-sm-5 col-12 sticky-top align-self-sm-start mt-sm-0 mt-2" style="top: 10px;">
-      <mat-card class="pb-0">
-        <mat-card-header>
-          <mat-card-title><h1>{{vehiculo.modelo}} {{vehiculo.anio}}</h1></mat-card-title>
-          <mat-card-subtitle><h2>{{vehiculo.marca}}</h2></mat-card-subtitle>
-          <mat-card-title><h3>{{vehiculo.precio | currency:'':'symbol':'.2-2'}}</h3></mat-card-title>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <mat-card-header class="p-2">
-          <img mat-card-avatar [src]="vehiculo.imagenVendedor" alt="Foto del vendedor">
-          <mat-card-title class="mb-1">{{vehiculo.vendedor}}</mat-card-title>
-          <mat-card-subtitle class="mb-1"><span *ngIf="vehiculo.calificacion == null">Sin calificación</span><span
-            *ngIf="vehiculo.calificacion != null"><app-qualification
-            [califiacion]="vehiculo.calificacion"></app-qualification></span></mat-card-subtitle>
-          <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            {{vehiculo.descripcion}}
-          </p>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i *ngIf="vehiculo.estado == 'Nuevo'" class="fas fa-user-check"></i><i
-              *ngIf="vehiculo.estado == 'Usado'" class="fas fa-user"></i> {{vehiculo.estado}}</span>
-            <span class="col-6 d-block pl-1 pr-"><i class="fas fa-flag"></i><span *ngIf="vehiculo.extranjero"> Extranjero</span><span
-              *ngIf="!vehiculo.extranjero"> Nacional</span></span>
-          </div>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i class="fas fa-road"></i> {{vehiculo.kilometraje | number}}
-              Kms.</span>
-            <span class="col-6 d-block pl-1 pr-0"><i
-              class="fas fa-tint"></i> Color exterior: {{vehiculo.color_exterior}}</span>
-          </div>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i
-              class="fas fa-tint"></i> Color interior: {{vehiculo.color_interior}}</span>
-            <span class="col-6 d-block pl-1 pr-0"><i
-              class="fas fa-couch"></i> Interiores: {{vehiculo.interiores}}</span>
-          </div>
-          <div class="w-100 d-flex mb-2">
-            <span class="col-6 d-block pl-0 pr-1"><i
-              class="fas fa-users"></i> Total de dueños: {{vehiculo.total_duenios}}</span>
-            <span class="col-6 d-block pl-1 pr-0"><i
-              class="fas fa-car-crash"></i> Total de accidentes: {{vehiculo.total_accidentes}}</span>
-          </div>
-        </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-content class="pt-2 pb-2">
-          <div class="d-flex justify-content-between">
-            <a (mouseover)="mostrarIcono()" (mouseleave)="ocultarIcono()" id="verMas{{vehiculo.id}}" mat-button
-               mat-mini-fab color="primary" class="float-right"><i id="wishList" class="far fa-heart"></i></a>
-            <a mat-button mat-raised-button color="accent" class="float-left" [routerLink]="'/pago'">Comprar <i
-              class="fas fa-money-bill-wave"></i></a>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
   </div>
-  <div class="w-100">
+  <div class="w-100 mt-4" *ngIf="carState == 2">
     <mat-card class="pb-0">
       <mat-card-header>
         <mat-card-title><h3><i class="fas fa-comments"></i> Comentarios</h3></mat-card-title>
       </mat-card-header>
-      <div *ngIf="vehiculo.comentarios.length == 0">
-        <mat-divider></mat-divider>
-        <mat-card-content class="p-2">
-          <p>
-            Este vehículo no cuenta con comentarios por el momento.
-          </p>
-        </mat-card-content>
-      </div>
-      <div *ngFor="let comentario of vehiculo.comentarios; let i = index">
-        <mat-divider></mat-divider>
-        <div class="p-2">
-          <mat-card-header>
-            <img mat-card-avatar [src]="comentario.imagen" alt="Foto del vendedor">
-            <mat-card-title class="mb-1">{{comentario.nombre}}</mat-card-title>
-            <mat-card-subtitle class="mb-1">{{comentario.comentario}}</mat-card-subtitle>
-            <!--<mat-card-subtitle class="mb-0"><app-qualification [califiacion]="comentario.calificacion"></app-qualification></mat-card-subtitle>-->
-          </mat-card-header>
-          <mat-card-actions *ngIf="comentario.id == id" class="m-0 p-0 d-flex justify-content-end">
-            <button mat-raised-button color="warn">Eliminar <i class="fas fa-trash-alt"></i></button>
-          </mat-card-actions>
-        </div>
-      </div>
       <mat-divider></mat-divider>
-      <div>
-        <mat-card-content class="p-2">
-          <form [formGroup]="formularioComentario">
-            <mat-form-field class="col-12">
-              <mat-label>Comentario</mat-label>
-              <textarea matInput placeholder="Deja tu comentario" style="resize: none;" rows="5"
-                        formControlName="comentario"></textarea>
-              <mat-error *ngIf="formularioComentario.get('comentario').errors?.required
-                          &&( formularioComentario.get('comentario').dirty || formularioComentario.get('comentario').touched)">
-                Este campo es requerido.
-              </mat-error>
-            </mat-form-field>
-            <button mat-raised-button [disabled]="deshabilitarBotonComentario" color="primary"
+      <mat-card-content *ngIf="commentsState == 1 || commentsState == 3" class="pt-3 pb-3 d-flex justify-content-center">
+        <mat-error *ngIf="commentsState == 3">Ha ocurrido un error, favor de intentarlo más tarde..</mat-error>
+        <mat-spinner *ngIf="commentsState == 1" mode="indeterminate"></mat-spinner>
+      </mat-card-content>
+      <mat-card-content *ngIf="commentsState == 2">
+        <div *ngIf="comments.length == 0">
+          <mat-card-content class="p-2">
+            <p>
+              Este vehículo no cuenta con comentarios por el momento.
+            </p>
+          </mat-card-content>
+          <mat-divider *ngIf="isLoggedIn && _authService.getUserId() != car.usuario._id"></mat-divider>
+        </div>
+        <div *ngFor="let comment of comments; let i = index">
+          <div class="p-2">
+            <mat-card-header>
+              <img mat-card-avatar [src]="comment.usuario.imagenPerfil" alt="Foto del vendedor">
+              <mat-card-title class="mb-1">{{comment.usuario.nombreCompleto.nombres + ' ' + comment.usuario.nombreCompleto.apellido1 + ' ' + comment.usuario.nombreCompleto.apellido2}}</mat-card-title>
+              <mat-card-subtitle class="mb-1">{{comment.contenido}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions *ngIf="isLoggedIn && comment.usuario._id == _authService.getUserId() && commentSelected == null" class="m-0 p-0 d-flex justify-content-end">
+              <button mat-raised-button color="warn" (click)="commentSelected = i">Eliminar <i class="fas fa-trash-alt"></i></button>
+            </mat-card-actions>
+            <mat-card-content *ngIf="isLoggedIn && comment.usuario._id == _authService.getUserId() && commentSelected == i">
+              <h5 class="text-center">Eliminar comentario</h5>
+              <p class="text-center">¿Seguro que deseas eliminar este comentario?</p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="isLoggedIn && comment.usuario._id == _authService.getUserId() && commentSelected == i && deleteCommentState != 1" class="m-0 p-0 d-flex justify-content-center">
+              <button mat-raised-button color="primary" (click)="commentSelected = null" class="mr-2">Cancelar <i class="fas fa-times"></i></button>
+              <button mat-raised-button color="warn" (click)="deleteComment()">Eliminar <i class="fas fa-trash-alt"></i></button>
+            </mat-card-actions>
+            <mat-card-content class="d-flex justify-content-center" *ngIf="commentSelected == i && (deleteCommentState == 1 || deleteCommentState == 3)">
+              <mat-spinner *ngIf="deleteCommentState == 1" mode="indeterminate" diameter="50"></mat-spinner>
+              <mat-error *ngIf="deleteCommentState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+            </mat-card-content>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div *ngIf="isLoggedIn">
+          <mat-card-content *ngIf="newCommentState == 1 || newCommentState == 3" class="pt-3 pb-3 d-flex justify-content-center">
+            <mat-error *ngIf="newCommentState == 3">Ha ocurrido un error, favor de intentarlo más tarde.</mat-error>
+            <mat-spinner *ngIf="newCommentState == 1" mode="indeterminate"></mat-spinner>
+          </mat-card-content>
+          <mat-card-content class="p-2" *ngIf="(newCommentState == 0 || newCommentState == 2) && _authService.getUserId() != car.usuario._id">
+            <form [formGroup]="commentForm">
+              <mat-form-field class="col-12">
+                <mat-label>Comentario</mat-label>
+                <textarea matInput placeholder="Deja tu comentario" style="resize: none;" rows="5"
+                          formControlName="comment"></textarea>
+                <mat-error *ngIf="commentForm.get('comment').errors?.required
+                          &&( commentForm.get('comment').dirty || commentForm.get('comment').touched)">
+                  Este campo es requerido.
+                </mat-error>
+                <mat-error *ngIf="commentForm.get('comment').errors?.pattern
+                          &&( commentForm.get('comment').dirty || commentForm.get('comment').touched )">
+                  Este campo sólo acepta letras, números, comas y puntos.
+                </mat-error>
+              </mat-form-field>
+            </form>
+            <button mat-raised-button [disabled]="commentButtonDisabled || newCommentState == 1 || deleteCommentState == 1" color="primary" (click)="newComment()"
                     class="m-1">Enviar <i class="fas fa-check"></i>
             </button>
-          </form>
-        </mat-card-content>
-      </div>
+          </mat-card-content>
+        </div>
+      </mat-card-content>
     </mat-card>
   </div>
 </main>
-<!--
-
-
-• fecha_publicacion:
--->
